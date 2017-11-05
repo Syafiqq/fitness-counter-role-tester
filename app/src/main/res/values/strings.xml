@@ -2,7 +2,7 @@
     <string name="app_name">FitnessCounterStudent</string>
     <string name="default_notification_channel_id">counter</string>
     <string name="default_notification_channel_name">fitness-counter-student</string>
-    <string name="crash_toast_text">Send Crash Report</string>
+    <string name="crash_toast_text">Kirim Laporan Kerusakan</string>
 
     <string name="title_activity_splash_screen">SplashScreen</string>
 </resources>
