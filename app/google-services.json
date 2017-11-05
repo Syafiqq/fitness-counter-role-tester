@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "511615608886",
+    "firebase_url": "https://fitness-counter-student.firebaseio.com",
+    "project_id": "fitness-counter-student",
+    "storage_bucket": "fitness-counter-student.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:511615608886:android:ec2963cdb820f1f6",
+        "android_client_info": {
+          "package_name": "com.github.syafiqq.fitnesscounterstudent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "511615608886-sig76bk006i7k7goib5qsq1apdu2uehg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.syafiqq.fitnesscounterstudent",
+            "certificate_hash": "ae95635abb4c03c39f381a56f689f7f816bd3049"
+          }
+        },
+        {
+          "client_id": "511615608886-eiihvp60jp0prd1l8ivkqa9l3f27gh0r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVkCXpEHeJBOa12FTnLdMUBB0ebqPTKvQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "511615608886-eiihvp60jp0prd1l8ivkqa9l3f27gh0r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:511615608886:android:87fcb66cc6ca320a",
+        "android_client_info": {
+          "package_name": "com.google.firebase.quickstart.auth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "511615608886-0i2038t9c7utc63oqm0kn01bgf9olgiv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.google.firebase.quickstart.auth",
+            "certificate_hash": "ae95635abb4c03c39f381a56f689f7f816bd3049"
+          }
+        },
+        {
+          "client_id": "511615608886-eiihvp60jp0prd1l8ivkqa9l3f27gh0r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVkCXpEHeJBOa12FTnLdMUBB0ebqPTKvQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "511615608886-eiihvp60jp0prd1l8ivkqa9l3f27gh0r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
