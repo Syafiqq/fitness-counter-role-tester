@@ -1,0 +1,22 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="#000000"
+             tools:context="com.github.syafiqq.fitnesscounterstudent.controller.SplashScreen">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+    <TextView
+            android:id="@+id/fullscreen_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:keepScreenOn="true"
+            android:gravity="center"
+            android:textColor="@color/grey_50"
+            android:textSize="50sp"
+            android:text="@string/title_activity_splash_screen"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"/>
+
+</FrameLayout>
