@@ -5,6 +5,8 @@ import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.github.syafiqq.fitnesscounterstudent.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import timber.log.Timber
 
 /**
@@ -45,6 +47,28 @@ class SplashScreen: AppCompatActivity()
         Timber.d("onPostResume")
 
         super.onPostResume()
+
+        this.dispatchOperation(FirebaseAuth.getInstance().currentUser)
+    }
+
+    private fun dispatchOperation(it: FirebaseUser?)
+    {
+        Timber.d("dispatchOperation")
+
+        if (it?.isEmailVerified == true)
+        {
+            Timber.d("To Home")
+            TODO("TO HOME")
+        }
+        else
+        {
+            this.redirectToLoginPage()
+        }
+    }
+
+    private fun redirectToLoginPage()
+    {
+        Timber.d("redirectToLoginPage")
     }
 
     override fun onDestroy()
