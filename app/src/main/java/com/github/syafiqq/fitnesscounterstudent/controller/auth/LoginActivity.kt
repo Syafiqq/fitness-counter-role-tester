@@ -1,7 +1,6 @@
 package com.github.syafiqq.fitnesscounterstudent.controller.auth
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.View
@@ -14,7 +13,6 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_login.*
 import timber.log.Timber
 
@@ -30,6 +28,8 @@ class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.O
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
+        Timber.d("onCreate")
+
         super.onCreate(savedInstanceState)
         super.setContentView(R.layout.activity_login)
 
@@ -53,60 +53,30 @@ class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.O
 
     override fun onDestroy()
     {
+        Timber.d("onDestroy")
+
         super.onDestroy()
         this.dialog.dismiss()
     }
 
-    private fun onAccountAvailable(user: FirebaseUser?)
-    {
-        fun createSnackbar(user: FirebaseUser?, dialog: MaterialDialog)
-        {
-            val snackbar = Snackbar.make(constraintlayout_root, "Akun Butuh Verifikasi", Snackbar.LENGTH_INDEFINITE)
-            snackbar.setAction("Verifikasi !", {
-                dialog.show()
-                user?.sendEmailVerification()
-                        ?.addOnCompleteListener(this) {
-                            snackbar.dismiss()
-                            dialog.dismiss()
-                            if (it.isSuccessful)
-                            {
-                                Timber.d("Success Send To ${user.email}")
-                                Toast.makeText(this, super.getResources().getString(R.string.label_verification_success), Toast.LENGTH_SHORT).show()
-                            }
-                            else
-                            {
-                                Timber.d(it.exception)
-                                Toast.makeText(this, super.getResources().getString(R.string.label_verification_failed), Toast.LENGTH_SHORT).show()
-                                createSnackbar(user, dialog)
-                            }
-                        }
-            })
-            snackbar.show()
-        }
-
-        if (user?.isEmailVerified == true)
-        {
-            Timber.d("Email Verified")
-        }
-        else
-        {
-            Timber.d("Need Verification")
-            createSnackbar(user, dialog)
-        }
-    }
-
     private fun isEmailValid(email: String): Boolean
     {
+        Timber.d("isEmailValid")
+
         return email.contains("@")
     }
 
     private fun isPasswordValid(password: String): Boolean
     {
+        Timber.d("isPasswordValid")
+
         return password.length >= 8
     }
 
     override fun onClick(view: View?)
     {
+        Timber.d("onClick")
+
         // Reset errors.
         edittext_email.error = null
         edittext_password.error = null
@@ -146,17 +116,19 @@ class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.O
         }
         else
         {
+            this.dialog.show()
             this.auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, this)
         }
     }
 
     override fun onComplete(result: Task<AuthResult>)
     {
-        dialog.dismiss()
+        Timber.d("onComplete")
+
+        this.dialog.dismiss()
         if (result.isSuccessful)
         {
             Timber.d("Success Login")
-            this@LoginActivity.onAccountAvailable(this@LoginActivity.auth.currentUser)
         }
         else
         {
