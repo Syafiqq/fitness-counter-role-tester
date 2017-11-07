@@ -144,8 +144,8 @@ class RegisterActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, Vie
             Toast.makeText(this, super.getResources().getString(R.string.label_register_success), Toast.LENGTH_SHORT).show()
             Handler(mainLooper).postDelayed({
                 super@RegisterActivity.setResult(RESULT_OK, Intent().apply {
-                    this.putExtra(RegisterActivity.EMAIL, this@RegisterActivity.edittext_email.text.toString())
-                    this.putExtra(RegisterActivity.PASSWORD, this@RegisterActivity.edittext_password.text.toString())
+                    putExtra(RegisterActivity.EMAIL, this@RegisterActivity.edittext_email.text.toString())
+                    putExtra(RegisterActivity.PASSWORD, this@RegisterActivity.edittext_password.text.toString())
                 })
                 this.onLoginClick()
             }, 1000)
