@@ -23,9 +23,6 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import kotlinx.android.synthetic.main.activity_register.*
 import timber.log.Timber
 
-/**
- * A login screen that offers login via email/password.
- */
 class RegisterActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.OnClickListener
 {
     private lateinit var auth: FirebaseAuth
