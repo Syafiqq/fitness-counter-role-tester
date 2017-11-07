@@ -1,6 +1,6 @@
 package com.github.syafiqq.fitnesscounterstudent.controller.auth
 
-import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -15,6 +15,10 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import kotlinx.android.synthetic.main.activity_login.*
 import timber.log.Timber
 
@@ -27,7 +31,6 @@ class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.O
     private lateinit var dialog: MaterialDialog
     private lateinit var auth: FirebaseAuth
 
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?)
     {
         Timber.d("onCreate")
@@ -35,8 +38,7 @@ class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.O
         super.onCreate(savedInstanceState)
         super.setContentView(R.layout.activity_login)
 
-        this.edittext_email.setText("syafiq.rezpector@gmail.com")
-        this.edittext_password.setText("12345678")
+        this.populateField("syafiq.rezpector@gmail.com", "12345678")
 
         this.auth = FirebaseAuth.getInstance()
         this.dialog = MaterialDialog.Builder(this)
@@ -65,18 +67,35 @@ class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.O
         this.dialog.dismiss()
     }
 
-    private fun isEmailValid(email: String): Boolean
-    {
-        Timber.d("isEmailValid")
+    private fun isEmailValid(email: String) = email.contains("@")
 
-        return email.contains("@")
+    private fun isPasswordValid(password: String) = password.length >= 4
+
+    private fun onRegisterClick() = super.startActivityForResult(Intent(this, RegisterActivity::class.java), LOGIN_CALLBACK)
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode)
+        {
+            LOGIN_CALLBACK -> when (resultCode)
+            {
+                Activity.RESULT_OK ->
+                {
+                    this.populateField(
+                            data?.getStringExtra(RegisterActivity.EMAIL) ?: "",
+                            data?.getStringExtra(RegisterActivity.PASSWORD) ?: ""
+                    )
+                }
+            }
+        }
     }
 
-    private fun isPasswordValid(password: String): Boolean
+    private fun populateField(email: String, password: String)
     {
-        Timber.d("isPasswordValid")
-
-        return password.length >= 8
+        Timber.d("Populate Field [$email - $password]")
+        this.edittext_email.setText(email)
+        this.edittext_password.setText(password)
     }
 
     override fun onClick(view: View?)
@@ -127,12 +146,6 @@ class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.O
         }
     }
 
-    private fun onRegisterClick()
-    {
-        val intent = Intent(this, RegisterActivity::class.java)
-        super.startActivity(intent)
-    }
-
     override fun onComplete(result: Task<AuthResult>)
     {
         Timber.d("onComplete")
@@ -144,8 +157,24 @@ class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.O
         }
         else
         {
+            Timber.d("Failed Login")
+
             Timber.e(result.exception)
-            Toast.makeText(this, super@LoginActivity.getResources().getString(R.string.label_login_failed), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, super.getResources().getString(
+                    when (result.exception)
+                    {
+                        is FirebaseAuthInvalidUserException        -> R.string.label_auth_email_not_exists
+                        is FirebaseAuthWeakPasswordException       -> R.string.label_auth_weak_password
+                        is FirebaseAuthInvalidCredentialsException -> R.string.label_auth_invalid_credential
+                        is FirebaseAuthUserCollisionException      -> R.string.label_auth_email_exists
+                        else                                       -> R.string.title_activity_login
+                    }
+            ), Toast.LENGTH_SHORT).show()
         }
+    }
+
+    companion object
+    {
+        val LOGIN_CALLBACK = 0x01
     }
 }
