@@ -1,6 +1,7 @@
 package com.github.syafiqq.fitnesscounterstudent.controller.auth
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
@@ -53,6 +54,7 @@ class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.O
             false
         })
         this.button_sumbit.setOnClickListener(this)
+        this.button_register.setOnClickListener { this.onRegisterClick() }
     }
 
     override fun onDestroy()
@@ -123,6 +125,12 @@ class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.O
             this.dialog.show()
             this.auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, this)
         }
+    }
+
+    private fun onRegisterClick()
+    {
+        val intent = Intent(this, RegisterActivity::class.java)
+        super.startActivity(intent)
     }
 
     override fun onComplete(result: Task<AuthResult>)
