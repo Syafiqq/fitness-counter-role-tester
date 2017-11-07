@@ -49,24 +49,18 @@ class SplashScreen: AppCompatActivity()
         Timber.d("onPostResume")
 
         super.onPostResume()
+        FirebaseAuth.getInstance().signOut()
 
         this.dispatchOperation(FirebaseAuth.getInstance().currentUser)
     }
 
     private fun dispatchOperation(user: FirebaseUser?)
     {
-        Timber.d("dispatchOperation")
-
         Handler(mainLooper).postDelayed({
             if (user != null)
-            {
                 Timber.d("To Home")
-                TODO("TO HOME")
-            }
             else
-            {
                 this.redirectToLoginPage()
-            }
         }, 1000)
     }
 
