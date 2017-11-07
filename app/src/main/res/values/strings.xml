@@ -15,10 +15,23 @@
     <string name="error_invalid_password">Password terlalu pendek</string>
     <string name="error_incorrect_password">Password salah</string>
     <string name="error_field_required">Field dibutuhkan</string>
-    <string name="action_sign_up_short">Daftar !</string>
+    <string name="action_sign_up_short">Daftar</string>
     <string name="sign_up_question">Belum Punya Akun ?</string>
     <string name="label_please_wait">Tunggu Sebentar</string>
     <string name="label_login_failed">Login Gagal</string>
     <string name="label_verification_failed">Verifikasi Gagal</string>
     <string name="label_verification_success">Verifikasi sukses dikirim ke alamat email</string>
+    <string name="title_activity_register">Daftar</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+    <string name="sign_in_question">Sudah Punya Akun ?</string>
+    <string name="prompt_password_conf">Ulangi Password</string>
+    <string name="error_password_not_same">Password tidak Sama</string>
+    <string name="label_register_failed">Daftar Gagal</string>
+    <string name="label_auth_weak_password">Password terlalu mudah untuk dibobol</string>
+    <string name="label_auth_email_malformed">Email salah format</string>
+    <string name="label_auth_email_exists">Email telah terdaftar</string>
+    <string name="label_auth_email_not_exists">Email belum Terdaftar</string>
+    <string name="label_auth_invalid_credential">User belum terdaftar</string>
+    <string name="label_register_success">Pendaftaran Berhasil</string>
 </resources>
