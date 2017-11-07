@@ -53,19 +53,21 @@ class SplashScreen: AppCompatActivity()
         this.dispatchOperation(FirebaseAuth.getInstance().currentUser)
     }
 
-    private fun dispatchOperation(it: FirebaseUser?)
+    private fun dispatchOperation(user: FirebaseUser?)
     {
         Timber.d("dispatchOperation")
 
-        if (it?.isEmailVerified == true)
-        {
-            Timber.d("To Home")
-            TODO("TO HOME")
-        }
-        else
-        {
-            this.redirectToLoginPage()
-        }
+        Handler(mainLooper).postDelayed({
+            if (user != null)
+            {
+                Timber.d("To Home")
+                TODO("TO HOME")
+            }
+            else
+            {
+                this.redirectToLoginPage()
+            }
+        }, 1000)
     }
 
     private fun redirectToLoginPage()
