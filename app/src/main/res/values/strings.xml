@@ -6,7 +6,7 @@
 
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="title_activity_login">Masuk</string>
-    p
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -17,4 +17,8 @@
     <string name="error_field_required">Field dibutuhkan</string>
     <string name="action_sign_up_short">Daftar !</string>
     <string name="sign_up_question">Belum Punya Akun ?</string>
+    <string name="label_please_wait">Tunggu Sebentar</string>
+    <string name="label_login_failed">Login Gagal</string>
+    <string name="label_verification_failed">Verifikasi Gagal</string>
+    <string name="label_verification_success">Verifikasi sukses dikirim ke alamat email</string>
 </resources>
