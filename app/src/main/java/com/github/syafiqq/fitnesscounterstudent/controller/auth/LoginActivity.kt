@@ -1,5 +1,6 @@
 package com.github.syafiqq.fitnesscounterstudent.controller.auth
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
@@ -22,16 +23,19 @@ import timber.log.Timber
  */
 class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.OnClickListener
 {
-
     private lateinit var dialog: MaterialDialog
     private lateinit var auth: FirebaseAuth
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?)
     {
         Timber.d("onCreate")
 
         super.onCreate(savedInstanceState)
         super.setContentView(R.layout.activity_login)
+
+        this.edittext_email.setText("syafiq.rezpector@gmail.com")
+        this.edittext_password.setText("12345678")
 
         this.auth = FirebaseAuth.getInstance()
         this.dialog = MaterialDialog.Builder(this)
@@ -133,7 +137,7 @@ class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.O
         else
         {
             Timber.e(result.exception)
-            Toast.makeText(this@LoginActivity, super@LoginActivity.getResources().getString(R.string.label_login_failed), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, super@LoginActivity.getResources().getString(R.string.label_login_failed), Toast.LENGTH_SHORT).show()
         }
     }
 }
