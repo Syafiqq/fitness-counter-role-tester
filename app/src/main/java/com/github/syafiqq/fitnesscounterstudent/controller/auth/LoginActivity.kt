@@ -22,7 +22,7 @@ import timber.log.Timber
 /**
  * A login screen that offers login via email/password.
  */
-class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>
+class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.OnClickListener
 {
 
     private lateinit var dialog: MaterialDialog
@@ -43,68 +43,18 @@ class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>
         this.edittext_password.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
             if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL)
             {
-                attemptLogin()
+                this.onClick(null)
                 return@OnEditorActionListener true
             }
             false
         })
-        this.button_sumbit.setOnClickListener { attemptLogin() }
+        this.button_sumbit.setOnClickListener(this)
     }
 
     override fun onDestroy()
     {
         super.onDestroy()
         this.dialog.dismiss()
-    }
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
-    private fun attemptLogin()
-    {
-        // Reset errors.
-        edittext_email.error = null
-        edittext_password.error = null
-
-        // Store values at the time of the login attempt.
-        val email = edittext_email.text.toString()
-        val password = edittext_password.text.toString()
-
-        var cancel = false
-        var focusView: View? = null
-
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password))
-        {
-            edittext_password.error = getString(R.string.error_invalid_password)
-            focusView = edittext_password
-            cancel = true
-        }
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email))
-        {
-            edittext_email.error = getString(R.string.error_field_required)
-            focusView = edittext_email
-            cancel = true
-        }
-        else if (!isEmailValid(email))
-        {
-            edittext_email.error = getString(R.string.error_invalid_email)
-            focusView = edittext_email
-            cancel = true
-        }
-
-        if (cancel)
-        {
-            focusView?.requestFocus()
-        }
-        else
-        {
-            this.auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, this)
-        }
     }
 
     private fun onAccountAvailable(user: FirebaseUser?)
@@ -153,6 +103,51 @@ class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>
     private fun isPasswordValid(password: String): Boolean
     {
         return password.length >= 8
+    }
+
+    override fun onClick(view: View?)
+    {
+        // Reset errors.
+        edittext_email.error = null
+        edittext_password.error = null
+
+        // Store values at the time of the login attempt.
+        val email = edittext_email.text.toString()
+        val password = edittext_password.text.toString()
+
+        var cancel = false
+        var focusView: View? = null
+
+        // Check for a valid password, if the user entered one.
+        if (!TextUtils.isEmpty(password) && !isPasswordValid(password))
+        {
+            edittext_password.error = getString(R.string.error_invalid_password)
+            focusView = edittext_password
+            cancel = true
+        }
+
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(email))
+        {
+            edittext_email.error = getString(R.string.error_field_required)
+            focusView = edittext_email
+            cancel = true
+        }
+        else if (!isEmailValid(email))
+        {
+            edittext_email.error = getString(R.string.error_invalid_email)
+            focusView = edittext_email
+            cancel = true
+        }
+
+        if (cancel)
+        {
+            focusView?.requestFocus()
+        }
+        else
+        {
+            this.auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, this)
+        }
     }
 
     override fun onComplete(result: Task<AuthResult>)
