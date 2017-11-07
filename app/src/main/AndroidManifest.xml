@@ -3,11 +3,6 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.github.syafiqq.fitnesscounterstudent">
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.READ_PROFILE"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-
     <application
             android:name=".App"
             android:allowBackup="true"
@@ -33,6 +28,15 @@
                 android:name=".controller.auth.LoginActivity"
                 android:label="@string/title_activity_login"
                 android:theme="@style/AppThemeNoShadow">
+        </activity>
+        <activity
+                android:name=".controller.auth.RegisterActivity"
+                android:label="@string/title_activity_register"
+                android:parentActivityName=".controller.auth.LoginActivity"
+                android:theme="@style/AppThemeNoShadow">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.github.syafiqq.fitnesscounterstudent.controller.auth.LoginActivity"/>
         </activity>
     </application>
 
