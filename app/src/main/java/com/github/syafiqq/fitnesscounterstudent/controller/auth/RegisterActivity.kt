@@ -15,6 +15,7 @@ import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.github.syafiqq.fitnesscounterstudent.R
 import com.google.android.gms.tasks.Task
+import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -160,11 +161,12 @@ class RegisterActivity: AppCompatActivity()
             Timber.d("Failed Register")
             Timber.e(result.exception)
             Toast.makeText(this, super.getResources().getString(
-                    when (result.exception)
+                    when (result.exception!!)
                     {
                         is FirebaseAuthWeakPasswordException       -> R.string.label_auth_weak_password
                         is FirebaseAuthInvalidCredentialsException -> R.string.label_auth_email_malformed
                         is FirebaseAuthUserCollisionException      -> R.string.label_auth_email_exists
+                        is FirebaseNetworkException                -> R.string.label_auth_network_issue
                         else                                       -> R.string.label_register_failed
                     }
             ), Toast.LENGTH_SHORT).show()

@@ -13,6 +13,7 @@ import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.github.syafiqq.fitnesscounterstudent.R
 import com.google.android.gms.tasks.Task
+import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -168,13 +169,14 @@ class LoginActivity: AppCompatActivity()
 
             Timber.e(result.exception)
             Toast.makeText(this, super.getResources().getString(
-                    when (result.exception)
+                    when (result.exception!!)
                     {
                         is FirebaseAuthInvalidUserException        -> R.string.label_auth_email_not_exists
                         is FirebaseAuthWeakPasswordException       -> R.string.label_auth_weak_password
                         is FirebaseAuthInvalidCredentialsException -> R.string.label_auth_invalid_credential
                         is FirebaseAuthUserCollisionException      -> R.string.label_auth_email_exists
-                        else                                       -> R.string.title_activity_login
+                        is FirebaseNetworkException                -> R.string.label_auth_network_issue
+                        else                                       -> R.string.label_login_failed
                     }
             ), Toast.LENGTH_SHORT).show()
         }
