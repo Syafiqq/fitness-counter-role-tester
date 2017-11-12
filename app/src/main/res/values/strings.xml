@@ -34,4 +34,5 @@
     <string name="label_auth_email_not_exists">Email belum Terdaftar</string>
     <string name="label_auth_invalid_credential">User belum terdaftar</string>
     <string name="label_register_success">Pendaftaran Berhasil</string>
+    <string name="label_auth_network_issue">Terdapat kesalahan koneksi</string>
 </resources>
