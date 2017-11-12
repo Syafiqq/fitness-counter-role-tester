@@ -5,13 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
+import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.github.syafiqq.fitnesscounterstudent.R
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -22,11 +22,11 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import kotlinx.android.synthetic.main.activity_login.*
 import timber.log.Timber
 
-
+@Suppress("UNUSED_PARAMETER")
 /**
  * A login screen that offers login via email/password.
  */
-class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.OnClickListener
+class LoginActivity: AppCompatActivity()
 {
     private lateinit var dialog: MaterialDialog
     private lateinit var auth: FirebaseAuth
@@ -47,16 +47,9 @@ class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.O
                 .progress(true, 0)
                 .build()
 
-        this.edittext_password.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
-            if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL)
-            {
-                this.onClick(null)
-                return@OnEditorActionListener true
-            }
-            false
-        })
-        this.button_sumbit.setOnClickListener(this)
-        this.button_register.setOnClickListener { this.onRegisterClick() }
+        this.edittext_password.setOnEditorActionListener(this::onEditorActionClicked)
+        this.button_sumbit.setOnClickListener(this::onSubmitButtonClicked)
+        this.button_register.setOnClickListener(this::onRegisterButtonClicked)
     }
 
     override fun onDestroy()
@@ -66,12 +59,6 @@ class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.O
         super.onDestroy()
         this.dialog.dismiss()
     }
-
-    private fun isEmailValid(email: String) = email.contains("@")
-
-    private fun isPasswordValid(password: String) = password.length >= 4
-
-    private fun onRegisterClick() = super.startActivityForResult(Intent(this, RegisterActivity::class.java), LOGIN_CALLBACK)
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     {
@@ -91,6 +78,10 @@ class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.O
         }
     }
 
+    private fun isEmailValid(email: String) = email.contains("@")
+
+    private fun isPasswordValid(password: String) = password.length >= 4
+
     private fun populateField(email: String, password: String)
     {
         Timber.d("Populate Field [$email - $password]")
@@ -98,9 +89,25 @@ class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.O
         this.edittext_password.setText(password)
     }
 
-    override fun onClick(view: View?)
+    private fun onEditorActionClicked(view: TextView?, id: Int, event: KeyEvent?): Boolean
     {
-        Timber.d("onClick")
+        return when (id)
+        {
+            EditorInfo.IME_ACTION_DONE,
+            EditorInfo.IME_NULL ->
+            {
+                this.onSubmitButtonClicked(null)
+                true
+            }
+            else                -> false
+        }
+    }
+
+    private fun onRegisterButtonClicked(view: View?) = super.startActivityForResult(Intent(this, RegisterActivity::class.java), LOGIN_CALLBACK)
+
+    private fun onSubmitButtonClicked(view: View?)
+    {
+        Timber.d("onSubmitButtonClicked")
 
         // Reset errors.
         edittext_email.error = null
@@ -142,13 +149,13 @@ class LoginActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.O
         else
         {
             this.dialog.show()
-            this.auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, this)
+            this.auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, this::onAuthComplete)
         }
     }
 
-    override fun onComplete(result: Task<AuthResult>)
+    private fun onAuthComplete(result: Task<AuthResult>)
     {
-        Timber.d("onComplete")
+        Timber.d("onAuthComplete")
 
         this.dialog.dismiss()
         if (result.isSuccessful)

@@ -7,13 +7,13 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
+import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.github.syafiqq.fitnesscounterstudent.R
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -23,10 +23,11 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import kotlinx.android.synthetic.main.activity_register.*
 import timber.log.Timber
 
-class RegisterActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, View.OnClickListener
+@Suppress("UNUSED_PARAMETER")
+class RegisterActivity: AppCompatActivity()
 {
-    private lateinit var auth: FirebaseAuth
     private lateinit var dialog: MaterialDialog
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -43,16 +44,9 @@ class RegisterActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, Vie
                 .progress(true, 0)
                 .build()
 
-        this.edittext_password_conf.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
-            if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL)
-            {
-                this.onClick(null)
-                return@OnEditorActionListener true
-            }
-            false
-        })
-        this.button_sumbit.setOnClickListener(this)
-        this.button_login.setOnClickListener { this.onLoginClick() }
+        this.edittext_password_conf.setOnEditorActionListener(this::onEditorActionClicked)
+        this.button_sumbit.setOnClickListener(this::onSubmitButtonClicked)
+        this.button_login.setOnClickListener(this::onLoginButtonClicked)
     }
 
     override fun onDestroy()
@@ -72,11 +66,25 @@ class RegisterActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, Vie
 
     private fun isPasswordSame(password: String, passwordConf: String) = TextUtils.equals(password, passwordConf)
 
-    private fun onLoginClick() = onBackPressed()
-
-    override fun onClick(view: View?)
+    private fun onEditorActionClicked(view: TextView?, id: Int, event: KeyEvent?): Boolean
     {
-        Timber.d("onClick")
+        return when (id)
+        {
+            EditorInfo.IME_ACTION_DONE,
+            EditorInfo.IME_NULL ->
+            {
+                this.onSubmitButtonClicked(null)
+                true
+            }
+            else                -> false
+        }
+    }
+
+    private fun onLoginButtonClicked(view: View?) = onBackPressed()
+
+    private fun onSubmitButtonClicked(view: View?)
+    {
+        Timber.d("onSubmitButtonClicked")
 
         // Reset errors.
         edittext_email.error = null
@@ -126,13 +134,13 @@ class RegisterActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, Vie
         else
         {
             this.dialog.show()
-            this.auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, this)
+            this.auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, this::onAuthComplete)
         }
     }
 
-    override fun onComplete(result: Task<AuthResult>)
+    private fun onAuthComplete(result: Task<AuthResult>)
     {
-        Timber.d("onComplete")
+        Timber.d("onAuthComplete")
 
         this.dialog.dismiss()
         if (result.isSuccessful)
@@ -144,7 +152,7 @@ class RegisterActivity: AppCompatActivity(), OnCompleteListener<AuthResult>, Vie
                     putExtra(RegisterActivity.EMAIL, this@RegisterActivity.edittext_email.text.toString())
                     putExtra(RegisterActivity.PASSWORD, this@RegisterActivity.edittext_password.text.toString())
                 })
-                this.onLoginClick()
+                this.onLoginButtonClicked(null)
             }, 1000)
         }
         else
