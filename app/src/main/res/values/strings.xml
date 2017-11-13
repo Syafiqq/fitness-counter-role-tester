@@ -35,4 +35,7 @@
     <string name="label_auth_invalid_credential">User belum terdaftar</string>
     <string name="label_register_success">Pendaftaran Berhasil</string>
     <string name="label_auth_network_issue">Terdapat kesalahan koneksi</string>
+    <string name="auth_no_previlege_access">Anda tidak mempunyai hak untuk aplikasi ini!</string>
+    <string name="request_privilege">Tambah hak aksses ?</string>
+    <string name="yes">Ya</string>
 </resources>
