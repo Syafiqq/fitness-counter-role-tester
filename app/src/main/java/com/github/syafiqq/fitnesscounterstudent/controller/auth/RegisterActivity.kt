@@ -151,6 +151,8 @@ class RegisterActivity: AppCompatActivity()
             this.dialog.dismiss()
             Toast.makeText(this, super.getResources().getString(R.string.label_register_success), Toast.LENGTH_SHORT).show()
 
+            FirebaseAuth.getInstance().signOut()
+
             Handler(mainLooper).postDelayed({
                 super@RegisterActivity.setResult(RESULT_OK, Intent().apply {
                     putExtra(RegisterActivity.EMAIL, this@RegisterActivity.edittext_email.text.toString())
