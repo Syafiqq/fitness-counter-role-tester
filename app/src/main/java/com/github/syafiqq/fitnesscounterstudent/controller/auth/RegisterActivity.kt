@@ -14,6 +14,8 @@ import android.widget.TextView
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.github.syafiqq.fitnesscounterstudent.R
+import com.github.syafiqq.fitnesscounterstudent.model.Settings
+import com.github.syafiqq.fitnesscounterstudent.model.orm.Groups
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.AuthResult
@@ -21,6 +23,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.activity_register.*
 import timber.log.Timber
 
@@ -142,12 +146,11 @@ class RegisterActivity: AppCompatActivity()
     private fun onAuthComplete(result: Task<AuthResult>)
     {
         Timber.d("onAuthComplete")
-
-        this.dialog.dismiss()
-        if (result.isSuccessful)
+        fun jump()
         {
-            Timber.d("Success Register")
+            this.dialog.dismiss()
             Toast.makeText(this, super.getResources().getString(R.string.label_register_success), Toast.LENGTH_SHORT).show()
+
             Handler(mainLooper).postDelayed({
                 super@RegisterActivity.setResult(RESULT_OK, Intent().apply {
                     putExtra(RegisterActivity.EMAIL, this@RegisterActivity.edittext_email.text.toString())
@@ -156,9 +159,23 @@ class RegisterActivity: AppCompatActivity()
                 this.onLoginButtonClicked(null)
             }, 1000)
         }
+
+        fun grantTo(group: Groups, user: FirebaseUser)
+        {
+            Auth.grantTo(group, user, DatabaseReference.CompletionListener { error, _ -> error?.let { grantTo(group, user) } ?: jump() })
+        }
+
+        if (result.isSuccessful)
+        {
+            Timber.d("Success Register")
+
+            Settings.defaultGroup({ group -> group?.let { FirebaseAuth.getInstance().currentUser?.let { user -> grantTo(group, user) } ?: jump() } ?: jump() }, { jump() })
+        }
         else
         {
             Timber.d("Failed Register")
+
+            this.dialog.dismiss()
             Timber.e(result.exception)
             Toast.makeText(this, super.getResources().getString(
                     when (result.exception!!)
