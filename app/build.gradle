@@ -5,11 +5,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion Integer.parseInt("$sdk")
+    compileSdkVersion Integer.parseInt("$configuration.compiled_sdk")
     defaultConfig {
-        applicationId "com.github.syafiqq.fitnesscounterstudent"
-        minSdkVersion 16
-        targetSdkVersion Integer.parseInt("$sdk")
+        applicationId "$configuration.package"
+        minSdkVersion Integer.parseInt("$configuration.min_sdk")
+        targetSdkVersion Integer.parseInt("$configuration.target_sdk")
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -29,18 +29,18 @@ repositories {
 dependencies {
     //@formatter:off
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation "com.android.support:appcompat-v7:$sdk_version"
-    implementation "com.android.support:support-v4:$sdk_version"
-    implementation "com.android.support:design:$sdk_version"
-    implementation 'com.jakewharton.timber:timber:4.6.0'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.6'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    implementation('com.faendir:acra:4.10.0') { exclude group: 'com.android.support', module: 'support-v4' }
-    implementation 'com.afollestad.material-dialogs:core:0.9.5.0'
-    implementation "com.google.firebase:firebase-auth:$firebase_version"
-    implementation "com.google.firebase:firebase-database:$firebase_version"
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$libraries.kotlin"
+    implementation "com.android.support:appcompat-v7:$libraries.android_support"
+    implementation "com.android.support:support-v4:$libraries.android_support"
+    implementation "com.android.support:design:$libraries.android_support"
+    implementation "com.jakewharton.timber:timber:$libraries.timber"
+    implementation "io.reactivex.rxjava2:rxjava:$libraries.rxjava"
+    implementation "io.reactivex.rxjava2:rxandroid:$libraries.rxandroid"
+    implementation "com.faendir:acra:$libraries.acra"
+    implementation "com.afollestad.material-dialogs:core:$libraries.material_dialogs"
+    implementation "com.google.firebase:firebase-auth:$libraries.firebase"
+    implementation "com.google.firebase:firebase-database:$libraries.firebase"
+    implementation "com.android.support.constraint:constraint-layout:$libraries.constraint_layout"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
