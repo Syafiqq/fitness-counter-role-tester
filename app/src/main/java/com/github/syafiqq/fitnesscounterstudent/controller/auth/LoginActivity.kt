@@ -173,7 +173,7 @@ class LoginActivity: AppCompatActivity()
 
             this@LoginActivity.dialog.dismiss()
 
-            Snackbar.make(this.constraintlayout_root, R.string.request_privilege, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(this._0, R.string.request_privilege, Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.yes) {
                         this@LoginActivity.dialog.show()
                         Auth.grantTo(group, user, DatabaseReference.CompletionListener { error, _ ->
