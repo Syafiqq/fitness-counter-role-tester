@@ -17,7 +17,6 @@ import com.github.syafiqq.fitnesscounterstudent.custom.com.google.firebase.datab
 import com.github.syafiqq.fitnesscounterstudent.model.Settings
 import com.github.syafiqq.fitnesscounterstudent.model.firebase.Path
 import com.github.syafiqq.fitnesscounterstudent.model.orm.Groups
-import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -158,14 +157,17 @@ class LoginActivity: AppCompatActivity()
         }
         else
         {
+            this.dialog.setContent(super.getResources().getString(R.string.label_try_to_login))
             this.dialog.show()
-            this.auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, this::onAuthComplete)
+            this.auth.signInWithEmailAndPassword(email, password)
+                    .addOnSuccessListener(this::onAuthSuccess)
+                    .addOnFailureListener(this::onAuthFailure)
         }
     }
 
-    private fun onAuthComplete(result: Task<AuthResult>)
+    private fun onAuthSuccess(result: AuthResult)
     {
-        Timber.d("onAuthComplete")
+        Timber.d("onAuthSuccess")
 
         fun grantTo(group: Groups, user: FirebaseUser)
         {
@@ -177,7 +179,7 @@ class LoginActivity: AppCompatActivity()
                     .setAction(R.string.yes) {
                         this@LoginActivity.dialog.show()
                         Auth.grantTo(group, user, DatabaseReference.CompletionListener { error, _ ->
-                            error?.let { grantTo(group, user) } ?: onAuthComplete(result)
+                            error?.let { grantTo(group, user) } ?: onAuthSuccess(result)
                         })
                     }
                     .show()
@@ -217,27 +219,25 @@ class LoginActivity: AppCompatActivity()
                     }, { resolveNetwork() })
         }
 
-        if (result.isSuccessful)
-        {
-            FirebaseAuth.getInstance().currentUser?.let { checkPrivilege(it) }
-        }
-        else
-        {
-            this.dialog.dismiss()
+        FirebaseAuth.getInstance().currentUser?.let { checkPrivilege(it) }
+    }
 
-            Timber.d("Failed Login")
+    private fun onAuthFailure(e: Exception?)
+    {
+        Timber.d("onAuthFailure")
 
-            Timber.e(result.exception)
-            Toast.makeText(this, when (result.exception!!)
-            {
-                is FirebaseAuthInvalidUserException        -> R.string.label_auth_email_not_exists
-                is FirebaseAuthWeakPasswordException       -> R.string.label_auth_weak_password
-                is FirebaseAuthInvalidCredentialsException -> R.string.label_auth_invalid_credential
-                is FirebaseAuthUserCollisionException      -> R.string.label_auth_email_exists
-                is FirebaseNetworkException                -> R.string.label_auth_network_issue
-                else                                       -> R.string.label_login_failed
-            }, Toast.LENGTH_SHORT).show()
-        }
+        Timber.e(e)
+        Toast.makeText(this, when (e ?: false)
+        {
+            is FirebaseAuthInvalidUserException        -> R.string.label_auth_email_not_exists
+            is FirebaseAuthWeakPasswordException       -> R.string.label_auth_weak_password
+            is FirebaseAuthInvalidCredentialsException -> R.string.label_auth_invalid_credential
+            is FirebaseAuthUserCollisionException      -> R.string.label_auth_email_exists
+            is FirebaseNetworkException                -> R.string.label_auth_network_issue
+            else                                       -> R.string.label_login_failed
+        }, Toast.LENGTH_SHORT).show()
+
+        this.dialog.dismiss()
     }
 
     companion object
