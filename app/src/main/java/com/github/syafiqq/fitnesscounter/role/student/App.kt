@@ -1,4 +1,4 @@
-package com.github.syafiqq.fitnesscounterstudent
+package com.github.syafiqq.fitnesscounter.role.student
 
 import android.app.Application
 import android.app.NotificationChannel

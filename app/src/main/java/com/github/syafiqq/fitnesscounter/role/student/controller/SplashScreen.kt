@@ -1,12 +1,12 @@
-package com.github.syafiqq.fitnesscounterstudent.controller
+package com.github.syafiqq.fitnesscounter.role.student.controller
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.github.syafiqq.fitnesscounterstudent.R
-import com.github.syafiqq.fitnesscounterstudent.controller.auth.LoginActivity
+import com.github.syafiqq.fitnesscounter.role.student.R
+import com.github.syafiqq.fitnesscounter.role.student.controller.auth.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import timber.log.Timber

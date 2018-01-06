@@ -1,7 +1,7 @@
-package com.github.syafiqq.fitnesscounterstudent.controller.auth
+package com.github.syafiqq.fitnesscounter.role.student.controller.auth
 
-import com.github.syafiqq.fitnesscounterstudent.model.firebase.Path
-import com.github.syafiqq.fitnesscounterstudent.model.orm.Groups
+import com.github.syafiqq.fitnesscounter.role.student.model.firebase.Path
+import com.github.syafiqq.fitnesscounter.role.student.model.orm.Groups
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase

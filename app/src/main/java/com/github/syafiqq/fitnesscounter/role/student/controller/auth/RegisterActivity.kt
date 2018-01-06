@@ -1,4 +1,4 @@
-package com.github.syafiqq.fitnesscounterstudent.controller.auth
+package com.github.syafiqq.fitnesscounter.role.student.controller.auth
 
 import android.annotation.TargetApi
 import android.content.Intent
@@ -13,9 +13,9 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
-import com.github.syafiqq.fitnesscounterstudent.R
-import com.github.syafiqq.fitnesscounterstudent.model.Settings
-import com.github.syafiqq.fitnesscounterstudent.model.orm.Groups
+import com.github.syafiqq.fitnesscounter.role.student.R
+import com.github.syafiqq.fitnesscounter.role.student.model.Settings
+import com.github.syafiqq.fitnesscounter.role.student.model.orm.Groups
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.AuthResult

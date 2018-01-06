@@ -1,6 +1,6 @@
-package com.github.syafiqq.fitnesscounterstudent.model
+package com.github.syafiqq.fitnesscounter.role.student.model
 
-import com.github.syafiqq.fitnesscounterstudent.model.orm.Groups
+import com.github.syafiqq.fitnesscounter.role.student.model.orm.Groups
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase

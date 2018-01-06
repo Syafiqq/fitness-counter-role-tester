@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FitnessCounterStudent</string>
+    <string name="app_name">Fitness Counter</string>
     <string name="default_notification_channel_id">counter</string>
     <string name="default_notification_channel_name">fitness-counter-student</string>
     <string name="crash_toast_text">Kirim Laporan Kerusakan</string>
@@ -39,4 +39,5 @@
     <string name="request_privilege">Tambah hak aksses ?</string>
     <string name="yes">Ya</string>
     <string name="action_recover_short">Lupa Password ?</string>
+    <string name="label_try_to_login">Mencoba Login</string>
 </resources>
