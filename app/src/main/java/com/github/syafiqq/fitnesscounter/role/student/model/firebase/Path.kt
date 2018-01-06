@@ -1,4 +1,4 @@
-package com.github.syafiqq.fitnesscounterstudent.model.firebase
+package com.github.syafiqq.fitnesscounter.role.student.model.firebase
 
 /**
  * This fitness-counter-student project created by :

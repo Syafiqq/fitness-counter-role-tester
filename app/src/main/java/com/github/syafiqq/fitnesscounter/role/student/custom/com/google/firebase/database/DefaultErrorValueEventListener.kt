@@ -1,4 +1,4 @@
-package com.github.syafiqq.fitnesscounterstudent.custom.com.google.firebase.database
+package com.github.syafiqq.fitnesscounter.role.student.custom.com.google.firebase.database
 
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener

@@ -1,4 +1,4 @@
-package com.github.syafiqq.fitnesscounterstudent.controller.auth
+package com.github.syafiqq.fitnesscounter.role.student.controller.auth
 
 import android.app.Activity
 import android.content.Intent
@@ -12,11 +12,11 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
-import com.github.syafiqq.fitnesscounterstudent.R
-import com.github.syafiqq.fitnesscounterstudent.custom.com.google.firebase.database.DefaultErrorValueEventListener
-import com.github.syafiqq.fitnesscounterstudent.model.Settings
-import com.github.syafiqq.fitnesscounterstudent.model.firebase.Path
-import com.github.syafiqq.fitnesscounterstudent.model.orm.Groups
+import com.github.syafiqq.fitnesscounter.role.student.R
+import com.github.syafiqq.fitnesscounter.role.student.custom.com.google.firebase.database.DefaultErrorValueEventListener
+import com.github.syafiqq.fitnesscounter.role.student.model.Settings
+import com.github.syafiqq.fitnesscounter.role.student.model.firebase.Path
+import com.github.syafiqq.fitnesscounter.role.student.model.orm.Groups
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth

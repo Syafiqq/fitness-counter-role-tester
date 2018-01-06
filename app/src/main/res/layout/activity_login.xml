@@ -5,7 +5,7 @@
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
             android:background="@color/colorPrimary"
-            tools:context="com.github.syafiqq.fitnesscounterstudent.controller.auth.LoginActivity"
+            tools:context="com.github.syafiqq.fitnesscounter.role.student.controller.auth.LoginActivity"
             android:fillViewport="true"
             android:id="@+id/root">
 
