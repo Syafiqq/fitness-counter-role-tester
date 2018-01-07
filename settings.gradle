@@ -1,2 +1,2 @@
 include ':app', ':core'
-project(':core').projectDir = new File(settingsDir, '../../../../IntellijIDEA/repos/Syafiqq/fitness-counter/core')
+project(':core').projectDir = new File(settingsDir, '../fitness-counter/core')
