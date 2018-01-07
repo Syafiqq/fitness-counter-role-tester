@@ -41,4 +41,6 @@ object Settings
             }
         })
     }
+
+    val GROUP_NAME = "student"
 }
