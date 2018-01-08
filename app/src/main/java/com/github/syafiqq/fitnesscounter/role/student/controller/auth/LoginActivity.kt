@@ -12,11 +12,9 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
+import com.github.syafiqq.fitnesscounter.core.helpers.AuthHelper
 import com.github.syafiqq.fitnesscounter.role.student.R
-import com.github.syafiqq.fitnesscounter.role.student.custom.com.google.firebase.database.DefaultErrorValueEventListener
 import com.github.syafiqq.fitnesscounter.role.student.model.Settings
-import com.github.syafiqq.fitnesscounter.role.student.model.firebase.Path
-import com.github.syafiqq.fitnesscounter.role.student.model.orm.Groups
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -26,28 +24,23 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_login.*
 import timber.log.Timber
 
 @Suppress("UNUSED_PARAMETER")
-/**
- * A login screen that offers login via email/password.
- */
 class LoginActivity: AppCompatActivity()
 {
     private lateinit var dialog: MaterialDialog
     private lateinit var auth: FirebaseAuth
 
-    override fun onCreate(savedInstanceState: Bundle?)
+    override fun onCreate(state: Bundle?)
     {
-        Timber.d("onCreate")
+        Timber.d("onCreate [${state}]")
 
-        super.onCreate(savedInstanceState)
+        super.onCreate(state)
         super.setContentView(R.layout.activity_login)
-
-        this.populateField("syafiq.rezpector@gmail.com", "12345678")
 
         this.auth = FirebaseAuth.getInstance()
         this.dialog = MaterialDialog.Builder(this)
@@ -65,12 +58,29 @@ class LoginActivity: AppCompatActivity()
     {
         Timber.d("onDestroy")
 
-        super.onDestroy()
         this.dialog.dismiss()
+        super.onDestroy()
+    }
+
+    override fun onStart()
+    {
+        Timber.d("onStart")
+
+        super.onStart()
+        this.populateField("syafiq.rezpector@gmail.com", "password")
+    }
+
+    override fun onStop()
+    {
+        Timber.d("onStop")
+
+        super.onStop()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     {
+        Timber.d("onActivityResult [${requestCode}, ${resultCode}, ${data}]")
+
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode)
         {
@@ -93,13 +103,16 @@ class LoginActivity: AppCompatActivity()
 
     private fun populateField(email: String, password: String)
     {
-        Timber.d("Populate Field [$email - $password]")
+        Timber.d("Populate Field [${email}, ${password}]")
+
         this.edittext_email.setText(email)
         this.edittext_password.setText(password)
     }
 
     private fun onEditorActionClicked(view: TextView?, id: Int, event: KeyEvent?): Boolean
     {
+        Timber.d("onEditorActionClicked [${view}, ${id}, ${event}]")
+
         return when (id)
         {
             EditorInfo.IME_ACTION_DONE,
@@ -118,18 +131,15 @@ class LoginActivity: AppCompatActivity()
     {
         Timber.d("onSubmitButtonClicked")
 
-        // Reset errors.
         edittext_email.error = null
         edittext_password.error = null
 
-        // Store values at the time of the login attempt.
         val email = edittext_email.text.toString()
         val password = edittext_password.text.toString()
 
         var cancel = false
         var focusView: View? = null
 
-        // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password))
         {
             edittext_password.error = getString(R.string.error_invalid_password)
@@ -137,16 +147,13 @@ class LoginActivity: AppCompatActivity()
             cancel = true
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email))
+        if (TextUtils.isEmpty(email) || !isEmailValid(email))
         {
-            edittext_email.error = getString(R.string.error_field_required)
-            focusView = edittext_email
-            cancel = true
-        }
-        else if (!isEmailValid(email))
-        {
-            edittext_email.error = getString(R.string.error_invalid_email)
+            edittext_email.error = getString(
+                    if (TextUtils.isEmpty(email))
+                        R.string.error_field_required
+                    else
+                        R.string.error_invalid_email)
             focusView = edittext_email
             cancel = true
         }
@@ -160,16 +167,16 @@ class LoginActivity: AppCompatActivity()
             this.dialog.setContent(super.getResources().getString(R.string.label_try_to_login))
             this.dialog.show()
             this.auth.signInWithEmailAndPassword(email, password)
-                    .addOnSuccessListener(this::onAuthSuccess)
-                    .addOnFailureListener(this::onAuthFailure)
+                    .addOnSuccessListener(this::onLoginSuccess)
+                    .addOnFailureListener(this::onLoginFailure)
         }
     }
 
-    private fun onAuthSuccess(result: AuthResult)
+    private fun onLoginSuccess(result: AuthResult)
     {
-        Timber.d("onAuthSuccess")
+        Timber.d("onLoginSuccess")
 
-        fun grantTo(group: Groups, user: FirebaseUser)
+        fun grantTo(user: FirebaseUser)
         {
             Timber.d("grantTo")
 
@@ -177,54 +184,47 @@ class LoginActivity: AppCompatActivity()
 
             Snackbar.make(this._0, R.string.request_privilege, Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.yes) {
+                        this@LoginActivity.dialog.setContent(R.string.auth_grant_authorization)
                         this@LoginActivity.dialog.show()
-                        Auth.grantTo(group, user, DatabaseReference.CompletionListener { error, _ ->
-                            error?.let { grantTo(group, user) } ?: onAuthSuccess(result)
+                        AuthHelper.grantTo(user, Settings.GROUP_NAME, DatabaseReference.CompletionListener { error, _ ->
+                            error?.let { grantTo(user) } ?: this@LoginActivity.dialog.setContent(R.string.label_try_to_login)
+                            onLoginSuccess(result)
                         })
                     }
                     .show()
+
         }
 
-        fun checkPrivilege(user: FirebaseUser)
-        {
-            fun resolveNetwork()
+        FirebaseAuth.getInstance().currentUser?.let {
+            AuthHelper.checkAuthorities(it, Settings.GROUP_NAME, object: AuthHelper.AuthorizationListener
             {
-                Toast.makeText(this@LoginActivity, R.string.label_auth_network_issue, Toast.LENGTH_SHORT).show()
-                checkPrivilege(user)
-            }
+                override fun onUnauthorized()
+                {
+                    super.onUnauthorized()
+                    Toast.makeText(this@LoginActivity, R.string.auth_no_previlege_access, Toast.LENGTH_SHORT).show()
+                    grantTo(it)
+                }
 
-            Settings.defaultGroup(
-                    {
-                        it?.let {
-                            FirebaseDatabase.getInstance().getReference("/${Path.USERS_GROUPS}/${user.uid}/${it.id}").apply {
-                                this.addListenerForSingleValueEvent(object: DefaultErrorValueEventListener
-                                {
-                                    override fun onDataChange(snapshot: DataSnapshot?)
-                                    {
-                                        Timber.d("onDataChange")
-                                        if (snapshot?.exists()!!)
-                                        {
-                                            this@LoginActivity.dialog.dismiss()
-                                            Timber.d("Login Success")
-                                        }
-                                        else
-                                        {
-                                            Toast.makeText(this@LoginActivity, R.string.auth_no_previlege_access, Toast.LENGTH_SHORT).show()
-                                            grantTo(it, user)
-                                        }
-                                    }
-                                })
-                            }
-                        } ?: resolveNetwork()
-                    }, { resolveNetwork() })
+                override fun onCancelled(error: DatabaseError?)
+                {
+                    super.onCancelled(error)
+                    Toast.makeText(this@LoginActivity, R.string.label_auth_network_issue, Toast.LENGTH_SHORT).show()
+                    onLoginSuccess(result)
+                }
+
+                override fun onAuthorized(snapshot: DataSnapshot)
+                {
+                    super.onAuthorized(snapshot)
+                    Timber.d("Login Success")
+                    this@LoginActivity.dialog.dismiss()
+                }
+            })
         }
-
-        FirebaseAuth.getInstance().currentUser?.let { checkPrivilege(it) }
     }
 
-    private fun onAuthFailure(e: Exception?)
+    private fun onLoginFailure(e: Exception?)
     {
-        Timber.d("onAuthFailure")
+        Timber.d("onLoginFailure")
 
         Timber.e(e)
         Toast.makeText(this, when (e ?: false)
