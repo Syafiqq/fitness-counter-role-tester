@@ -41,4 +41,5 @@
     <string name="action_recover_short">Lupa Password ?</string>
     <string name="label_try_to_login">Mencoba Login</string>
     <string name="label_try_to_register">Melakukan Pendaftaran</string>
+    <string name="auth_grant_authorization">Memberikan Hak Akses</string>
 </resources>
