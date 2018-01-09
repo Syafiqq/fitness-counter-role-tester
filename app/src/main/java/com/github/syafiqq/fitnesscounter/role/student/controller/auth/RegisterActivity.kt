@@ -148,7 +148,7 @@ class RegisterActivity: AppCompatActivity()
             this.dialog.dismiss()
             Toast.makeText(this, super.getResources().getString(R.string.label_register_success), Toast.LENGTH_SHORT).show()
 
-            FirebaseAuth.getInstance().signOut()
+            this.auth.signOut()
 
             Handler(mainLooper).postDelayed({
                 super@RegisterActivity.setResult(RESULT_OK, Intent().apply {
@@ -164,7 +164,7 @@ class RegisterActivity: AppCompatActivity()
             AuthHelper.grantTo(user, Settings.GROUP_NAME, DatabaseReference.CompletionListener { error, _ -> error?.let { grantTo(user) } ?: registerSuccess() })
         }
 
-        FirebaseAuth.getInstance().currentUser?.let { grantTo(it) }
+        this.auth.currentUser?.let { grantTo(it) }
     }
 
     private fun onRegisterFailed(e: Exception?)

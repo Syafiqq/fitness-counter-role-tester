@@ -196,7 +196,7 @@ class LoginActivity: AppCompatActivity()
 
         }
 
-        FirebaseAuth.getInstance().currentUser?.let {
+        this.auth.currentUser?.let {
             AuthHelper.checkAuthorities(it, Settings.GROUP_NAME, object: AuthHelper.AuthorizationListener
             {
                 override fun onUnauthorized()
