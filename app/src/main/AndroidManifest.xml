@@ -37,6 +37,15 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.github.syafiqq.fitnesscounter.role.student.controller.auth.LoginActivity"/>
         </activity>
+        <activity
+                android:name=".controller.auth.PasswordResetActivity"
+                android:label="@string/title_activity_password_reset"
+                android:parentActivityName=".controller.auth.LoginActivity"
+                android:theme="@style/AppThemeNoShadow">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.github.syafiqq.fitnesscounter.role.student.controller.auth.LoginActivity"/>
+        </activity>
     </application>
 
 </manifest>
