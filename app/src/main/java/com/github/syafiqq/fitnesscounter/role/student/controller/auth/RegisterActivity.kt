@@ -13,10 +13,9 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
+import com.github.syafiqq.fitnesscounter.core.helpers.AuthHelper
 import com.github.syafiqq.fitnesscounter.role.student.R
 import com.github.syafiqq.fitnesscounter.role.student.model.Settings
-import com.github.syafiqq.fitnesscounter.role.student.model.orm.Groups
-import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -34,11 +33,11 @@ class RegisterActivity: AppCompatActivity()
     private lateinit var dialog: MaterialDialog
     private lateinit var auth: FirebaseAuth
 
-    override fun onCreate(savedInstanceState: Bundle?)
+    override fun onCreate(state: Bundle?)
     {
-        Timber.d("onCreate")
+        Timber.d("onCreate [${state}]")
 
-        super.onCreate(savedInstanceState)
+        super.onCreate(state)
         super.setContentView(R.layout.activity_register)
         this.setupActionBar()
 
@@ -58,8 +57,8 @@ class RegisterActivity: AppCompatActivity()
     {
         Timber.d("onDestroy")
 
-        super.onDestroy()
         this.dialog.dismiss()
+        super.onDestroy()
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -73,6 +72,8 @@ class RegisterActivity: AppCompatActivity()
 
     private fun onEditorActionClicked(view: TextView?, id: Int, event: KeyEvent?): Boolean
     {
+        Timber.d("onEditorActionClicked [${view}, ${id}, ${event}]")
+
         return when (id)
         {
             EditorInfo.IME_ACTION_DONE,
@@ -89,14 +90,12 @@ class RegisterActivity: AppCompatActivity()
 
     private fun onSubmitButtonClicked(view: View?)
     {
-        Timber.d("onSubmitButtonClicked")
+        Timber.d("onSubmitButtonClicked [${view}]")
 
-        // Reset errors.
         edittext_email.error = null
         edittext_password.error = null
         edittext_password_conf.error = null
 
-        // Store values at the time of the login attempt.
         val email = edittext_email.text.toString()
         val password = edittext_password.text.toString()
         val passwordConf = edittext_password_conf.text.toString()
@@ -104,30 +103,24 @@ class RegisterActivity: AppCompatActivity()
         var cancel = false
         var focusView: View? = null
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password))
+        if ((!TextUtils.isEmpty(password) && !isPasswordValid(password)) || !isPasswordSame(password, passwordConf))
         {
-            edittext_password.error = getString(R.string.error_invalid_password)
-            focusView = edittext_password
-            cancel = true
-        }
-        else if (!TextUtils.isEmpty(password) && !TextUtils.isEmpty(passwordConf) && !isPasswordSame(password, passwordConf))
-        {
-            edittext_password.error = getString(R.string.error_password_not_same)
+            edittext_password.error = getString(
+                    if (!isPasswordSame(password, passwordConf))
+                        R.string.error_password_not_same
+                    else
+                        R.string.error_invalid_password)
             focusView = edittext_password
             cancel = true
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email))
+        if (TextUtils.isEmpty(email) || !isEmailValid(email))
         {
-            edittext_email.error = getString(R.string.error_field_required)
-            focusView = edittext_email
-            cancel = true
-        }
-        else if (!isEmailValid(email))
-        {
-            edittext_email.error = getString(R.string.error_invalid_email)
+            edittext_email.error = getString(
+                    if (TextUtils.isEmpty(email))
+                        R.string.error_field_required
+                    else
+                        R.string.error_invalid_email)
             focusView = edittext_email
             cancel = true
         }
@@ -138,20 +131,24 @@ class RegisterActivity: AppCompatActivity()
         }
         else
         {
+            this.dialog.setContent(super.getResources().getString(R.string.label_try_to_register))
             this.dialog.show()
-            this.auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, this::onAuthComplete)
+            this.auth.createUserWithEmailAndPassword(email, password)
+                    .addOnSuccessListener(this::onRegisterSuccess)
+                    .addOnFailureListener(this::onRegisterFailed)
         }
     }
 
-    private fun onAuthComplete(result: Task<AuthResult>)
+    private fun onRegisterSuccess(result: AuthResult)
     {
-        Timber.d("onAuthComplete")
-        fun jump()
+        Timber.d("onRegisterSuccess [${result}]")
+
+        fun registerSuccess()
         {
             this.dialog.dismiss()
             Toast.makeText(this, super.getResources().getString(R.string.label_register_success), Toast.LENGTH_SHORT).show()
 
-            FirebaseAuth.getInstance().signOut()
+            this.auth.signOut()
 
             Handler(mainLooper).postDelayed({
                 super@RegisterActivity.setResult(RESULT_OK, Intent().apply {
@@ -162,34 +159,31 @@ class RegisterActivity: AppCompatActivity()
             }, 1000)
         }
 
-        fun grantTo(group: Groups, user: FirebaseUser)
+        fun grantTo(user: FirebaseUser)
         {
-            Auth.grantTo(group, user, DatabaseReference.CompletionListener { error, _ -> error?.let { grantTo(group, user) } ?: jump() })
+            AuthHelper.grantTo(user, Settings.GROUP_NAME, DatabaseReference.CompletionListener { error, _ -> error?.let { grantTo(user) } ?: registerSuccess() })
         }
 
-        if (result.isSuccessful)
-        {
-            Timber.d("Success Register")
+        this.auth.currentUser?.let { grantTo(it) }
+    }
 
-            Settings.defaultGroup({ group -> group?.let { FirebaseAuth.getInstance().currentUser?.let { user -> grantTo(group, user) } ?: jump() } ?: jump() }, { jump() })
-        }
-        else
-        {
-            Timber.d("Failed Register")
+    private fun onRegisterFailed(e: Exception?)
+    {
+        Timber.d("onRegisterFailed [${e}]")
 
-            this.dialog.dismiss()
-            Timber.e(result.exception)
-            Toast.makeText(this, super.getResources().getString(
-                    when (result.exception!!)
-                    {
-                        is FirebaseAuthWeakPasswordException       -> R.string.label_auth_weak_password
-                        is FirebaseAuthInvalidCredentialsException -> R.string.label_auth_email_malformed
-                        is FirebaseAuthUserCollisionException      -> R.string.label_auth_email_exists
-                        is FirebaseNetworkException                -> R.string.label_auth_network_issue
-                        else                                       -> R.string.label_register_failed
-                    }
-            ), Toast.LENGTH_SHORT).show()
-        }
+        this.dialog.dismiss()
+
+        Timber.e(e)
+        Toast.makeText(this, super.getResources().getString(
+                when (e ?: false)
+                {
+                    is FirebaseAuthWeakPasswordException       -> R.string.label_auth_weak_password
+                    is FirebaseAuthInvalidCredentialsException -> R.string.label_auth_email_malformed
+                    is FirebaseAuthUserCollisionException      -> R.string.label_auth_email_exists
+                    is FirebaseNetworkException                -> R.string.label_auth_network_issue
+                    else                                       -> R.string.label_register_failed
+                }
+        ), Toast.LENGTH_SHORT).show()
     }
 
     companion object
