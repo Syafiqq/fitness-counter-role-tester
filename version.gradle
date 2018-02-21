@@ -10,9 +10,9 @@ ext {
     libraries = [
             android_support  : '27.0.2',
             firebase         : '11.8.0',
-            kotlin           : '1.2.10',
-            constraint_layout: '1.1.0-beta4',
-            material_dialogs : '0.9.5.0',
+            kotlin           : '1.2.21',
+            constraint_layout: '1.1.0-beta5',
+            material_dialogs : '0.9.6.0',
             rxjava           : '2.1.6',
             rxandroid        : '2.0.1',
             timber           : '4.6.0',
