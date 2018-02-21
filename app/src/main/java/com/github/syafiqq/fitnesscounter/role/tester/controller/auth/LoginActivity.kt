@@ -3,7 +3,6 @@ package com.github.syafiqq.fitnesscounter.role.tester.controller.auth
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.KeyEvent
@@ -22,10 +21,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.activity_login.*
 import timber.log.Timber
 
@@ -180,26 +177,6 @@ class LoginActivity: AppCompatActivity()
     {
         Timber.d("onLoginSuccess [$result]")
 
-        fun grantTo(user: FirebaseUser)
-        {
-            Timber.d("grantTo")
-
-            this@LoginActivity.dialog.dismiss()
-
-            Snackbar.make(this._0, R.string.request_privilege, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.yes) {
-                        this@LoginActivity.dialog.setContent(R.string.auth_grant_authorization)
-                        this@LoginActivity.dialog.show()
-                        AuthHelper.grantTo(user, Settings.GROUP_NAME, DatabaseReference.CompletionListener { error, _ ->
-                            error?.run { grantTo(user) }
-                                    ?: this@LoginActivity.dialog.setContent(R.string.label_try_to_login)
-                            onLoginSuccess(result)
-                        })
-                    }
-                    .show()
-
-        }
-
         this.auth.currentUser?.run {
             AuthHelper.checkAuthorities(this, Settings.GROUP_NAME, object: AuthHelper.AuthorizationListener
             {
@@ -207,20 +184,23 @@ class LoginActivity: AppCompatActivity()
                 {
                     super.onUnauthorized()
                     Toast.makeText(this@LoginActivity, R.string.auth_no_previlege_access, Toast.LENGTH_SHORT).show()
-                    grantTo(this@run)
                 }
 
                 override fun onCancelled(error: DatabaseError?)
                 {
                     super.onCancelled(error)
                     Toast.makeText(this@LoginActivity, R.string.label_auth_network_issue, Toast.LENGTH_SHORT).show()
-                    onLoginSuccess(result)
                 }
 
                 override fun onAuthorized(snapshot: DataSnapshot)
                 {
                     super.onAuthorized(snapshot)
                     Timber.d("Login Success")
+                }
+
+                override fun onCompleted()
+                {
+                    super.onCompleted()
                     this@LoginActivity.dialog.dismiss()
                 }
             })
