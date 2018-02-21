@@ -27,7 +27,6 @@ import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.activity_register.*
 import timber.log.Timber
 
-@Suppress("UNUSED_PARAMETER")
 class RegisterActivity: AppCompatActivity()
 {
     private lateinit var dialog: MaterialDialog
@@ -86,7 +85,12 @@ class RegisterActivity: AppCompatActivity()
         }
     }
 
-    private fun onLoginButtonClicked(view: View?) = onBackPressed()
+    private fun onLoginButtonClicked(view: View?)
+    {
+        Timber.d("onLoginButtonClicked [$view]")
+
+        onBackPressed()
+    }
 
     private fun onSubmitButtonClicked(view: View?)
     {
