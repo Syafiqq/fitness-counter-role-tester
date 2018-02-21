@@ -50,6 +50,11 @@ class RegisterActivity: AppCompatActivity()
         this.edittext_password_conf.setOnEditorActionListener(this::onEditorActionClicked)
         this.button_sumbit.setOnClickListener(this::onSubmitButtonClicked)
         this.button_login.setOnClickListener(this::onLoginButtonClicked)
+
+        this.edittext_email.setText("syafiq.rezpector@gmail.cok")
+        this.edittext_password.setText("password")
+        this.edittext_password_conf.setText("password")
+        this.edittext_name.setText("Syafuq")
     }
 
     override fun onDestroy()
@@ -163,14 +168,14 @@ class RegisterActivity: AppCompatActivity()
             }, 1000)
         }
 
-        fun grantTo(user: FirebaseUser)
+        fun grantTo(user: FirebaseUser, name: String)
         {
-            AuthHelper.grantTo(user, Settings.GROUP_NAME, DatabaseReference.CompletionListener { error, _ ->
-                error?.run { grantTo(user) } ?: registerSuccess()
+            AuthHelper.initializeUser(user, name, Settings.GROUP_NAME, DatabaseReference.CompletionListener { error, _ ->
+                error?.run { grantTo(user, name) } ?: registerSuccess()
             })
         }
 
-        this.auth.currentUser?.run { grantTo(this) }
+        this.auth.currentUser?.run { grantTo(this, this@RegisterActivity.edittext_name.text.toString()) }
     }
 
     private fun onRegisterFailed(e: Exception?)
