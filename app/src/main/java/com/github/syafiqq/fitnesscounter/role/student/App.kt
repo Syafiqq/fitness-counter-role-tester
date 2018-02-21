@@ -10,8 +10,6 @@ import org.acra.ReportField
 import org.acra.ReportingInteractionMode
 import org.acra.annotation.ReportsCrashes
 import timber.log.Timber
-
-
 /**
  * This fitness-counter-student project created by :
  * Name         : syafiq
@@ -19,6 +17,7 @@ import timber.log.Timber
  * Email        : id.muhammad.syafiq@gmail.com
  * Github       : Syafiqq
  */
+@Suppress("unused")
 @ReportsCrashes(mailTo = "syafiq.rezpector@gmail.com",
         customReportContent = [(ReportField.APP_VERSION_CODE), (ReportField.APP_VERSION_NAME), (ReportField.ANDROID_VERSION), (ReportField.PHONE_MODEL), (ReportField.CUSTOM_DATA), (ReportField.STACK_TRACE), (ReportField.LOGCAT)],
         mode = ReportingInteractionMode.TOAST,
@@ -27,13 +26,15 @@ class App: Application()
 {
     override fun onCreate()
     {
-        super.onCreate()
+        Timber.d("onCreate")
 
+        super.onCreate()
+        this.initializeTimber()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
             val channelId = getString(R.string.default_notification_channel_id)
             val channelName = getString(R.string.default_notification_channel_name)
-            getSystemService(NotificationManager::class.java).apply {
+            getSystemService(NotificationManager::class.java).run {
                 this?.createNotificationChannel(NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW))
             }
         }
@@ -41,13 +42,16 @@ class App: Application()
 
     override fun attachBaseContext(base: Context)
     {
+        Timber.d("attachBaseContext")
+
         super.attachBaseContext(base)
-        this.initializeTimber()
         if (!BuildConfig.DEBUG) ACRA.init(this)
     }
 
     private fun initializeTimber()
     {
+        Timber.d("initializeTimber")
+
         Timber.plant(
                 if (BuildConfig.DEBUG)
                     Timber.DebugTree()

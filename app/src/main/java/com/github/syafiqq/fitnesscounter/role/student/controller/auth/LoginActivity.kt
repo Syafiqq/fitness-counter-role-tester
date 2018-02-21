@@ -29,7 +29,6 @@ import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.activity_login.*
 import timber.log.Timber
 
-@Suppress("UNUSED_PARAMETER")
 class LoginActivity: AppCompatActivity()
 {
     private lateinit var dialog: MaterialDialog
@@ -37,7 +36,7 @@ class LoginActivity: AppCompatActivity()
 
     override fun onCreate(state: Bundle?)
     {
-        Timber.d("onCreate [${state}]")
+        Timber.d("onCreate [$state]")
 
         super.onCreate(state)
         super.setContentView(R.layout.activity_login)
@@ -80,7 +79,7 @@ class LoginActivity: AppCompatActivity()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     {
-        Timber.d("onActivityResult [${requestCode}, ${resultCode}, ${data}]")
+        Timber.d("onActivityResult [$requestCode, $resultCode, $data]")
 
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode)
@@ -104,7 +103,7 @@ class LoginActivity: AppCompatActivity()
 
     private fun populateField(email: String, password: String)
     {
-        Timber.d("Populate Field [${email}, ${password}]")
+        Timber.d("Populate Field [$email, $password]")
 
         this.edittext_email.setText(email)
         this.edittext_password.setText(password)
@@ -112,7 +111,7 @@ class LoginActivity: AppCompatActivity()
 
     private fun onEditorActionClicked(view: TextView?, id: Int, event: KeyEvent?): Boolean
     {
-        Timber.d("onEditorActionClicked [${view}, ${id}, ${event}]")
+        Timber.d("onEditorActionClicked [$view, $id, $event]")
 
         return when (id)
         {
@@ -126,11 +125,16 @@ class LoginActivity: AppCompatActivity()
         }
     }
 
-    private fun onRegisterButtonClicked(view: View?) = super.startActivityForResult(Intent(this, RegisterActivity::class.java), LOGIN_CALLBACK)
+    private fun onRegisterButtonClicked(view: View?)
+    {
+        Timber.d("onRegisterButtonClicked [$view]")
+
+        super.startActivityForResult(Intent(this, RegisterActivity::class.java), LOGIN_CALLBACK)
+    }
 
     private fun onSubmitButtonClicked(view: View?)
     {
-        Timber.d("onSubmitButtonClicked")
+        Timber.d("onSubmitButtonClicked [$view]")
 
         edittext_email.error = null
         edittext_password.error = null
@@ -175,7 +179,7 @@ class LoginActivity: AppCompatActivity()
 
     private fun onLoginSuccess(result: AuthResult)
     {
-        Timber.d("onLoginSuccess")
+        Timber.d("onLoginSuccess [$result]")
 
         fun grantTo(user: FirebaseUser)
         {
@@ -188,7 +192,8 @@ class LoginActivity: AppCompatActivity()
                         this@LoginActivity.dialog.setContent(R.string.auth_grant_authorization)
                         this@LoginActivity.dialog.show()
                         AuthHelper.grantTo(user, Settings.GROUP_NAME, DatabaseReference.CompletionListener { error, _ ->
-                            error?.let { grantTo(user) } ?: this@LoginActivity.dialog.setContent(R.string.label_try_to_login)
+                            error?.run { grantTo(user) }
+                                    ?: this@LoginActivity.dialog.setContent(R.string.label_try_to_login)
                             onLoginSuccess(result)
                         })
                     }
@@ -196,14 +201,14 @@ class LoginActivity: AppCompatActivity()
 
         }
 
-        this.auth.currentUser?.let {
-            AuthHelper.checkAuthorities(it, Settings.GROUP_NAME, object: AuthHelper.AuthorizationListener
+        this.auth.currentUser?.run {
+            AuthHelper.checkAuthorities(this, Settings.GROUP_NAME, object: AuthHelper.AuthorizationListener
             {
                 override fun onUnauthorized()
                 {
                     super.onUnauthorized()
                     Toast.makeText(this@LoginActivity, R.string.auth_no_previlege_access, Toast.LENGTH_SHORT).show()
-                    grantTo(it)
+                    grantTo(this@run)
                 }
 
                 override fun onCancelled(error: DatabaseError?)
@@ -225,9 +230,8 @@ class LoginActivity: AppCompatActivity()
 
     private fun onLoginFailure(e: Exception?)
     {
-        Timber.d("onLoginFailure")
+        Timber.d("onLoginFailure [$e]")
 
-        Timber.e(e)
         Toast.makeText(this, when (e ?: false)
         {
             is FirebaseAuthInvalidUserException        -> R.string.label_auth_email_not_exists
@@ -243,6 +247,6 @@ class LoginActivity: AppCompatActivity()
 
     companion object
     {
-        val LOGIN_CALLBACK = 0x01
+        const val LOGIN_CALLBACK = 0x01
     }
 }

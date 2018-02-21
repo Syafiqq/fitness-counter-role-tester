@@ -10,5 +10,5 @@ package com.github.syafiqq.fitnesscounter.role.student.model
 
 object Settings
 {
-    val GROUP_NAME = "student"
+    const val GROUP_NAME = "student"
 }

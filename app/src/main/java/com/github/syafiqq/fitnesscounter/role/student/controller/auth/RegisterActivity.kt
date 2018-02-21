@@ -35,7 +35,7 @@ class RegisterActivity: AppCompatActivity()
 
     override fun onCreate(state: Bundle?)
     {
-        Timber.d("onCreate [${state}]")
+        Timber.d("onCreate [$state]")
 
         super.onCreate(state)
         super.setContentView(R.layout.activity_register)
@@ -72,7 +72,7 @@ class RegisterActivity: AppCompatActivity()
 
     private fun onEditorActionClicked(view: TextView?, id: Int, event: KeyEvent?): Boolean
     {
-        Timber.d("onEditorActionClicked [${view}, ${id}, ${event}]")
+        Timber.d("onEditorActionClicked [$view, $id, $event]")
 
         return when (id)
         {
@@ -90,7 +90,7 @@ class RegisterActivity: AppCompatActivity()
 
     private fun onSubmitButtonClicked(view: View?)
     {
-        Timber.d("onSubmitButtonClicked [${view}]")
+        Timber.d("onSubmitButtonClicked [$view]")
 
         edittext_email.error = null
         edittext_password.error = null
@@ -141,7 +141,7 @@ class RegisterActivity: AppCompatActivity()
 
     private fun onRegisterSuccess(result: AuthResult)
     {
-        Timber.d("onRegisterSuccess [${result}]")
+        Timber.d("onRegisterSuccess [$result]")
 
         fun registerSuccess()
         {
@@ -151,7 +151,7 @@ class RegisterActivity: AppCompatActivity()
             this.auth.signOut()
 
             Handler(mainLooper).postDelayed({
-                super@RegisterActivity.setResult(RESULT_OK, Intent().apply {
+                super@RegisterActivity.setResult(RESULT_OK, Intent().run {
                     putExtra(RegisterActivity.EMAIL, this@RegisterActivity.edittext_email.text.toString())
                     putExtra(RegisterActivity.PASSWORD, this@RegisterActivity.edittext_password.text.toString())
                 })
@@ -161,15 +161,17 @@ class RegisterActivity: AppCompatActivity()
 
         fun grantTo(user: FirebaseUser)
         {
-            AuthHelper.grantTo(user, Settings.GROUP_NAME, DatabaseReference.CompletionListener { error, _ -> error?.let { grantTo(user) } ?: registerSuccess() })
+            AuthHelper.grantTo(user, Settings.GROUP_NAME, DatabaseReference.CompletionListener { error, _ ->
+                error?.run { grantTo(user) } ?: registerSuccess()
+            })
         }
 
-        this.auth.currentUser?.let { grantTo(it) }
+        this.auth.currentUser?.run { grantTo(this) }
     }
 
     private fun onRegisterFailed(e: Exception?)
     {
-        Timber.d("onRegisterFailed [${e}]")
+        Timber.d("onRegisterFailed [$e]")
 
         this.dialog.dismiss()
 
@@ -188,7 +190,7 @@ class RegisterActivity: AppCompatActivity()
 
     companion object
     {
-        val EMAIL = "email"
-        val PASSWORD = "password"
+        const val EMAIL = "email"
+        const val PASSWORD = "password"
     }
 }

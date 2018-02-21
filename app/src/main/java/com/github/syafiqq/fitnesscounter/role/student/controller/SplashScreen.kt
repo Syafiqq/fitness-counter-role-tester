@@ -9,6 +9,7 @@ import com.github.syafiqq.fitnesscounter.role.student.R
 import com.github.syafiqq.fitnesscounter.role.student.controller.auth.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.android.synthetic.main.activity_splash_screen.*
 import timber.log.Timber
 
 /**
@@ -21,26 +22,20 @@ class SplashScreen: AppCompatActivity()
     private val hideOperation = Runnable { hide() }
     private var mContentView: View? = null
 
-    override fun onCreate(savedInstanceState: Bundle?)
+    override fun onCreate(bundle: Bundle?)
     {
-        Timber.d("onCreate")
+        Timber.d("onCreate [$bundle]")
 
-        super.onCreate(savedInstanceState)
-
+        super.onCreate(bundle)
         super.setContentView(R.layout.activity_splash_screen)
-
-        this.mContentView = findViewById(R.id.fullscreen_content)
+        this.mContentView = this.fullscreen_content
     }
 
-    override fun onPostCreate(savedInstanceState: Bundle?)
+    override fun onPostCreate(bundle: Bundle?)
     {
-        Timber.d("onPostCreate")
+        Timber.d("onPostCreate [$bundle]")
 
-        super.onPostCreate(savedInstanceState)
-
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
+        super.onPostCreate(bundle)
         this.delayedHide(50)
     }
 
@@ -56,6 +51,8 @@ class SplashScreen: AppCompatActivity()
 
     private fun dispatchOperation(user: FirebaseUser?)
     {
+        Timber.d("dispatchOperation [$user]")
+
         Handler(mainLooper).postDelayed({
             if (user != null)
                 Timber.d("To Home")
@@ -84,23 +81,19 @@ class SplashScreen: AppCompatActivity()
     {
         Timber.d("hide")
 
-        // Hide UI first
         val actionBar = supportActionBar
         actionBar?.hide()
-
-        // Schedule a runnable to remove the status and navigation bar after a delay
-        //this.hideHandler.postDelayed(this.hideCompletelyOperation, UI_ANIMATION_DELAY);
     }
 
     /**
      * Schedules a call to hide() in [300] milliseconds, canceling any
      * previously scheduled calls.
      */
-    private fun delayedHide(delayMillis: Int)
+    private fun delayedHide(delay: Int)
     {
-        Timber.d("hideCompletely")
+        Timber.d("hideCompletely [$delay]")
 
         this.hideHandler.removeCallbacks(this.hideOperation)
-        this.hideHandler.postDelayed(this.hideOperation, delayMillis.toLong())
+        this.hideHandler.postDelayed(this.hideOperation, delay.toLong())
     }
 }

@@ -18,7 +18,6 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import kotlinx.android.synthetic.main.activity_password_reset.*
 import timber.log.Timber
 
-@Suppress("UNUSED_PARAMETER")
 class PasswordResetActivity: AppCompatActivity()
 {
     private lateinit var dialog: MaterialDialog
@@ -26,7 +25,7 @@ class PasswordResetActivity: AppCompatActivity()
 
     override fun onCreate(state: Bundle?)
     {
-        Timber.d("onCreate [${state}]")
+        Timber.d("onCreate [$state]")
 
         super.onCreate(state)
         super.setContentView(R.layout.activity_password_reset)
@@ -58,7 +57,7 @@ class PasswordResetActivity: AppCompatActivity()
 
     private fun onEditorActionClicked(view: TextView?, id: Int, event: KeyEvent?): Boolean
     {
-        Timber.d("onEditorActionClicked [${view}, ${id}, ${event}]")
+        Timber.d("onEditorActionClicked [$view, $id, $event]")
 
         return when (id)
         {
@@ -74,7 +73,7 @@ class PasswordResetActivity: AppCompatActivity()
 
     private fun onSubmitButtonClicked(view: View?)
     {
-        Timber.d("onSubmitButtonClicked")
+        Timber.d("onSubmitButtonClicked [$view]")
 
         edittext_email.error = null
 
@@ -111,7 +110,7 @@ class PasswordResetActivity: AppCompatActivity()
 
     private fun onRequestSuccess(result: Void?)
     {
-        Timber.d("onRequestSuccess")
+        Timber.d("onRequestSuccess [$result]")
 
         Toast.makeText(this, R.string.label_password_reset_success, Toast.LENGTH_LONG).show()
         this.onBackPressed()
