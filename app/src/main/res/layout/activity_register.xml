@@ -29,11 +29,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="8dp"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="34dp"
+                android:layout_marginTop="4dp"
                 app:layout_constraintBottom_toTopOf="@+id/textinputlayout_password"
                 app:layout_constraintVertical_chainStyle="packed"
-                app:layout_constraintVertical_bias="0.3">
+                android:layout_marginBottom="4dp">
 
             <EditText
                     android:id="@+id/edittext_email"
@@ -55,8 +54,9 @@
                 app:layout_constraintTop_toBottomOf="@+id/textinputlayout_email"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintBottom_toTopOf="@+id/textinputlayout_password_conf"
-                android:layout_marginBottom="34dp"
-                app:layout_constraintVertical_chainStyle="packed">
+                android:layout_marginBottom="4dp"
+                app:layout_constraintVertical_chainStyle="packed"
+                android:layout_marginTop="4dp">
 
             <EditText
                     android:id="@+id/edittext_password"
@@ -78,8 +78,9 @@
                 app:layout_constraintTop_toBottomOf="@+id/textinputlayout_password"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintBottom_toTopOf="@+id/button_sumbit"
-                android:layout_marginBottom="34dp"
-                app:layout_constraintVertical_chainStyle="packed">
+                android:layout_marginBottom="4dp"
+                app:layout_constraintVertical_chainStyle="packed"
+                android:layout_marginTop="4dp">
 
             <EditText
                     android:id="@+id/edittext_password_conf"
@@ -103,10 +104,10 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/textinputlayout_password_conf"
                 app:layout_constraintStart_toStartOf="@+id/textinputlayout_password_conf"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 app:layout_constraintTop_toBottomOf="@+id/textinputlayout_password_conf"
                 app:layout_constraintBottom_toTopOf="@+id/button_login"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="4dp"
                 android:layout_width="0dp"
                 app:layout_constraintVertical_chainStyle="packed"/>
 
@@ -120,7 +121,7 @@
                 android:textColor="@color/colorAccent"
                 android:layout_gravity="end"
                 app:layout_constraintEnd_toEndOf="@+id/button_sumbit"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/button_sumbit"
                 android:layout_marginBottom="16dp"
                 app:layout_constraintVertical_chainStyle="packed"
