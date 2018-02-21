@@ -51,7 +51,6 @@ class LoginActivity: AppCompatActivity()
         this.edittext_password.setOnEditorActionListener(this::onEditorActionClicked)
         this.button_sumbit.setOnClickListener(this::onSubmitButtonClicked)
         this.button_register.setOnClickListener(this::onRegisterButtonClicked)
-        this.button_recover.setOnClickListener { super.startActivity(Intent(this, PasswordResetActivity::class.java)) }
     }
 
     override fun onDestroy()
