@@ -49,6 +49,50 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:691550840999:android:93fc57a23f000459",
+        "android_client_info": {
+          "package_name": "com.github.syafiqq.fitnesscounter.role.tester"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "691550840999-4agtor90tt7ckvibfm40t7u7q9ja7gr8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.syafiqq.fitnesscounter.role.tester",
+            "certificate_hash": "ae95635abb4c03c39f381a56f689f7f816bd3049"
+          }
+        },
+        {
+          "client_id": "691550840999-d8e67kdg476i807tnmojrijhi738urtt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyJK3XRbWCzikbHnF4_CBHzkkK2hNCmL4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "691550840999-d8e67kdg476i807tnmojrijhi738urtt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"

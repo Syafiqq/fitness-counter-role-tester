@@ -1,12 +1,12 @@
-package com.github.syafiqq.fitnesscounter.role.student.controller
+package com.github.syafiqq.fitnesscounter.role.tester.controller
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.github.syafiqq.fitnesscounter.role.student.R
-import com.github.syafiqq.fitnesscounter.role.student.controller.auth.LoginActivity
+import com.github.syafiqq.fitnesscounter.role.tester.R
+import com.github.syafiqq.fitnesscounter.role.tester.controller.auth.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_splash_screen.*

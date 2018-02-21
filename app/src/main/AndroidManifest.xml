@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="com.github.syafiqq.fitnesscounter.role.student">
+          package="com.github.syafiqq.fitnesscounter.role.tester">
 
     <application
             android:name=".App"
@@ -35,7 +35,7 @@
                 android:theme="@style/AppThemeNoShadow">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.github.syafiqq.fitnesscounter.role.student.controller.auth.LoginActivity"/>
+                    android:value="com.github.syafiqq.fitnesscounter.role.tester.controller.auth.LoginActivity"/>
         </activity>
         <activity
                 android:name=".controller.auth.PasswordResetActivity"
@@ -44,7 +44,7 @@
                 android:theme="@style/AppThemeNoShadow">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.github.syafiqq.fitnesscounter.role.student.controller.auth.LoginActivity"/>
+                    android:value="com.github.syafiqq.fitnesscounter.role.tester.controller.auth.LoginActivity"/>
         </activity>
     </application>
 

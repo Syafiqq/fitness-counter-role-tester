@@ -3,7 +3,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:background="@color/colorPrimary"
-             tools:context="com.github.syafiqq.fitnesscounter.role.student.controller.SplashScreen">
+             tools:context="com.github.syafiqq.fitnesscounter.role.tester.controller.SplashScreen">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,

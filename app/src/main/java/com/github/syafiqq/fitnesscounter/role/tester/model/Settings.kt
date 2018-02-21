@@ -1,4 +1,4 @@
-package com.github.syafiqq.fitnesscounter.role.student.model
+package com.github.syafiqq.fitnesscounter.role.tester.model
 
 /**
  * This fitness-counter-student project created by :

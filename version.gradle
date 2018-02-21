@@ -4,7 +4,7 @@ ext {
             target_sdk         : 27,
             min_sdk            : 16,
             android_build_tools: '3.0.1',
-            package            : 'com.github.syafiqq.fitnesscounter.role.student',
+            package            : 'com.github.syafiqq.fitnesscounter.role.tester',
     ]
 
     libraries = [

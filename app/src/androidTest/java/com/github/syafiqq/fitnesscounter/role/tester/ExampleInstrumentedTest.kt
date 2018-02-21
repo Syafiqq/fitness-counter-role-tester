@@ -1,4 +1,4 @@
-package com.github.syafiqq.fitnesscounter.role.student
+package com.github.syafiqq.fitnesscounter.role.tester
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -17,6 +17,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("com.github.syafiqq.fitnesscounter.role.student", appContext.packageName)
+        assertEquals("com.github.syafiqq.fitnesscounter.role.tester", appContext.packageName)
     }
 }

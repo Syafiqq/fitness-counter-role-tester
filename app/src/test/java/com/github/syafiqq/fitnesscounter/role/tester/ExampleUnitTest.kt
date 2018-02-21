@@ -1,4 +1,4 @@
-package com.github.syafiqq.fitnesscounter.role.student
+package com.github.syafiqq.fitnesscounter.role.tester
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

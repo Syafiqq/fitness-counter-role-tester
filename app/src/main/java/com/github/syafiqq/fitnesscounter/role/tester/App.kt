@@ -1,4 +1,4 @@
-package com.github.syafiqq.fitnesscounter.role.student
+package com.github.syafiqq.fitnesscounter.role.tester
 
 import android.app.Application
 import android.app.NotificationChannel
@@ -10,6 +10,7 @@ import org.acra.ReportField
 import org.acra.ReportingInteractionMode
 import org.acra.annotation.ReportsCrashes
 import timber.log.Timber
+
 /**
  * This fitness-counter-student project created by :
  * Name         : syafiq

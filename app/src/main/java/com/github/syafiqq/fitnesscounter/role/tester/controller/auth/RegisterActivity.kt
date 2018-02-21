@@ -1,4 +1,4 @@
-package com.github.syafiqq.fitnesscounter.role.student.controller.auth
+package com.github.syafiqq.fitnesscounter.role.tester.controller.auth
 
 import android.annotation.TargetApi
 import android.content.Intent
@@ -14,8 +14,8 @@ import android.widget.TextView
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.github.syafiqq.fitnesscounter.core.helpers.AuthHelper
-import com.github.syafiqq.fitnesscounter.role.student.R
-import com.github.syafiqq.fitnesscounter.role.student.model.Settings
+import com.github.syafiqq.fitnesscounter.role.tester.R
+import com.github.syafiqq.fitnesscounter.role.tester.model.Settings
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
