@@ -46,7 +46,7 @@ class LoginActivity: AppCompatActivity()
                 .build()
 
         this.edittext_password.setOnEditorActionListener(this::onEditorActionClicked)
-        this.button_sumbit.setOnClickListener(this::onSubmitButtonClicked)
+        this.button_submit.setOnClickListener(this::onSubmitButtonClicked)
         this.button_register.setOnClickListener(this::onRegisterButtonClicked)
     }
 

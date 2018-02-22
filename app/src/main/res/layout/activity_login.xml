@@ -57,7 +57,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textinputlayout_email"
                 app:layout_constraintEnd_toEndOf="@+id/textinputlayout_email"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintBottom_toTopOf="@+id/button_sumbit">
+                app:layout_constraintBottom_toTopOf="@+id/button_submit">
 
             <EditText
                     android:id="@+id/edittext_password"
@@ -74,7 +74,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
-                android:id="@+id/button_sumbit"
+                android:id="@+id/button_submit"
                 style="?android:textAppearanceSmall"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/button_register"
                 android:layout_marginBottom="8dp"
-                app:layout_constraintStart_toStartOf="@+id/button_sumbit"
+                app:layout_constraintStart_toStartOf="@+id/button_submit"
                 android:layout_marginStart="8dp"
                 />
 
@@ -117,8 +117,8 @@
                 android:layout_gravity="end"
                 app:layout_constraintVertical_chainStyle="packed"
                 android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@+id/button_sumbit"
-                app:layout_constraintEnd_toEndOf="@+id/button_sumbit"
+                app:layout_constraintTop_toBottomOf="@+id/button_submit"
+                app:layout_constraintEnd_toEndOf="@+id/button_submit"
                 />
 
     </android.support.constraint.ConstraintLayout>

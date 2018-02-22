@@ -48,7 +48,7 @@ class RegisterActivity: AppCompatActivity()
                 .build()
 
         this.edittext_password_conf.setOnEditorActionListener(this::onEditorActionClicked)
-        this.button_sumbit.setOnClickListener(this::onSubmitButtonClicked)
+        this.button_submit.setOnClickListener(this::onSubmitButtonClicked)
         this.button_login.setOnClickListener(this::onLoginButtonClicked)
 
         this.edittext_email.setText("syafiq.rezpector@gmail.cok")
