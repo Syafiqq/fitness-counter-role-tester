@@ -12,7 +12,8 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
-            tools:replace="android:icon">
+            tools:replace="android:icon"
+            tools:ignore="GoogleAppIndexingWarning">
         <activity
                 android:name=".controller.SplashScreen"
                 android:configChanges="orientation|keyboardHidden|screenSize"
@@ -31,15 +32,6 @@
         <activity
                 android:name=".controller.auth.RegisterActivity"
                 android:label="@string/title_activity_register"
-                android:parentActivityName=".controller.auth.LoginActivity"
-                android:theme="@style/AppThemeNoShadow">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.github.syafiqq.fitnesscounter.role.tester.controller.auth.LoginActivity"/>
-        </activity>
-        <activity
-                android:name=".controller.auth.PasswordResetActivity"
-                android:label="@string/title_activity_password_reset"
                 android:parentActivityName=".controller.auth.LoginActivity"
                 android:theme="@style/AppThemeNoShadow">
             <meta-data
