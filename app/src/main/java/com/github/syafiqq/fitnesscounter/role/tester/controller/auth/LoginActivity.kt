@@ -13,6 +13,7 @@ import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.github.syafiqq.fitnesscounter.core.helpers.AuthHelper
 import com.github.syafiqq.fitnesscounter.role.tester.R
+import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.Dashboard
 import com.github.syafiqq.fitnesscounter.role.tester.model.Settings
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.AuthResult
@@ -195,7 +196,7 @@ class LoginActivity: AppCompatActivity()
                 override fun onAuthorized(snapshot: DataSnapshot)
                 {
                     super.onAuthorized(snapshot)
-                    Timber.d("Login Success")
+                    this@LoginActivity.onPostLogin()
                 }
 
                 override fun onCompleted()
@@ -205,6 +206,13 @@ class LoginActivity: AppCompatActivity()
                 }
             })
         }
+    }
+
+    private fun onPostLogin()
+    {
+        val intent = Intent(this, Dashboard::class.java)
+        super.startActivity(intent)
+        super.finish()
     }
 
     private fun onLoginFailure(e: Exception?)
