@@ -28,13 +28,15 @@
         <activity
                 android:name=".controller.auth.LoginActivity"
                 android:label="@string/title_activity_login"
-                android:theme="@style/AppThemeNoShadow">
+                android:theme="@style/AppThemeNoShadow"
+                android:windowSoftInputMode="adjustResize">
         </activity>
         <activity
                 android:name=".controller.auth.RegisterActivity"
                 android:label="@string/title_activity_register"
                 android:parentActivityName=".controller.auth.LoginActivity"
-                android:theme="@style/AppThemeNoShadow">
+                android:theme="@style/AppThemeNoShadow"
+                android:windowSoftInputMode="adjustResize">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.github.syafiqq.fitnesscounter.role.tester.controller.auth.LoginActivity"/>
@@ -42,7 +44,8 @@
         <activity
                 android:name=".controller.tester.Dashboard"
                 android:label="@string/title_tester_activity_dashboard"
-                android:theme="@style/AppTheme.NoActionBar">
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="adjustResize">
         </activity>
     </application>
 
