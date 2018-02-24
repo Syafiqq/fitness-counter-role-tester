@@ -175,6 +175,17 @@ class Dashboard: AppCompatActivity(),
             else            -> Home.newInstance()
         }
 
+        if (category == null)
+        {
+            this.toolbar.setTitle(R.string.title_tester_activity_dashboard)
+        }
+        else
+        {
+            category.category?.let {
+                this.toolbar.title = it
+            }
+        }
+
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment, fragment)
         transaction.commit()
