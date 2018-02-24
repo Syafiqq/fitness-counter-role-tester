@@ -27,23 +27,26 @@ repositories {
 
 dependencies {
     //@formatter:off
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$libraries.kotlin"
-    implementation "com.android.support:appcompat-v7:$libraries.android_support"
-    implementation "com.android.support:support-v4:$libraries.android_support"
-    implementation "com.android.support:design:$libraries.android_support"
-    implementation "com.jakewharton.timber:timber:$libraries.timber"
-    implementation "io.reactivex.rxjava2:rxjava:$libraries.rxjava"
-    implementation "io.reactivex.rxjava2:rxandroid:$libraries.rxandroid"
-    implementation "com.faendir:acra:$libraries.acra"
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
     implementation "com.afollestad.material-dialogs:core:$libraries.material_dialogs"
+    implementation "com.android.support.constraint:constraint-layout:$libraries.constraint_layout"
+    implementation "com.android.support:appcompat-v7:$libraries.android_support"
+    implementation "com.android.support:design:$libraries.android_support"
+    implementation "com.android.support:recyclerview-v7:$libraries.android_support"
+    implementation "com.android.support:support-annotations:$libraries.android_support"
+    implementation "com.android.support:support-v4:$libraries.android_support"
+    implementation "com.faendir:acra:$libraries.acra"
     implementation "com.google.firebase:firebase-auth:$libraries.firebase"
     implementation "com.google.firebase:firebase-database:$libraries.firebase"
-    implementation "com.android.support.constraint:constraint-layout:$libraries.constraint_layout"
+    implementation "com.jakewharton.timber:timber:$libraries.timber"
+    implementation "io.reactivex.rxjava2:rxandroid:$libraries.rxandroid"
+    implementation "io.reactivex.rxjava2:rxjava:$libraries.rxjava"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$libraries.kotlin"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project (':core')
+    implementation ("com.mikepenz:materialdrawer:$libraries.material_drawer") { transitive = true }
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     //@formatter:on
 }
 
