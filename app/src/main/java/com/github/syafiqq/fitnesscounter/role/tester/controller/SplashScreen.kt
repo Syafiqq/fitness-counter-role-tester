@@ -44,7 +44,6 @@ class SplashScreen: AppCompatActivity()
         Timber.d("onPostResume")
 
         super.onPostResume()
-        FirebaseAuth.getInstance().signOut()
 
         this.dispatchOperation(FirebaseAuth.getInstance().currentUser)
     }
@@ -55,10 +54,19 @@ class SplashScreen: AppCompatActivity()
 
         Handler(mainLooper).postDelayed({
             if (user != null)
-                Timber.d("To Home")
+                this.forwardToDashboard()
             else
                 this.redirectToLoginPage()
         }, 1000)
+    }
+
+    private fun forwardToDashboard()
+    {
+        Timber.d("forwardToDashboard")
+
+        val intent = Intent(this, LoginActivity::class.java)
+        super.startActivity(intent)
+        super.finish()
     }
 
     private fun redirectToLoginPage()
