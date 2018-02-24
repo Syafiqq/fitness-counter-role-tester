@@ -6,6 +6,7 @@ import com.github.syafiqq.fitnesscounter.core.custom.com.google.firebase.databas
 import com.github.syafiqq.fitnesscounter.core.custom.com.google.firebase.database.CValueEventListener
 import com.github.syafiqq.fitnesscounter.core.db.external.DataMapper
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
+import com.github.syafiqq.fitnesscounter.core.db.external.poko.EventCategory
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.model.Settings
 import com.google.firebase.auth.FirebaseAuth
@@ -16,6 +17,7 @@ import com.mikepenz.materialdrawer.AccountHeader
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import kotlinx.android.synthetic.main.tester_activity_dashboard.*
 import timber.log.Timber
@@ -29,6 +31,10 @@ class Dashboard: AppCompatActivity()
     private var eventCounter = -1
     private var events: MutableMap<Int, Event> = hashMapOf()
     private var activeEvent: Event? = null
+
+    private var categoryCounter = -1
+    private var categories: MutableMap<Int, EventCategory> = hashMapOf()
+    private var activeCategory: Event? = null
 
     private var user: FirebaseUser? = null
 
@@ -110,8 +116,29 @@ class Dashboard: AppCompatActivity()
 
         if (this.activeEvent != event)
         {
-            Timber.d("Create Event Branch")
+            this.drawer.deselect()
+            this.drawer.removeAllItems()
+            this.categories.clear()
+            this.categoryCounter = -1
+            arrayOf(
+                    "Medical Check",
+                    "Ulinois",
+                    "Vertical Jump",
+                    "Throwing Ball",
+                    "Push Up",
+                    "Sit Up",
+                    "Run 1600 m").forEach { addNewCategory(EventCategory(it)) }
             this.activeEvent = event
+        }
+    }
+
+    private fun addNewCategory(category: EventCategory?)
+    {
+        Timber.d("addNewCategory [$category]")
+
+        category?.let {
+            this.categories[++categoryCounter] = it
+            this.drawer.addItem(PrimaryDrawerItem().withName(it.category).withIdentifier(categoryCounter.toLong()))
         }
     }
 
