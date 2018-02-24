@@ -9,6 +9,7 @@ import com.github.syafiqq.fitnesscounter.core.db.external.DataMapper
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.EventCategory
 import com.github.syafiqq.fitnesscounter.role.tester.R
+import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Home
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.MedicalCheckUp
 import com.github.syafiqq.fitnesscounter.role.tester.model.Settings
 import com.google.firebase.auth.FirebaseAuth
@@ -121,6 +122,7 @@ class Dashboard: AppCompatActivity(), MedicalCheckUp.OnInteractionListener
             this.drawer.deselect()
             this.drawer.removeAllItems()
             this.categories.clear()
+            this.activateCategory(null)
             this.categoryCounter = -1
             arrayOf(
                     "Medical Check",
@@ -151,7 +153,7 @@ class Dashboard: AppCompatActivity(), MedicalCheckUp.OnInteractionListener
         val fragment: Fragment = when (category?.category)
         {
             "Medical Check" -> MedicalCheckUp.newInstance()
-            else            -> MedicalCheckUp.newInstance()
+            else            -> Home.newInstance()
         }
 
         val transaction = supportFragmentManager.beginTransaction()

@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         tools:showIn="@layout/tester_activity_dashboard"
         android:background="@color/md_grey_850"
-        tools:context="com.github.syafiqq.fitnesscounter.role.tester.controller.tester.DashboardFragment">
+        tools:context="com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Home">
 
     <TextView
             android:text="@string/welcoming_text"
