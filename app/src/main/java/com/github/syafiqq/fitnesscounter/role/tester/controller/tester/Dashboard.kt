@@ -26,6 +26,10 @@ class Dashboard: AppCompatActivity()
     private lateinit var drawer: Drawer
     private lateinit var drawerHeader: AccountHeader
 
+    private var eventCounter = -1
+    private var events: MutableMap<Int, Event> = hashMapOf()
+    private var activeEvent: Event? = null
+
     private var user: FirebaseUser? = null
 
     override fun onCreate(state: Bundle?)
@@ -88,8 +92,26 @@ class Dashboard: AppCompatActivity()
     private fun addNewEvent(event: Event?)
     {
         Timber.d("addNewEvent [$event]")
-        event?.run {
-            this@Dashboard.drawerHeader.addProfiles(ProfileDrawerItem().withName(this.event))
+
+        event?.let {
+            this.events[++eventCounter] = it
+            this.drawerHeader.addProfile(ProfileDrawerItem().withName(it.event), eventCounter)
+
+            if (this.activeEvent == null)
+            {
+                this.activateEvent(it)
+            }
+        }
+    }
+
+    private fun activateEvent(event: Event)
+    {
+        Timber.d("activateEvent [$event]")
+
+        if (this.activeEvent!! != event)
+        {
+            //Generate Event Branch
+            this.activeEvent = event
         }
     }
 
@@ -97,11 +119,11 @@ class Dashboard: AppCompatActivity()
     {
         Timber.d("onSaveInstanceState [$state]")
 
-        var state = state ?: Bundle()
+        var mState = state ?: Bundle()
 
-        state = drawerHeader.saveInstanceState(state)
-        state = drawer.saveInstanceState(state)
-        super.onSaveInstanceState(state)
+        mState = drawerHeader.saveInstanceState(mState)
+        mState = drawer.saveInstanceState(mState)
+        super.onSaveInstanceState(mState)
     }
 
     override fun onBackPressed()
