@@ -5,9 +5,11 @@ import android.support.v7.app.AppCompatActivity
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.mikepenz.materialdrawer.AccountHeader
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import kotlinx.android.synthetic.main.tester_activity_dashboard.*
 import timber.log.Timber
 
@@ -15,6 +17,8 @@ import timber.log.Timber
 class Dashboard: AppCompatActivity()
 {
     private lateinit var drawer: Drawer
+    private lateinit var drawerHeader: AccountHeader
+
     private var user: FirebaseUser? = null
 
     override fun onCreate(state: Bundle?)
@@ -25,7 +29,7 @@ class Dashboard: AppCompatActivity()
         setContentView(R.layout.tester_activity_dashboard)
         setSupportActionBar(toolbar)
 
-        val drawerHeader = AccountHeaderBuilder()
+        this.drawerHeader = AccountHeaderBuilder()
                 .withSavedInstance(state)
                 .withActivity(this)
                 .withProfileImagesVisible(false)
@@ -43,7 +47,35 @@ class Dashboard: AppCompatActivity()
                 .withOnDrawerItemClickListener({ view, index, menu -> Timber.d("Catch Item [$view, $index, $menu"); false })
                 .build()
 
+
+        this.drawerHeader.addProfile(ProfileDrawerItem().withName("Mike Penz"), 0)
+
         this.user = FirebaseAuth.getInstance().currentUser
         Timber.d("Current user [${user?.uid}]")
+        //Timber.d("Current Selected [${drawerHeader.activeProfile?.name}]")
     }
+
+    override fun onSaveInstanceState(state: Bundle?)
+    {
+        var state = state
+        if (state != null)
+        {
+            state = drawerHeader.saveInstanceState(state)
+            state = drawer.saveInstanceState(state)
+        }
+        super.onSaveInstanceState(state)
+    }
+
+    override fun onBackPressed()
+    {
+        if (drawer.isDrawerOpen)
+        {
+            drawer.closeDrawer()
+        }
+        else
+        {
+            super.onBackPressed()
+        }
+    }
+
 }
