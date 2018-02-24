@@ -2,6 +2,7 @@ package com.github.syafiqq.fitnesscounter.role.tester.controller.tester
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import com.github.syafiqq.fitnesscounter.core.custom.com.google.firebase.database.CChildEventListener
 import com.github.syafiqq.fitnesscounter.core.custom.com.google.firebase.database.CValueEventListener
 import com.github.syafiqq.fitnesscounter.core.db.external.DataMapper
@@ -52,7 +53,7 @@ class Dashboard: AppCompatActivity()
                 .withProfileImagesVisible(false)
                 .withCompactStyle(true)
                 .withHeaderBackground(R.drawable.blank_primary_dark)
-                .withOnAccountHeaderListener({ _, profile, _ -> this.activateEvent(this.events[profile.identifier.toInt()]!!); false })
+                .withOnAccountHeaderListener({ _, event, _ -> this.activateEvent(this.events[event.identifier.toInt()]!!); false })
                 .build()
 
         this.drawer = DrawerBuilder()
@@ -62,7 +63,7 @@ class Dashboard: AppCompatActivity()
                 .withAccountHeader(drawerHeader)
                 .withTranslucentStatusBar(false)
                 .withActionBarDrawerToggle(true)
-                .withOnDrawerItemClickListener({ view, index, menu -> Timber.d("Catch Item [$view, $index, $menu"); false })
+                .withOnDrawerItemClickListener({ _, _, category -> this.activateCategory(this.categories[category.identifier.toInt()]!!); false })
                 .build()
 
         this.user = FirebaseAuth.getInstance().currentUser
@@ -140,6 +141,13 @@ class Dashboard: AppCompatActivity()
             this.categories[++categoryCounter] = it
             this.drawer.addItem(PrimaryDrawerItem().withName(it.category).withIdentifier(categoryCounter.toLong()))
         }
+    }
+
+    private fun activateCategory(category: EventCategory)
+    {
+        Timber.d("activateCategory [$category]")
+
+        Toast.makeText(this, category.category, Toast.LENGTH_SHORT).show()
     }
 
     override fun onSaveInstanceState(state: Bundle?)
