@@ -12,6 +12,7 @@ import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Home
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.MedicalCheckUp
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Ulinois
+import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.VerticalJump
 import com.github.syafiqq.fitnesscounter.role.tester.model.Settings
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -29,7 +30,8 @@ import timber.log.Timber
 
 class Dashboard: AppCompatActivity(),
                  MedicalCheckUp.OnInteractionListener,
-                 Ulinois.OnInteractionListener
+                 Ulinois.OnInteractionListener,
+                 VerticalJump.OnInteractionListener
 {
     private lateinit var drawer: Drawer
     private lateinit var drawerHeader: AccountHeader
@@ -157,7 +159,7 @@ class Dashboard: AppCompatActivity(),
         {
             "Medical Check" -> MedicalCheckUp.newInstance()
             "Ulinois"       -> Ulinois.newInstance()
-            "Vertical Jump" -> MedicalCheckUp.newInstance()
+            "Vertical Jump" -> VerticalJump.newInstance()
             "Throwing Ball" -> MedicalCheckUp.newInstance()
             "Push Up"       -> MedicalCheckUp.newInstance()
             "Sit Up"        -> MedicalCheckUp.newInstance()
