@@ -6,12 +6,13 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import timber.log.Timber
 
 class MedicalCheckUp: Fragment()
 {
-    private lateinit var listener: OnMedicalCheckupInteractionListener
+    private lateinit var listener: OnInteractionListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, state: Bundle?): View?
     {
@@ -31,21 +32,24 @@ class MedicalCheckUp: Fragment()
         Timber.d("onAttach [$context]")
 
         super.onAttach(context)
-        if (context is OnMedicalCheckupInteractionListener)
+        if (context is OnInteractionListener)
         {
             listener = context
         }
         else
         {
-            throw RuntimeException(context.toString() + " must implement OnMedicalCheckupInteractionListener")
+            throw RuntimeException(context.toString() + " must implement OnInteractionListener")
         }
     }
 
-    interface OnMedicalCheckupInteractionListener
+    interface OnInteractionListener
+    {
+        fun getEvent(): Event
+    }
 
     companion object
     {
-        fun newInstance(): MedicalCheckUp
+        fun newInstance(): Fragment
         {
             return MedicalCheckUp()
         }
