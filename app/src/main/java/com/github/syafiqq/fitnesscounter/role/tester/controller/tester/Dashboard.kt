@@ -95,7 +95,7 @@ class Dashboard: AppCompatActivity()
 
         event?.let {
             this.events[++eventCounter] = it
-            this.drawerHeader.addProfile(ProfileDrawerItem().withName(it.event), eventCounter)
+            this.drawerHeader.addProfile(ProfileDrawerItem().withName(it.event).withIdentifier(eventCounter.toLong()), eventCounter)
 
             if (this.activeEvent == null)
             {
@@ -108,7 +108,7 @@ class Dashboard: AppCompatActivity()
     {
         Timber.d("activateEvent [$event]")
 
-        if (this.activeEvent!! != event)
+        if (this.activeEvent != event)
         {
             //Generate Event Branch
             this.activeEvent = event
