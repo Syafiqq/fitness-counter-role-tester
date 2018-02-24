@@ -1,0 +1,14 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:background="@color/md_white_1000"
+             android:layout_height="match_parent"
+             android:layout_width="match_parent"
+             tools:context="com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Ulinois"
+             tools:showIn="@layout/tester_activity_dashboard">
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    </android.support.constraint.ConstraintLayout>
+</FrameLayout>

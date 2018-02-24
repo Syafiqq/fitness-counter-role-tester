@@ -11,6 +11,7 @@ import com.github.syafiqq.fitnesscounter.core.db.external.poko.EventCategory
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Home
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.MedicalCheckUp
+import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Ulinois
 import com.github.syafiqq.fitnesscounter.role.tester.model.Settings
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -26,7 +27,9 @@ import kotlinx.android.synthetic.main.tester_activity_dashboard.*
 import timber.log.Timber
 
 
-class Dashboard: AppCompatActivity(), MedicalCheckUp.OnInteractionListener
+class Dashboard: AppCompatActivity(),
+                 MedicalCheckUp.OnInteractionListener,
+                 Ulinois.OnInteractionListener
 {
     private lateinit var drawer: Drawer
     private lateinit var drawerHeader: AccountHeader
@@ -153,6 +156,12 @@ class Dashboard: AppCompatActivity(), MedicalCheckUp.OnInteractionListener
         val fragment: Fragment = when (category?.category)
         {
             "Medical Check" -> MedicalCheckUp.newInstance()
+            "Ulinois"       -> Ulinois.newInstance()
+            "Vertical Jump" -> MedicalCheckUp.newInstance()
+            "Throwing Ball" -> MedicalCheckUp.newInstance()
+            "Push Up"       -> MedicalCheckUp.newInstance()
+            "Sit Up"        -> MedicalCheckUp.newInstance()
+            "Run 1600 m"    -> MedicalCheckUp.newInstance()
             else            -> Home.newInstance()
         }
 
