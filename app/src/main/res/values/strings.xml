@@ -3,6 +3,7 @@
     <string name="action_password_reset">Kirim Permintaan</string>gu
     <string name="action_password_reset_short">Kirim</string>
     <string name="action_recover_short">Lupa Password ?</string>
+    <string name="action_settings">Settings</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Masuk</string>
     <string name="action_sign_up_short">Daftar</string>
@@ -46,5 +47,6 @@
     <string name="title_activity_password_reset">Password Reset</string>
     <string name="title_activity_register">Daftar</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="title_tester_activity_dashboard">Dashboard</string>
     <string name="yes">Ya</string>
 </resources>
