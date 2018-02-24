@@ -1,14 +1,15 @@
 package com.github.syafiqq.fitnesscounter.role.tester.controller.tester
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.widget.Toast
 import com.github.syafiqq.fitnesscounter.core.custom.com.google.firebase.database.CChildEventListener
 import com.github.syafiqq.fitnesscounter.core.custom.com.google.firebase.database.CValueEventListener
 import com.github.syafiqq.fitnesscounter.core.db.external.DataMapper
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.EventCategory
 import com.github.syafiqq.fitnesscounter.role.tester.R
+import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.MedicalCheckUp
 import com.github.syafiqq.fitnesscounter.role.tester.model.Settings
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -24,7 +25,7 @@ import kotlinx.android.synthetic.main.tester_activity_dashboard.*
 import timber.log.Timber
 
 
-class Dashboard: AppCompatActivity()
+class Dashboard: AppCompatActivity(), MedicalCheckUp.OnInteractionListener
 {
     private lateinit var drawer: Drawer
     private lateinit var drawerHeader: AccountHeader
@@ -35,7 +36,7 @@ class Dashboard: AppCompatActivity()
 
     private var categoryCounter = -1
     private var categories: MutableMap<Int, EventCategory> = hashMapOf()
-    private var activeCategory: Event? = null
+    private var activeCategory: EventCategory? = null
 
     private var user: FirebaseUser? = null
 
@@ -143,11 +144,33 @@ class Dashboard: AppCompatActivity()
         }
     }
 
-    private fun activateCategory(category: EventCategory)
+    private fun activateCategory(category: EventCategory?)
     {
         Timber.d("activateCategory [$category]")
 
-        Toast.makeText(this, category.category, Toast.LENGTH_SHORT).show()
+        val fragment: Fragment = when (category?.category)
+        {
+            "Medical Check" -> MedicalCheckUp.newInstance()
+            else            -> MedicalCheckUp.newInstance()
+        }
+
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment, fragment)
+        transaction.commit()
+
+        this.activeCategory = category
+    }
+
+    override fun getEvent(): Event
+    {
+        if (this.activeEvent == null)
+        {
+            throw RuntimeException("Error")
+        }
+        else
+        {
+            return this.activeEvent!!
+        }
     }
 
     override fun onSaveInstanceState(state: Bundle?)
