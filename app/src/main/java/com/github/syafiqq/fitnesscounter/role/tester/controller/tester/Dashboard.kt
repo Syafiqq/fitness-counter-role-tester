@@ -46,7 +46,7 @@ class Dashboard: AppCompatActivity()
                 .withProfileImagesVisible(false)
                 .withCompactStyle(true)
                 .withHeaderBackground(R.drawable.blank_primary_dark)
-                .withOnAccountHeaderListener({ _, profile, isCurrent -> Timber.d("Catch Profile [$profile, $isCurrent]"); false })
+                .withOnAccountHeaderListener({ _, profile, _ -> this.activateEvent(this.events[profile.identifier.toInt()]!!); false })
                 .build()
 
         this.drawer = DrawerBuilder()
@@ -110,7 +110,7 @@ class Dashboard: AppCompatActivity()
 
         if (this.activeEvent != event)
         {
-            //Generate Event Branch
+            Timber.d("Create Event Branch")
             this.activeEvent = event
         }
     }
