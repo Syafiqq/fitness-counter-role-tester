@@ -11,6 +11,7 @@ import com.github.syafiqq.fitnesscounter.core.db.external.poko.EventCategory
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Home
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.MedicalCheckUp
+import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.PushUp
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.ThrowingBall
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Ulinois
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.VerticalJump
@@ -33,7 +34,8 @@ class Dashboard: AppCompatActivity(),
                  MedicalCheckUp.OnInteractionListener,
                  Ulinois.OnInteractionListener,
                  VerticalJump.OnInteractionListener,
-                 ThrowingBall.OnInteractionListener
+                 ThrowingBall.OnInteractionListener,
+                 PushUp.OnInteractionListener
 {
     private lateinit var drawer: Drawer
     private lateinit var drawerHeader: AccountHeader
@@ -163,7 +165,7 @@ class Dashboard: AppCompatActivity(),
             "Ulinois"       -> Ulinois.newInstance()
             "Vertical Jump" -> VerticalJump.newInstance()
             "Throwing Ball" -> ThrowingBall.newInstance()
-            "Push Up"       -> MedicalCheckUp.newInstance()
+            "Push Up"       -> PushUp.newInstance()
             "Sit Up"        -> MedicalCheckUp.newInstance()
             "Run 1600 m"    -> MedicalCheckUp.newInstance()
             else            -> Home.newInstance()
