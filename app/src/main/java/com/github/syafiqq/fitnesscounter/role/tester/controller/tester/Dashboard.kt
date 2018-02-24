@@ -52,18 +52,17 @@ class Dashboard: AppCompatActivity()
         this.drawerHeader.addProfile(ProfileDrawerItem().withName("Mike Penz"), 0)
 
         this.user = FirebaseAuth.getInstance().currentUser
+
         Timber.d("Current user [${user?.uid}]")
-        //Timber.d("Current Selected [${drawerHeader.activeProfile?.name}]")
+        Timber.d("Current Selected [${drawerHeader.activeProfile?.name}]")
     }
 
     override fun onSaveInstanceState(state: Bundle?)
     {
-        var state = state
-        if (state != null)
-        {
-            state = drawerHeader.saveInstanceState(state)
-            state = drawer.saveInstanceState(state)
-        }
+        var state = state ?: Bundle()
+
+        state = drawerHeader.saveInstanceState(state)
+        state = drawer.saveInstanceState(state)
         super.onSaveInstanceState(state)
     }
 
@@ -78,5 +77,7 @@ class Dashboard: AppCompatActivity()
             super.onBackPressed()
         }
     }
+
+    companion object
 
 }
