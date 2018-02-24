@@ -12,6 +12,7 @@ import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Home
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.MedicalCheckUp
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.PushUp
+import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.SitUp
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.ThrowingBall
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Ulinois
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.VerticalJump
@@ -35,7 +36,8 @@ class Dashboard: AppCompatActivity(),
                  Ulinois.OnInteractionListener,
                  VerticalJump.OnInteractionListener,
                  ThrowingBall.OnInteractionListener,
-                 PushUp.OnInteractionListener
+                 PushUp.OnInteractionListener,
+                 SitUp.OnInteractionListener
 {
     private lateinit var drawer: Drawer
     private lateinit var drawerHeader: AccountHeader
@@ -166,7 +168,7 @@ class Dashboard: AppCompatActivity(),
             "Vertical Jump" -> VerticalJump.newInstance()
             "Throwing Ball" -> ThrowingBall.newInstance()
             "Push Up"       -> PushUp.newInstance()
-            "Sit Up"        -> MedicalCheckUp.newInstance()
+            "Sit Up"        -> SitUp.newInstance()
             "Run 1600 m"    -> MedicalCheckUp.newInstance()
             else            -> Home.newInstance()
         }
