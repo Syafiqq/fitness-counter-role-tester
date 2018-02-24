@@ -34,6 +34,7 @@ class Dashboard: AppCompatActivity()
                 .withActivity(this)
                 .withProfileImagesVisible(false)
                 .withCompactStyle(true)
+                .withHeaderBackground(R.drawable.blank_primary_dark)
                 .withOnAccountHeaderListener({ _, profile, isCurrent -> Timber.d("Catch Profile [$profile, $isCurrent]"); false })
                 .build()
 
