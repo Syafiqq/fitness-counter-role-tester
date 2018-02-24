@@ -49,4 +49,5 @@
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="title_tester_activity_dashboard">Dashboard</string>
     <string name="yes">Ya</string>
+    <string name="welcoming_text">SELAMAT DATANG</string>
 </resources>
