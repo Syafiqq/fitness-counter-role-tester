@@ -6,8 +6,9 @@ buildscript {
     def configuration = rootProject.ext.configuration
 
     repositories {
-        google()
+        mavenCentral()
         jcenter()
+        google()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$configuration.android_build_tools"
@@ -21,8 +22,9 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
+        mavenCentral()
         jcenter()
+        google()
     }
 }
 
