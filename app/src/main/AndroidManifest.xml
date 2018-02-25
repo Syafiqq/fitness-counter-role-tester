@@ -47,6 +47,12 @@
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="adjustResize">
         </activity>
+
+        <service
+                android:name=".controller.service.StopwatchService"
+                android:enabled="false"
+                android:exported="false">
+        </service>
     </application>
 
 </manifest>
