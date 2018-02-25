@@ -12,11 +12,12 @@ ext {
             android_support  : '27.0.2',
             constraint_layout: '1.1.0-beta5',
             firebase         : '11.8.0',
+            joda             : '2.9.9.2',
             kotlin           : '1.2.21',
             material_dialogs : '0.9.6.0',
             material_drawer  : '6.0.6@aar',
             rxandroid        : '2.0.1',
             rxjava           : '2.1.6',
-            timber           : '4.6.0',
+            timber           : '4.6.1'
     ]
 }

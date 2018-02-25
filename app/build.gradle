@@ -42,10 +42,11 @@ dependencies {
     implementation "com.jakewharton.timber:timber:$libraries.timber"
     implementation "io.reactivex.rxjava2:rxandroid:$libraries.rxandroid"
     implementation "io.reactivex.rxjava2:rxjava:$libraries.rxjava"
+    implementation "net.danlew:android.joda:$libraries.joda"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$libraries.kotlin"
+    implementation ("com.mikepenz:materialdrawer:$libraries.material_drawer") { transitive = true }
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project (':core')
-    implementation ("com.mikepenz:materialdrawer:$libraries.material_drawer") { transitive = true }
     testImplementation 'junit:junit:4.12'
     //@formatter:on
 }
