@@ -47,6 +47,7 @@ dependencies {
     implementation ("com.mikepenz:materialdrawer:$libraries.material_drawer") { transitive = true }
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project (':core')
+    implementation project (':stopwatch-core')
     testImplementation 'junit:junit:4.12'
     //@formatter:on
 }

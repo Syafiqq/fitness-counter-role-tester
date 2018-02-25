@@ -1,2 +1,3 @@
-include ':app', ':core'
+include ':app', ':core', ':stopwatch-core'
 project(':core').projectDir = new File(settingsDir, '../fitness-counter/core')
+project(':stopwatch-core').projectDir = new File(settingsDir, '../../bostwick/android-stopwatch/stopwatch-core')
