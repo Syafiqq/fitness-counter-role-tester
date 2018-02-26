@@ -16,6 +16,7 @@ import org.joda.time.DateTime
 import org.joda.time.Duration
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicReferenceArray
+import kotlin.properties.Delegates
 
 class StopwatchService: Service()
 {
@@ -130,14 +131,13 @@ class StopwatchService: Service()
             get() = this@StopwatchService
     }
 
-    class Observable(var service: StopwatchService? = null): java.util.Observable()
+    class Observable: java.util.Observable()
     {
-
-        fun set(service: StopwatchService?)
-        {
-            this.service = service
-            setChanged()
-            notifyObservers(this.service)
-        }
+        var service: StopwatchService? by Delegates.observable(null as StopwatchService?, { _, _, service ->
+            run {
+                setChanged()
+                this.notifyObservers(service)
+            }
+        })
     }
 }
