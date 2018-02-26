@@ -8,7 +8,9 @@ import com.github.syafiqq.fitnesscounter.core.custom.com.google.firebase.databas
 import com.github.syafiqq.fitnesscounter.core.db.external.DataMapper
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.EventCategory
+import com.github.syafiqq.fitnesscounter.role.tester.App
 import com.github.syafiqq.fitnesscounter.role.tester.R
+import com.github.syafiqq.fitnesscounter.role.tester.controller.service.StopwatchService
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Home
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.MedicalCheckUp
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.PushUp
@@ -30,6 +32,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import kotlinx.android.synthetic.main.tester_activity_dashboard.*
 import timber.log.Timber
+import java.util.Observer
 
 
 class Dashboard: AppCompatActivity(),
@@ -53,6 +56,15 @@ class Dashboard: AppCompatActivity(),
     private var activeCategory: EventCategory? = null
 
     private var user: FirebaseUser? = null
+
+    private var stopwatchService: StopwatchService? = null
+    private val stopwatchO = Observer { o, arg ->
+        if (o is StopwatchService.Observable)
+        {
+            Timber.d("Stopwatch Initialized")
+            stopwatchService = arg as StopwatchService
+        }
+    }
 
     override fun onCreate(state: Bundle?)
     {
@@ -87,6 +99,11 @@ class Dashboard: AppCompatActivity(),
         Timber.d("Current Selected [${drawerHeader.activeProfile?.name}]")
 
         this.listRegisteredEvent()
+        with(App.instance.stopwatchService)
+        {
+            this.addObserver(stopwatchO)
+            stopwatchService = this.service
+        }
     }
 
     private fun listRegisteredEvent()
@@ -228,6 +245,14 @@ class Dashboard: AppCompatActivity(),
         {
             super.onBackPressed()
         }
+    }
+
+    override fun onDestroy()
+    {
+        Timber.d("onDestroy")
+
+        App.instance.stopwatchService.deleteObserver(stopwatchO)
+        super.onDestroy()
     }
 
     companion object
