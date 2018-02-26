@@ -129,4 +129,15 @@ class StopwatchService: Service()
         internal val service: StopwatchService
             get() = this@StopwatchService
     }
+
+    class Observable(var service: StopwatchService? = null): java.util.Observable()
+    {
+
+        fun set(service: StopwatchService?)
+        {
+            this.service = service
+            setChanged()
+            notifyObservers(this.service)
+        }
+    }
 }
