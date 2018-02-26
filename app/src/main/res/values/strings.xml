@@ -25,6 +25,7 @@
     <string name="label_auth_network_issue">Terdapat kesalahan koneksi</string>
     <string name="label_auth_weak_password">Password terlalu mudah untuk dibobol</string>
     <string name="label_login_failed">Login Gagal</string>
+    <string name="label_participant">No Peserta</string>
     <string name="label_password_reset_failed">Permintaan Gagal Dilakukan</string>
     <string name="label_password_reset_success">Permintaan dikirm, cek email anda !</string>
     <string name="label_please_wait">Tunggu Sebentar</string>
@@ -35,6 +36,13 @@
     <string name="label_try_to_request_password_reset">Mengirim Permintaan</string>
     <string name="label_verification_failed">Verifikasi Gagal</string>
     <string name="label_verification_success">Verifikasi sukses dikirim ke alamat email</string>
+    <string name="medical_check_item_bmi">BMI</string>
+    <string name="medical_check_item_bmi_explanation">BMI = Berat Badan : (Tinggi Badan Berdiri)²\nNormal antara 18 – 24,9</string>
+    <string name="medical_check_item_ratio">Rasio (TBB-TBD)/TBD</string>
+    <string name="medical_check_item_tbb">Tinggi Badan Berdiri (TBB)</string>
+    <string name="medical_check_item_weight">Berat Badan</string>
+    <string name="medical_check_itm_tbd">Tinggi Badan Duduk (TBD)</string>
+    <string name="medical_check_menu_antropometri">Antropometri</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_name">Name</string>
@@ -48,6 +56,10 @@
     <string name="title_activity_register">Daftar</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="title_tester_activity_dashboard">Dashboard</string>
-    <string name="yes">Ya</string>
+    <string name="unit_bmi">kg/m²</string>
+    <string name="unit_cm">cm</string>
+    <string name="unit_kg">kg</string>
+    <string name="unit_ratio">normal antara\n(0,95 – 0,99)</string>
     <string name="welcoming_text">SELAMAT DATANG</string>
+    <string name="yes">Ya</string>
 </resources>

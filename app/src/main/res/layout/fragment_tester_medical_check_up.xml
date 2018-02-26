@@ -1,14 +1,251 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
              xmlns:tools="http://schemas.android.com/tools"
              android:background="@color/md_white_1000"
              android:layout_height="match_parent"
              android:layout_width="match_parent"
-             tools:context="com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.MedicalCheckUp"
-             tools:showIn="@layout/tester_activity_dashboard">
+             tools:context="com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.MedicalCheckUp">
 
-    <android.support.constraint.ConstraintLayout
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            tools:ignore="UselessParent">
 
-    </android.support.constraint.ConstraintLayout>
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp"
+                    android:id="@+id/edittext_participant">
+
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/label_participant"
+                        android:id="@+id/h_edittext_participant"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                    android:text="@string/medical_check_menu_antropometri"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_0_1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    app:layout_constraintStart_toStartOf="@+id/edittext_participant"
+                    app:layout_constraintEnd_toEndOf="@+id/edittext_participant"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    android:layout_marginTop="32dp"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_participant"/>
+
+            <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edittext_tbb"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/_0_1"
+                    app:layout_constraintStart_toStartOf="@+id/_0_1"
+                    app:layout_constraintEnd_toEndOf="@+id/barrier3"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/medical_check_item_tbb"
+                        android:id="@+id/h_edittext_tbb"
+                        android:inputType="numberDecimal"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                    android:text="@string/unit_cm"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/_0_2"
+                    app:layout_constraintEnd_toEndOf="@+id/_0_1"
+                    app:layout_constraintTop_toTopOf="@+id/edittext_tbb"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/edittext_tbb"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintVertical_bias="1.0"
+                    android:textSize="12sp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@+id/barrier3"
+                    app:layout_constraintHorizontal_bias="0.0"/>
+
+            <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edittext_tbd"
+                    app:layout_constraintStart_toStartOf="@+id/_0_1"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_tbb"
+                    app:layout_constraintEnd_toEndOf="@+id/barrier3"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/medical_check_itm_tbd"
+                        android:inputType="numberDecimal"
+                        android:id="@+id/h_edittext_tbd"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                    android:text="@string/unit_cm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_0_3"
+                    app:layout_constraintEnd_toEndOf="@+id/_0_1"
+                    app:layout_constraintTop_toTopOf="@+id/edittext_tbd"
+                    app:layout_constraintBottom_toBottomOf="@+id/edittext_tbd"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintVertical_bias="1.0"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@+id/edittext_tbd"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    android:layout_marginLeft="8dp"/>
+
+            <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edittext_ratio"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_tbd"
+                    app:layout_constraintStart_toStartOf="@+id/_0_1"
+                    app:layout_constraintEnd_toEndOf="@+id/barrier3"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/medical_check_item_ratio"
+                        android:enabled="false"
+                        android:inputType="numberDecimal"
+                        android:id="@+id/h_edittext_ratio"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                    android:text="@string/unit_ratio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_0_4"
+                    app:layout_constraintEnd_toEndOf="@+id/_0_1"
+                    app:layout_constraintTop_toTopOf="@+id/edittext_ratio"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/edittext_ratio"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintVertical_bias="1.0"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@+id/edittext_ratio"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    android:layout_marginLeft="8dp"/>
+
+            <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edittext_weight"
+                    app:layout_constraintStart_toStartOf="@+id/_0_1"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_ratio"
+                    app:layout_constraintEnd_toEndOf="@+id/barrier3"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/medical_check_item_weight"
+                        android:inputType="numberDecimal"
+                        android:id="@+id/h_edittext_weight"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                    android:text="@string/unit_kg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_0_7"
+                    app:layout_constraintEnd_toEndOf="@+id/_0_1"
+                    app:layout_constraintTop_toTopOf="@+id/edittext_weight"
+                    app:layout_constraintBottom_toBottomOf="@+id/edittext_weight"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintVertical_bias="1.0"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@+id/edittext_tbd"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    android:layout_marginLeft="8dp"/>
+
+            <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edittext_bmi"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_weight"
+                    app:layout_constraintStart_toStartOf="@+id/_0_1"
+                    app:layout_constraintEnd_toEndOf="@+id/barrier3"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/medical_check_item_bmi"
+                        android:enabled="false"
+                        android:inputType="numberDecimal"
+                        android:id="@+id/h_edittext_bmi"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                    android:text="@string/unit_bmi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_0_5"
+                    app:layout_constraintEnd_toEndOf="@+id/_0_1"
+                    app:layout_constraintTop_toTopOf="@+id/edittext_bmi"
+                    app:layout_constraintBottom_toBottomOf="@+id/edittext_bmi"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintVertical_bias="1.0"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@+id/edittext_tbd"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    android:layout_marginLeft="8dp"/>
+
+            <android.support.constraint.Barrier
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/barrier3"
+                    app:barrierDirection="left"
+                    app:constraint_referenced_ids="_0_2,_0_4,_0_3,_0_5"
+                    tools:layout_editor_absoluteX="384dp"
+                    tools:ignore="MissingConstraints"/>
+
+            <TextView
+                    android:text="@string/medical_check_item_bmi_explanation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_0_8"
+                    app:layout_constraintStart_toStartOf="@+id/_0_1"
+                    app:layout_constraintEnd_toEndOf="@+id/barrier3"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_bmi"
+                    android:textSize="12sp"
+                    android:layout_marginRight="8dp"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
 </FrameLayout>
