@@ -62,4 +62,10 @@
     <string name="unit_ratio">normal antara\n(0,95 – 0,99)</string>
     <string name="welcoming_text">SELAMAT DATANG</string>
     <string name="yes">Ya</string>
+    <string name="medical_check_menu_postur_aa">Postur dan Anggota Gerak</string>
+    <string name="medical_check_item_postur">Postur</string>
+    <string name="medical_check_item_postur_normal">Normal</string>
+    <string name="medical_check_item_postur_skoliosis">Skoliosis</string>
+    <string name="medical_check_item_postur_kifosis">Kifosis</string>
+    <string name="medical_check_item_postur_lordosis">Lordosis</string>
 </resources>

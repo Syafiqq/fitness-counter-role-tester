@@ -39,7 +39,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/_0_1"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     app:layout_constraintStart_toStartOf="@+id/edittext_participant"
                     app:layout_constraintEnd_toEndOf="@+id/edittext_participant"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -228,7 +228,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/barrier3"
                     app:barrierDirection="left"
-                    app:constraint_referenced_ids="_0_2,_0_4,_0_3,_0_5"
+                    app:constraint_referenced_ids="_0_2,_0_4,_0_3,_0_5,_0_7"
                     tools:layout_editor_absoluteX="384dp"
                     tools:ignore="MissingConstraints"/>
 
@@ -244,6 +244,68 @@
                     app:layout_constraintTop_toBottomOf="@+id/edittext_bmi"
                     android:textSize="12sp"
                     android:layout_marginRight="8dp"/>
+
+            <TextView
+                    android:text="@string/medical_check_menu_postur_aa"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_1_0"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:layout_marginTop="32dp"
+                    app:layout_constraintTop_toBottomOf="@+id/_0_8"
+                    app:layout_constraintStart_toStartOf="@+id/_0_1"
+                    app:layout_constraintEnd_toEndOf="@+id/_0_1"
+                    />
+
+            <TextView
+                    android:text="@string/medical_check_item_postur"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_1_1"
+                    app:layout_constraintEnd_toEndOf="@+id/_1_0"
+                    app:layout_constraintStart_toStartOf="@+id/_1_0"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/_1_0"/>
+
+            <RadioGroup
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@+id/_1_1"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="@+id/_1_1"
+                    app:layout_constraintEnd_toEndOf="@+id/_1_1"
+                    android:id="@+id/radiogroup_postur"
+                    android:checkedButton="@+id/radiobutton_postur_normal">
+
+                <RadioButton
+                        android:text="@string/medical_check_item_postur_normal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radiobutton_postur_normal"
+                        android:layout_weight="1"/>
+
+                <RadioButton
+                        android:text="@string/medical_check_item_postur_skoliosis"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radiobutton_postur_skoliosis"
+                        android:layout_weight="1"/>
+
+                <RadioButton
+                        android:text="@string/medical_check_item_postur_kifosis"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radiobutton_postur_kifosis"
+                        android:layout_weight="1"/>
+
+                <RadioButton
+                        android:text="@string/medical_check_item_postur_lordosis"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radiobutton_postur_ordosis"
+                        android:layout_weight="1"/>
+            </RadioGroup>
 
         </android.support.constraint.ConstraintLayout>
 
