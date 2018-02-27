@@ -926,6 +926,79 @@
                         android:layout_weight="1"/>
             </RadioGroup>
 
+            <TextView
+                    android:text="@string/medical_check_menu_kesimpulan"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_5_0"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:layout_marginTop="32dp"
+                    app:layout_constraintTop_toBottomOf="@+id/radiogroup_verbal"
+                    app:layout_constraintStart_toStartOf="@+id/_1_0"
+                    app:layout_constraintEnd_toEndOf="@+id/_0_1"
+                    />
+
+            <TextView
+                    android:text="@string/medical_check_kesimpulan_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_5_1"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/_5_0"
+                    app:layout_constraintStart_toStartOf="@+id/_5_0"
+                    app:layout_constraintEnd_toEndOf="@+id/_5_0"
+                    />
+
+            <RadioGroup
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radiogroup_kesimpulan"
+                    app:layout_constraintEnd_toEndOf="@+id/_5_0"
+                    app:layout_constraintStart_toStartOf="@+id/_5_0"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/_5_1">
+
+                <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radiobutton_kesimpulan_yes"
+                        android:layout_weight="1"
+                        android:text="@string/item_kesimpulan_yes"/>
+
+                <RadioButton
+                        android:text="@string/item_kesimpulan_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radiobutton_kesimpulan_no"
+                        android:layout_weight="1"/>
+            </RadioGroup>
+
+            <Button
+                    android:text="@string/command_save"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_save"
+                    app:layout_constraintStart_toEndOf="@+id/button_send"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintEnd_toEndOf="@+id/_5_0"
+                    app:layout_constraintTop_toTopOf="@+id/button_send"
+                    app:layout_constraintBottom_toBottomOf="@+id/button_send"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"/>
+
+            <Button
+                    android:text="@string/command_send"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_send"
+                    app:layout_constraintStart_toStartOf="@+id/_5_0"
+                    app:layout_constraintHorizontal_bias="0.51"
+                    app:layout_constraintEnd_toStartOf="@+id/button_save"
+                    android:layout_marginTop="64dp"
+                    app:layout_constraintTop_toBottomOf="@+id/radiogroup_kesimpulan"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"/>
+
         </android.support.constraint.ConstraintLayout>
 
     </ScrollView>

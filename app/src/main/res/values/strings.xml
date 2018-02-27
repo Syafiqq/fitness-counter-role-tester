@@ -10,6 +10,8 @@
     <string name="app_name">Fitness Counter</string>
     <string name="auth_grant_authorization">Memberikan Hak Akses</string>
     <string name="auth_no_previlege_access">Anda tidak mempunyai hak untuk aplikasi ini!</string>
+    <string name="command_save">Simpan</string>
+    <string name="command_send">Kirim</string>
     <string name="crash_toast_text">Kirim Laporan Kerusakan</string>
     <string name="default_notification_channel_id">counter</string>
     <string name="default_notification_channel_name">fitness-counter-student</string>
@@ -18,6 +20,8 @@
     <string name="error_invalid_email">Email tidak valid</string>
     <string name="error_invalid_password">Password terlalu pendek</string>
     <string name="error_password_not_same">Password tidak Sama</string>
+    <string name="item_kesimpulan_no">Disarankan tidak mengikuti ujian keterampilan olahraga</string>
+    <string name="item_kesimpulan_yes">Dapat mengikuti ujian keterampilan olahraga</string>
     <string name="item_mata_julig">Julig</string>
     <string name="item_mata_pms">Plus / Minus / Silinder</string>
     <string name="item_minus">–</string>
@@ -68,8 +72,10 @@
     <string name="medical_check_item_tekanan">Tekanan darah S/D</string>
     <string name="medical_check_item_weight">Berat Badan</string>
     <string name="medical_check_itm_tbd">Tinggi Badan Duduk (TBD)</string>
+    <string name="medical_check_kesimpulan_description">Setelah mempertimbangkan hasil pemeriksaan, yang bersangkutan dinyatakan :</string>
     <string name="medical_check_menu_antropometri">Antropometri</string>
     <string name="medical_check_menu_kardiovaskular">Fungsi Kardiovaskular</string>
+    <string name="medical_check_menu_kesimpulan">Kesimpulan</string>
     <string name="medical_check_menu_pernapasan">Fungsi Pernapasan</string>
     <string name="medical_check_menu_postur_aa">Postur dan Anggota Gerak</string>
     <string name="medical_check_menu_verbal">Indra dan Verbal</string>
