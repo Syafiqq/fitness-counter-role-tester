@@ -86,4 +86,12 @@
     <string name="unit_tekanan">mmHg</string>
     <string name="welcoming_text">SELAMAT DATANG</string>
     <string name="yes">Ya</string>
+    <string name="medical_check_menu_pernapasan">Fungsi Pernapasan</string>
+    <string name="medical_check_item_frekuensi">Frekuensi Pernapasan</string>
+    <string name="medical_check_item_pernapasan_retraksi">Lokasi Retraksi</string>
+    <string name="medical_check_item_retraksi">Tanda Retraksi</string>
+    <string name="medical_check_item_pernapasan_suara">Suara Napas</string>
+    <string name="item_obstruksi">Obstruksi</string>
+    <string name="medical_check_item_pernapasan_saluran">Saluran Napas</string>
+    <string name="unit_frekuensi_pernapasan">x/menit  Normal : 18-24</string>
 </resources>
