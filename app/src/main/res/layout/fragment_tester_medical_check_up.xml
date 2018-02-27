@@ -325,9 +325,10 @@
                     android:id="@+id/radiogroup_aa"
                     app:layout_constraintStart_toStartOf="@+id/_1_0"
                     app:layout_constraintEnd_toEndOf="@+id/_1_0"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="44dp"
                     app:layout_constraintTop_toBottomOf="@+id/_1_2"
-                    android:checkedButton="@+id/radiobutton_aa_normal">
+                    android:checkedButton="@+id/radiobutton_aa_normal"
+                    app:layout_constraintHorizontal_bias="1.0">
 
                 <RadioButton
                         android:text="@string/radiobutton_aa_normal"
@@ -357,6 +358,221 @@
                         android:id="@+id/radiobutton_aa_kelainan"
                         android:layout_weight="1"/>
             </RadioGroup>
+
+            <TextView
+                    android:text="@string/medical_check_menu_kardiovaskular"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_2_0"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:layout_marginTop="32dp"
+                    app:layout_constraintTop_toBottomOf="@+id/radiogroup_aa"
+                    app:layout_constraintStart_toStartOf="@+id/_1_0"
+                    app:layout_constraintEnd_toEndOf="@+id/_0_1"
+                    />
+
+            <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edittext_denyut"
+                    app:layout_constraintStart_toStartOf="@+id/_2_0"
+                    app:layout_constraintEnd_toEndOf="@+id/barrier3"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/_2_0">
+
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/h_edittext_denyut"
+                        android:hint="@string/medical_check_item_denyut"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edittext_mm"
+                    app:layout_constraintStart_toStartOf="@+id/_2_0"
+                    app:layout_constraintEnd_toStartOf="@+id/_2_1"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintTop_toTopOf="@+id/edittext_hg"
+                    app:layout_constraintBottom_toBottomOf="@+id/edittext_hg"
+                    android:layout_marginRight="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/h_edittext_mm"
+                        android:hint="@string/medical_check_item_tekanan"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                    android:text="@string/slash_separator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_2_1"
+                    app:layout_constraintEnd_toStartOf="@+id/edittext_hg"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintTop_toTopOf="@+id/edittext_hg"
+                    app:layout_constraintBottom_toBottomOf="@+id/edittext_hg"
+                    android:textSize="18sp"
+                    app:layout_constraintVertical_bias="0.74"
+                    android:layout_marginRight="8dp"/>
+
+            <android.support.design.widget.TextInputLayout
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edittext_hg"
+                    app:layout_constraintEnd_toEndOf="@+id/barrier3"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_denyut">
+
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/h_edittext_hg"
+                        />
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                    android:text="@string/medical_check_item_ictus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_2_2"
+                    app:layout_constraintTop_toTopOf="@+id/radiogroup_ictus"
+                    app:layout_constraintBottom_toBottomOf="@+id/radiogroup_ictus"
+                    app:layout_constraintStart_toStartOf="@+id/_2_0"
+                    />
+
+            <android.support.constraint.Barrier
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/barrier"
+                    app:barrierDirection="right"
+                    app:constraint_referenced_ids="_2_2,_2_3"
+                    tools:layout_editor_absoluteX="500dp"
+                    tools:ignore="MissingConstraints"/>
+
+            <RadioGroup
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/radiogroup_ictus"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_hg"
+                    app:layout_constraintEnd_toEndOf="@+id/barrier3"
+                    app:layout_constraintStart_toEndOf="@+id/barrier"
+                    android:layout_marginStart="8dp"
+                    android:checkedButton="@+id/radiobutton_ictus_plus"
+                    android:layout_marginLeft="8dp">
+
+                <RadioButton
+                        android:text="@string/item_plus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radiobutton_ictus_plus"
+                        android:layout_weight="1"/>
+
+                <RadioButton
+                        android:text="@string/item_minus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radiobutton_ictus_minus"
+                        android:layout_weight="1"/>
+            </RadioGroup>
+
+            <RadioGroup
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radiogroup_jantung"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/radiogroup_ictus"
+                    app:layout_constraintEnd_toEndOf="@+id/barrier3"
+                    app:layout_constraintStart_toEndOf="@+id/barrier"
+                    android:layout_marginStart="8dp"
+                    android:checkedButton="@+id/radiobutton_jantung_normal"
+                    android:layout_marginLeft="8dp">
+
+                <RadioButton
+                        android:text="@string/item_normal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radiobutton_jantung_normal"
+                        android:layout_weight="1"/>
+
+                <RadioButton
+                        android:text="@string/item_not_normal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radiobutton_jantung_tidak"
+                        android:layout_weight="1"/>
+            </RadioGroup>
+
+            <TextView
+                    android:text="@string/medical_check_item_suara_jantung"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_2_3"
+                    app:layout_constraintTop_toTopOf="@+id/radiogroup_jantung"
+                    app:layout_constraintBottom_toBottomOf="@+id/radiogroup_jantung"
+                    app:layout_constraintStart_toStartOf="@+id/_2_0"
+                    />
+
+            <TextView
+                    android:text="@string/unit_denyut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_2_4"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toTopOf="@+id/edittext_denyut"
+                    app:layout_constraintBottom_toBottomOf="@+id/edittext_denyut"
+                    app:layout_constraintVertical_bias="0.75"
+                    app:layout_constraintEnd_toEndOf="@+id/_2_0"
+                    app:layout_constraintStart_toEndOf="@+id/barrier3"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"/>
+
+            <TextView
+                    android:text="@string/unit_tekanan"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_2_5"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toTopOf="@+id/edittext_hg"
+                    app:layout_constraintBottom_toBottomOf="@+id/edittext_hg"
+                    app:layout_constraintVertical_bias="0.76"
+                    app:layout_constraintEnd_toEndOf="@+id/_2_0"
+                    app:layout_constraintStart_toEndOf="@+id/barrier3"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"/>
+
+            <TextView
+                    android:text="@string/unit_choose_one"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_2_6"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toTopOf="@+id/radiogroup_ictus"
+                    app:layout_constraintBottom_toBottomOf="@+id/radiogroup_ictus"
+                    app:layout_constraintStart_toEndOf="@+id/barrier3"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintEnd_toEndOf="@+id/_2_0"
+                    app:layout_constraintVertical_bias="0.75"
+                    android:layout_marginLeft="8dp"/>
+
+            <TextView
+                    android:text="@string/unit_choose_one"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_2_7"
+                    app:layout_constraintEnd_toEndOf="@+id/_2_0"
+                    app:layout_constraintStart_toEndOf="@+id/barrier3"
+                    app:layout_constraintTop_toTopOf="@+id/radiogroup_jantung"
+                    app:layout_constraintBottom_toBottomOf="@+id/radiogroup_jantung"
+                    android:textSize="12sp"
+                    app:layout_constraintVertical_bias="0.75"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"/>
 
         </android.support.constraint.ConstraintLayout>
 
