@@ -32,6 +32,7 @@
                 <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="numberSigned"
                         android:hint="@string/label_participant"
                         android:id="@+id/h_edittext_participant"/>
             </android.support.design.widget.TextInputLayout>
@@ -386,6 +387,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/h_edittext_denyut"
+                        android:inputType="numberDecimal"
                         android:hint="@string/medical_check_item_denyut"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -404,6 +406,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/h_edittext_mm"
+                        android:inputType="numberDecimal"
                         android:hint="@string/medical_check_item_tekanan"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -432,6 +435,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/h_edittext_hg"
+                        android:inputType="numberDecimal"
                         />
             </android.support.design.widget.TextInputLayout>
 
@@ -601,6 +605,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/h_edittext_frekuensi"
+                        android:inputType="numberDecimal"
                         android:hint="@string/medical_check_item_frekuensi"/>
             </android.support.design.widget.TextInputLayout>
 
