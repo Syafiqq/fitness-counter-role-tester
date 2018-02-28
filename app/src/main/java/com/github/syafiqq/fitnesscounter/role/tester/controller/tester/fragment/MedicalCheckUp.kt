@@ -4,14 +4,19 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.Editable
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import android.widget.Toast
+import com.afollestad.materialdialogs.MaterialDialog
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.MedicalCheckup
+import com.github.syafiqq.fitnesscounter.core.helpers.tester.PresetHelper
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.custom.android.text.CTextWatcher
+import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.fragment_tester_medical_check_up.*
 import timber.log.Timber
 import java.util.Locale
@@ -21,6 +26,8 @@ class MedicalCheckUp: Fragment()
 {
     private lateinit var listener: OnInteractionListener
     private val checkUp = MedicalCheckup()
+    private lateinit var dialog: MaterialDialog
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, state: Bundle?): View?
     {
@@ -67,6 +74,11 @@ class MedicalCheckUp: Fragment()
             }
         })
         this.button_send.setOnClickListener(this::doSend)
+        this.dialog = MaterialDialog.Builder(this.context!!)
+                .canceledOnTouchOutside(false)
+                .content(super.getResources().getString(R.string.label_please_wait))
+                .progress(true, 0)
+                .build()
         super.onViewCreated(view, state)
     }
 
@@ -99,11 +111,33 @@ class MedicalCheckUp: Fragment()
         }
     }
 
-    fun doSend(v: View): Unit
+    fun doSend(v: View)
     {
         Timber.d("doSend [$v]")
         this.saveChanges()
-        Timber.d(this.checkUp.toString())
+        with(this.dialog)
+        {
+            this.setContent("Proses Pengiriman")
+            this.show()
+        }
+        val event = this.listener.getEvent()
+        if (event.presetActive != null && h_edittext_participant.text.toString().toIntOrNull() != null)
+        {
+            PresetHelper.saveMedicalCheckUp(event.presetActive!!, h_edittext_participant.text.toString().toInt(), this.checkUp, DatabaseReference.CompletionListener { error, _ ->
+                with(this@MedicalCheckUp)
+                {
+                    if (error == null)
+                    {
+                        Toast.makeText(this.context!!, "Pengiriman Berhasil", Toast.LENGTH_LONG).show()
+                    }
+                    else
+                    {
+                        Toast.makeText(this.context!!, "Error Pengiriman, Lebih baik simpan terlebih dahulu", Toast.LENGTH_LONG).show()
+                    }
+                    this.dialog.dismiss()
+                }
+            })
+        }
     }
 
     private fun saveChanges()
@@ -127,7 +161,7 @@ class MedicalCheckUp: Fragment()
         // Respiratory
         this.checkUp.frequency = this.h_edittext_frekuensi.text.toFloat()
         this.checkUp.retraction = if (this.radiogroup_retraksi.checkedRadioButtonId < 0) null else view?.findViewById<RadioButton>(this.radiogroup_retraksi.checkedRadioButtonId)?.text.toString()
-        this.checkUp.rLocation = this.h_edittext_lokasi_retraksi.text.toString()
+        this.checkUp.rLocation = if (TextUtils.isEmpty(this.h_edittext_lokasi_retraksi.text.toString())) null else this.h_edittext_lokasi_retraksi.text.toString()
         this.checkUp.breath = if (this.radiogroup_suara_napas.checkedRadioButtonId < 0) null else view?.findViewById<RadioButton>(this.radiogroup_suara_napas.checkedRadioButtonId)?.text.toString()
         this.checkUp.bPipeline = if (this.radiogroup_saluran_napas.checkedRadioButtonId < 0) null else view?.findViewById<RadioButton>(this.radiogroup_saluran_napas.checkedRadioButtonId)?.text.toString()
         // Verbal
