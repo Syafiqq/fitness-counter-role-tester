@@ -3,7 +3,7 @@
              android:background="@color/md_white_1000"
              android:layout_height="match_parent"
              android:layout_width="match_parent"
-             tools:context="com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Ulinois"
+             tools:context="com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Illinois"
              tools:showIn="@layout/tester_activity_dashboard">
 
     <android.support.constraint.ConstraintLayout

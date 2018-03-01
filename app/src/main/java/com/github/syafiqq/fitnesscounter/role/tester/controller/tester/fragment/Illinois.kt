@@ -10,14 +10,14 @@ import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import timber.log.Timber
 
-class Ulinois: Fragment()
+class Illinois: Fragment()
 {
     private lateinit var listener: OnInteractionListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, state: Bundle?): View?
     {
         Timber.d("onCreateView [$inflater, $container, $state]")
-        return inflater.inflate(R.layout.fragment_tester_ulinois, container, false)
+        return inflater.inflate(R.layout.fragment_tester_illinois, container, false)
     }
 
     override fun onViewCreated(view: View, state: Bundle?)
@@ -51,7 +51,7 @@ class Ulinois: Fragment()
     {
         fun newInstance(): Fragment
         {
-            return Ulinois()
+            return Illinois()
         }
     }
 }

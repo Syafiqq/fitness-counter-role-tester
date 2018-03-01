@@ -12,12 +12,12 @@ import com.github.syafiqq.fitnesscounter.role.tester.App
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.controller.service.StopwatchService
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Home
+import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Illinois
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.MedicalCheckUp
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.PushUp
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Run1600m
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.SitUp
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.ThrowingBall
-import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Ulinois
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.VerticalJump
 import com.github.syafiqq.fitnesscounter.role.tester.model.Settings
 import com.google.firebase.auth.FirebaseAuth
@@ -37,7 +37,7 @@ import java.util.Observer
 
 class Dashboard: AppCompatActivity(),
                  MedicalCheckUp.OnInteractionListener,
-                 Ulinois.OnInteractionListener,
+                 Illinois.OnInteractionListener,
                  VerticalJump.OnInteractionListener,
                  ThrowingBall.OnInteractionListener,
                  PushUp.OnInteractionListener,
@@ -156,7 +156,7 @@ class Dashboard: AppCompatActivity(),
             this.categoryCounter = -1
             arrayOf(
                     "Medical Check",
-                    "Ulinois",
+                    "Illinois",
                     "Vertical Jump",
                     "Throwing Ball",
                     "Push Up",
@@ -183,7 +183,7 @@ class Dashboard: AppCompatActivity(),
         val fragment: Fragment = when (category?.category)
         {
             "Medical Check" -> MedicalCheckUp.newInstance()
-            "Ulinois"       -> Ulinois.newInstance()
+            "Illinois"      -> Illinois.newInstance()
             "Vertical Jump" -> VerticalJump.newInstance()
             "Throwing Ball" -> ThrowingBall.newInstance()
             "Push Up"       -> PushUp.newInstance()
