@@ -179,35 +179,37 @@ class Dashboard: AppCompatActivity(),
     private fun activateCategory(category: EventCategory?)
     {
         Timber.d("activateCategory [$category]")
-
-        val fragment: Fragment = when (category?.category)
+        if (category != this.activeCategory)
         {
-            "Medical Check" -> MedicalCheckUp.newInstance()
-            "Illinois"      -> Illinois.newInstance()
-            "Vertical Jump" -> VerticalJump.newInstance()
-            "Throwing Ball" -> ThrowingBall.newInstance()
-            "Push Up"       -> PushUp.newInstance()
-            "Sit Up"        -> SitUp.newInstance()
-            "Run 1600 m"    -> Run1600m.newInstance()
-            else            -> Home.newInstance()
-        }
-
-        if (category == null)
-        {
-            this.toolbar.setTitle(R.string.title_tester_activity_dashboard)
-        }
-        else
-        {
-            category.category?.let {
-                this.toolbar.title = it
+            val fragment: Fragment = when (category?.category)
+            {
+                "Medical Check" -> MedicalCheckUp.newInstance()
+                "Illinois"      -> Illinois.newInstance()
+                "Vertical Jump" -> VerticalJump.newInstance()
+                "Throwing Ball" -> ThrowingBall.newInstance()
+                "Push Up"       -> PushUp.newInstance()
+                "Sit Up"        -> SitUp.newInstance()
+                "Run 1600 m"    -> Run1600m.newInstance()
+                else            -> Home.newInstance()
             }
+
+            if (category == null)
+            {
+                this.toolbar.setTitle(R.string.title_tester_activity_dashboard)
+            }
+            else
+            {
+                category.category?.let {
+                    this.toolbar.title = it
+                }
+            }
+
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment, fragment)
+            transaction.commit()
+
+            this.activeCategory = category
         }
-
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment, fragment)
-        transaction.commit()
-
-        this.activeCategory = category
     }
 
     override fun getEvent(): Event
