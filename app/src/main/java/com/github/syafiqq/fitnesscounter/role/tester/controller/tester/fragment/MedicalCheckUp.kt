@@ -20,14 +20,15 @@ import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.fragment_tester_medical_check_up.*
 import timber.log.Timber
 import java.util.Locale
+import java.util.concurrent.atomic.AtomicReference
 import kotlin.math.pow
 
 class MedicalCheckUp: Fragment()
 {
     private lateinit var listener: OnInteractionListener
     private val checkUp = MedicalCheckup()
-    private lateinit var dialog: MaterialDialog
-
+    private var dialog = AtomicReference<MaterialDialog>(null)
+    private val dialogs = mutableMapOf<String, MaterialDialog>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, state: Bundle?): View?
     {
@@ -73,12 +74,20 @@ class MedicalCheckUp: Fragment()
                 }
             }
         })
-        this.button_send.setOnClickListener(this::doSend)
-        this.dialog = MaterialDialog.Builder(this.context!!)
-                .canceledOnTouchOutside(false)
-                .content(super.getResources().getString(R.string.label_please_wait))
-                .progress(true, 0)
-                .build()
+        this.button_send.setOnClickListener { _ -> this.dialog.changeAndShow(this.dialogs["confirmation-send"].apply { this?.setContent("Apakah anda yakin mengirim nilai peserta ${this@MedicalCheckUp.h_edittext_participant.text}") }!!) }
+
+        this.dialogs.putAll(mapOf(
+                "please-wait" to MaterialDialog.Builder(this.context!!)
+                        .canceledOnTouchOutside(false)
+                        .content(super.getResources().getString(R.string.label_please_wait))
+                        .progress(true, 0)
+                        .build(),
+                "confirmation-send" to MaterialDialog.Builder(this.context!!)
+                        .title("Konfirmasi")
+                        .positiveText("Ya")
+                        .negativeText("Tidak")
+                        .onPositive { _, _ -> doSend() }
+                        .build()))
         super.onViewCreated(view, state)
     }
 
@@ -111,32 +120,36 @@ class MedicalCheckUp: Fragment()
         }
     }
 
-    fun doSend(v: View)
+    fun doSend(v: View? = null)
     {
         Timber.d("doSend [$v]")
+
         this.saveChanges()
-        with(this.dialog)
-        {
-            this.setContent("Proses Pengiriman")
-            this.show()
-        }
         val event = this.listener.getEvent()
-        if (event.presetActive != null && h_edittext_participant.text.toString().toIntOrNull() != null)
+        if (event.presetActive != null)
         {
-            PresetHelper.saveMedicalCheckUp(event.presetActive!!, h_edittext_participant.text.toString().toInt(), this.checkUp, DatabaseReference.CompletionListener { error, _ ->
-                with(this@MedicalCheckUp)
-                {
-                    if (error == null)
+            if (h_edittext_participant.text.toString().toIntOrNull() == null)
+            {
+                Toast.makeText(this.context!!, "Nomor Peserta Tidak Valid", Toast.LENGTH_LONG).show()
+            }
+            else
+            {
+                this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
+                PresetHelper.saveMedicalCheckUp(event.presetActive!!, h_edittext_participant.text.toString().toInt(), this.checkUp, DatabaseReference.CompletionListener { error, _ ->
+                    with(this@MedicalCheckUp)
                     {
-                        Toast.makeText(this.context!!, "Pengiriman Berhasil", Toast.LENGTH_LONG).show()
+                        if (error == null)
+                        {
+                            Toast.makeText(this.context!!, "Pengiriman Berhasil", Toast.LENGTH_LONG).show()
+                        }
+                        else
+                        {
+                            Toast.makeText(this.context!!, "Error Pengiriman, Lebih baik simpan terlebih dahulu", Toast.LENGTH_LONG).show()
+                        }
+                        this.dialog.get()?.dismiss()
                     }
-                    else
-                    {
-                        Toast.makeText(this.context!!, "Error Pengiriman, Lebih baik simpan terlebih dahulu", Toast.LENGTH_LONG).show()
-                    }
-                    this.dialog.dismiss()
-                }
-            })
+                })
+            }
         }
     }
 
@@ -188,5 +201,13 @@ class MedicalCheckUp: Fragment()
     fun Editable.toFloat(): Float?
     {
         return this.toString().toFloatOrNull()?.takeIf { it.isFinite() }
+    }
+
+    fun AtomicReference<MaterialDialog>.changeAndShow(dialog: MaterialDialog)
+    {
+        Timber.d("changeAndShow [$dialog]")
+        this.get()?.dismiss()
+        this.set(dialog)
+        this.get()?.show()
     }
 }
