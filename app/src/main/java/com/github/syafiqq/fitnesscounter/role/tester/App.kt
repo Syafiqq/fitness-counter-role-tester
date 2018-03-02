@@ -10,6 +10,7 @@ import android.content.ServiceConnection
 import android.os.Build
 import android.os.IBinder
 import com.github.syafiqq.fitnesscounter.role.tester.controller.service.StopwatchService
+import com.google.firebase.database.FirebaseDatabase
 import org.acra.ACRA
 import org.acra.ReportField
 import org.acra.ReportingInteractionMode
@@ -47,6 +48,8 @@ class App: Application()
             }
         }
         App.instance = this
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+
         this.bindStopwatchService()
     }
 
