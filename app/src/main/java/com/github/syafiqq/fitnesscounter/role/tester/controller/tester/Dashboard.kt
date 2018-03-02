@@ -33,6 +33,7 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import kotlinx.android.synthetic.main.tester_activity_dashboard.*
 import timber.log.Timber
 import java.util.Observer
+import kotlin.properties.Delegates
 
 
 class Dashboard: AppCompatActivity(),
@@ -49,7 +50,28 @@ class Dashboard: AppCompatActivity(),
 
     private var eventCounter = -1
     private var events: MutableMap<Int, Event> = hashMapOf()
-    private var activeEvent: Event? = null
+    private var activeEvent: Event? by Delegates.observable(null as Event?) { _, oldValue, newValue ->
+        if (oldValue?.presetActive != null)
+        {
+            val path = DataMapper.presetTester(oldValue.presetActive)["presets"]!!
+            FirebaseDatabase.getInstance().getReference(path).keepSynced(false)
+        }
+        if (oldValue?.id != null)
+        {
+            val path = DataMapper.event(id = oldValue.id)["events"]!!
+            FirebaseDatabase.getInstance().getReference(path).keepSynced(false)
+        }
+        if (newValue?.presetActive != null)
+        {
+            val path = DataMapper.presetTester(newValue.presetActive)["presets"]!!
+            FirebaseDatabase.getInstance().getReference(path).keepSynced(true)
+        }
+        if (newValue?.id != null)
+        {
+            val path = DataMapper.event(id = newValue.id)["events"]!!
+            FirebaseDatabase.getInstance().getReference(path).keepSynced(true)
+        }
+    }
 
     private var categoryCounter = -1
     private var categories: MutableMap<Int, EventCategory> = hashMapOf()
@@ -120,7 +142,7 @@ class Dashboard: AppCompatActivity(),
                     {
                         override fun onDataChange(snapshot: DataSnapshot?)
                         {
-                            snapshot?.run { this@Dashboard.addNewEvent(this.getValue(Event::class.java)) }
+                            snapshot?.run { this@Dashboard.addNewEvent(this.getValue(Event::class.java).apply { if (this != null) this.id = snapshot.key }) }
                         }
                     })
                 }
