@@ -110,4 +110,7 @@
     <string name="unit_tekanan">mmHg</string>
     <string name="welcoming_text">SELAMAT DATANG</string>
     <string name="yes">Ya</string>
+    <string name="template_stopwatch">00:00.000</string>
+    <string name="command_start">Start</string>
+    <string name="command_stop">Stop</string>
 </resources>

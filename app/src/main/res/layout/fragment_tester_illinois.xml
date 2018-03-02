@@ -1,14 +1,135 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
              xmlns:tools="http://schemas.android.com/tools"
              android:background="@color/md_white_1000"
              android:layout_height="match_parent"
              android:layout_width="match_parent"
-             tools:context="com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Illinois"
-             tools:showIn="@layout/tester_activity_dashboard">
+             tools:context="com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Illinois">
 
-    <android.support.constraint.ConstraintLayout
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            tools:ignore="UselessParent">
 
-    </android.support.constraint.ConstraintLayout>
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
+
+
+            <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp"
+                    android:id="@+id/_0_0">
+
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberSigned"
+                        android:hint="@string/label_participant"
+                        android:id="@+id/edittext_participant"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                    android:text="@string/template_stopwatch"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_0_1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/_0_0"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toTopOf="@+id/barrier2"
+                    android:textAlignment="center"/>
+
+            <Button
+                    android:text="@string/command_send"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_send"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintEnd_toStartOf="@+id/button_save"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintTop_toBottomOf="@+id/_0_1"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="8dp"/>
+
+            <Button
+                    android:text="@string/command_save"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_save"
+                    app:layout_constraintStart_toEndOf="@+id/button_send"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/button_send"
+                    app:layout_constraintTop_toTopOf="@+id/button_send"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="8dp"/>
+
+            <Button
+                    android:text="@string/command_start"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_start"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp"
+                    android:background="@color/md_green_600"
+                    android:visibility="visible"/>
+
+            <Button
+                    android:text="@string/command_stop"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_stop"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp"
+                    android:background="@color/md_red_600"/>
+
+            <android.support.constraint.Barrier
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/barrier2"
+                    app:barrierDirection="top"
+                    tools:layout_editor_absoluteY="492dp"
+                    tools:layout_editor_absoluteX="8dp"
+                    app:constraint_referenced_ids="button_stop,button_start"
+                    tools:ignore="MissingConstraints"/>
+
+            <android.support.constraint.Group
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/group_finish"
+                    tools:layout_editor_absoluteY="16dp"
+                    app:constraint_referenced_ids="button_stop,button_save,button_send"
+                    android:visibility="gone"
+                    tools:ignore="MissingConstraints"/>
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
 </FrameLayout>
