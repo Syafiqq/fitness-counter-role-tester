@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.controller.auth.LoginActivity
+import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.Dashboard
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_splash_screen.*
@@ -64,7 +65,7 @@ class SplashScreen: AppCompatActivity()
     {
         Timber.d("forwardToDashboard")
 
-        val intent = Intent(this, LoginActivity::class.java)
+        val intent = Intent(this, Dashboard::class.java)
         super.startActivity(intent)
         super.finish()
     }
