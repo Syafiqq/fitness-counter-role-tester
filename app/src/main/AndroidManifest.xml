@@ -49,9 +49,7 @@
         </activity>
 
         <service
-                android:name=".controller.service.StopwatchService"
-                android:enabled="false"
-                android:exported="false">
+                android:name=".controller.service.StopwatchService">
         </service>
     </application>
 
