@@ -142,6 +142,7 @@ class Dashboard: AppCompatActivity(),
         mState = drawerHeader.saveInstanceState(mState)
         mState = drawer.saveInstanceState(mState)
         this.activeEvent?.let { mState.putSerializable(M_ACTIVE_EVENT, it) }
+        this.activeCategory?.let { mState.putSerializable(M_ACTIVE_CATEGORY, it) }
         super.onSaveInstanceState(mState)
     }
 
@@ -152,6 +153,7 @@ class Dashboard: AppCompatActivity(),
 
         state?.let {
             it.getSerializable(M_ACTIVE_EVENT)?.let { this.savedState[M_ACTIVE_EVENT] = it }
+            it.getSerializable(M_ACTIVE_CATEGORY)?.let { this.savedState[M_ACTIVE_CATEGORY] = it }
         }
     }
 
@@ -291,6 +293,7 @@ class Dashboard: AppCompatActivity(),
     {
         const val CURRENT_FRAGMENT = "CURRENT_FRAGMENT"
         const val M_ACTIVE_EVENT = "m_active_event"
+        const val M_ACTIVE_CATEGORY = "m_active_category"
     }
 
 }
