@@ -10,17 +10,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.Toast
-import com.afollestad.materialdialogs.MaterialDialog
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.MedicalCheckup
 import com.github.syafiqq.fitnesscounter.core.helpers.tester.PresetHelper
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.custom.android.text.CTextWatcher
+import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.changeAndShow
 import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.fragment_tester_medical_check_up.*
 import timber.log.Timber
 import java.util.Locale
-import java.util.concurrent.atomic.AtomicReference
 import kotlin.math.pow
 
 class MedicalCheckUp: IdentifiableFragment()
@@ -29,8 +28,6 @@ class MedicalCheckUp: IdentifiableFragment()
         get() = MedicalCheckUp.IDENTIFIER
     private lateinit var listener: OnInteractionListener
     private val checkUp = MedicalCheckup()
-    private var dialog = AtomicReference<MaterialDialog>(null)
-    private val dialogs = mutableMapOf<String, MaterialDialog>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, state: Bundle?): View?
     {
@@ -77,19 +74,6 @@ class MedicalCheckUp: IdentifiableFragment()
             }
         })
         this.button_send.setOnClickListener { _ -> this.dialog.changeAndShow(this.dialogs["confirmation-send"].apply { this?.setContent("Apakah anda yakin mengirim nilai peserta ${this@MedicalCheckUp.h_edittext_participant.text}") }!!) }
-
-        this.dialogs.putAll(mapOf(
-                "please-wait" to MaterialDialog.Builder(this.context!!)
-                        .canceledOnTouchOutside(false)
-                        .content(super.getResources().getString(R.string.label_please_wait))
-                        .progress(true, 0)
-                        .build(),
-                "confirmation-send" to MaterialDialog.Builder(this.context!!)
-                        .title("Konfirmasi")
-                        .positiveText("Ya")
-                        .negativeText("Tidak")
-                        .onPositive { _, _ -> doSend() }
-                        .build()))
         super.onViewCreated(view, state)
     }
 
@@ -133,6 +117,8 @@ class MedicalCheckUp: IdentifiableFragment()
 
     private fun calculateRatio(tbb: Float?, tbd: Float?): Float?
     {
+        Timber.d("calculateRatio [$tbb, $tbd]")
+
         val ratio = if (tbb == null || tbd == null) null else ((tbb - tbd) / tbd).takeIf { it.isFinite() }
         this.h_edittext_ratio.setText(String.format(Locale.getDefault(), "%.3f", ratio ?: 0f))
         return ratio
@@ -140,12 +126,14 @@ class MedicalCheckUp: IdentifiableFragment()
 
     private fun calculateBmi(tbb: Float?, weight: Float?): Float?
     {
+        Timber.d("calculateRatio [$tbb, $weight]")
+
         val bmi = if (tbb == null || weight == null) null else (weight / (tbb / 100).pow(2)).takeIf { it.isFinite() }
         this.h_edittext_bmi.setText(String.format(Locale.getDefault(), "%.3f", bmi ?: 0f))
         return bmi
     }
 
-    fun doSend(v: View? = null)
+    override fun doSend(v: View?)
     {
         Timber.d("doSend [$v]")
 
@@ -178,7 +166,7 @@ class MedicalCheckUp: IdentifiableFragment()
         }
     }
 
-    private fun saveChanges()
+    override fun saveChanges()
     {
         Timber.d("saveChanges")
 
@@ -210,7 +198,7 @@ class MedicalCheckUp: IdentifiableFragment()
         this.checkUp.conclusion = this.radiogroup_kesimpulan.checkedRadioButtonId == this.radiobutton_kesimpulan_yes.id
     }
 
-    private fun loadChanges()
+    override fun loadChanges()
     {
         Timber.d("loadChanges")
 
@@ -323,13 +311,5 @@ class MedicalCheckUp: IdentifiableFragment()
     fun Editable.toFloat(): Float?
     {
         return this.toString().toFloatOrNull()?.takeIf { it.isFinite() }
-    }
-
-    fun AtomicReference<MaterialDialog>.changeAndShow(dialog: MaterialDialog)
-    {
-        Timber.d("changeAndShow [$dialog]")
-        this.get()?.dismiss()
-        this.set(dialog)
-        this.get()?.show()
     }
 }
