@@ -12,6 +12,7 @@ import com.github.syafiqq.fitnesscounter.role.tester.App
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.controller.service.StopwatchService
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Home
+import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.IdentifiableFragment
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Illinois
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.MedicalCheckUp
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.PushUp
@@ -104,13 +105,6 @@ class Dashboard: AppCompatActivity(),
             supportFragmentManager
                     .beginTransaction()
                     .add(R.id.fragment, Home.newInstance(), CURRENT_FRAGMENT)
-                    .commit()
-        }
-        else
-        {
-            supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragment, supportFragmentManager.findFragmentByTag(CURRENT_FRAGMENT))
                     .commit()
         }
 
@@ -238,6 +232,22 @@ class Dashboard: AppCompatActivity(),
         category?.let {
             this.categories[++categoryCounter] = it
             this.drawer.addItem(PrimaryDrawerItem().withName(it.category).withIdentifier(categoryCounter.toLong()))
+
+            if (this.savedState[M_ACTIVE_CATEGORY] != null && this.savedState[M_ACTIVE_CATEGORY] == it)
+            {
+                val active = this.savedState.remove(M_ACTIVE_CATEGORY)
+                if ((supportFragmentManager.findFragmentByTag(CURRENT_FRAGMENT) as IdentifiableFragment).identifier != (active as EventCategory).category)
+                {
+                    this.activateCategory(it)
+                }
+                else
+                {
+                    supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.fragment, supportFragmentManager.findFragmentByTag(CURRENT_FRAGMENT))
+                            .commit()
+                }
+            }
         }
     }
 
@@ -258,19 +268,19 @@ class Dashboard: AppCompatActivity(),
                 else                      -> Home.newInstance()
             }
 
+            val transaction = supportFragmentManager.beginTransaction()
             if (category == null)
             {
                 this.toolbar.setTitle(R.string.title_tester_activity_dashboard)
+                transaction.replace(R.id.fragment, fragment)
             }
             else
             {
+                transaction.replace(R.id.fragment, fragment, CURRENT_FRAGMENT)
                 category.category?.let {
                     this.toolbar.title = it
                 }
             }
-
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragment, fragment, CURRENT_FRAGMENT)
             transaction.commit()
 
             this.activeCategory = category
