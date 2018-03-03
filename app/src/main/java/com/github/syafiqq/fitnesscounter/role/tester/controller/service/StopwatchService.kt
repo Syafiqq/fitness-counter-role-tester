@@ -50,7 +50,7 @@ class StopwatchService: Service()
 
     fun getStopwatch(index: Int = 0): Stopwatch
     {
-        Timber.d("getStopwatch [$index]")
+        //Timber.d("getStopwatch [$index]")
 
         return stopwatches.get(index)
     }
@@ -100,6 +100,8 @@ class StopwatchService: Service()
 
     fun timeElapsed(stopwatch: Stopwatch, now: DateTime, index: Int = 0): Duration
     {
+        //Timber.d("timeElapsed [$stopwatch, $now, $index]")
+
         return stopwatchService.timeElapsed(stopwatch, now)
     }
 
