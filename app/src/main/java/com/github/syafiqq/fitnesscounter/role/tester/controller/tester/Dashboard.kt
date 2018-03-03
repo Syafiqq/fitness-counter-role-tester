@@ -51,20 +51,10 @@ class Dashboard: AppCompatActivity(),
     private var eventCounter = -1
     private var events: MutableMap<Int, Event> = hashMapOf()
     private var activeEvent: Event? by Delegates.observable(null as Event?) { _, oldValue, newValue ->
-        if (oldValue?.presetActive != null)
-        {
-            val path = DataMapper.presetTester(oldValue.presetActive)["presets"]!!
-            FirebaseDatabase.getInstance().getReference(path).keepSynced(false)
-        }
         if (oldValue?.id != null)
         {
             val path = DataMapper.event(id = oldValue.id)["events"]!!
             FirebaseDatabase.getInstance().getReference(path).keepSynced(false)
-        }
-        if (newValue?.presetActive != null)
-        {
-            val path = DataMapper.presetTester(newValue.presetActive)["presets"]!!
-            FirebaseDatabase.getInstance().getReference(path).keepSynced(true)
         }
         if (newValue?.id != null)
         {
