@@ -10,8 +10,10 @@ import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import timber.log.Timber
 
-class PushUp: Fragment()
+class PushUp: IdentifiableFragment()
 {
+    override val identifier: String
+        get() = PushUp.IDENTIFIER
     private lateinit var listener: OnInteractionListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, state: Bundle?): View?
@@ -53,5 +55,7 @@ class PushUp: Fragment()
         {
             return PushUp()
         }
+
+        const val IDENTIFIER = "Push Up"
     }
 }

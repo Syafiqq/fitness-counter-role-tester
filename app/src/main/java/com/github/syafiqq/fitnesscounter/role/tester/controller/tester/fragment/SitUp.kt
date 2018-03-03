@@ -10,8 +10,10 @@ import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import timber.log.Timber
 
-class SitUp: Fragment()
+class SitUp: IdentifiableFragment()
 {
+    override val identifier: String
+        get() = SitUp.IDENTIFIER
     private lateinit var listener: OnInteractionListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, state: Bundle?): View?
@@ -53,5 +55,7 @@ class SitUp: Fragment()
         {
             return SitUp()
         }
+
+        const val IDENTIFIER = "Sit Up"
     }
 }

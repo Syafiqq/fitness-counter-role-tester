@@ -9,8 +9,11 @@ import android.view.ViewGroup
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import timber.log.Timber
 
-class Home: Fragment()
+class Home: IdentifiableFragment()
 {
+    override val identifier: String
+        get() = Home.IDENTIFIER
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, state: Bundle?): View?
     {
         Timber.d("onCreateView [$inflater, $container, $state]")
@@ -30,6 +33,8 @@ class Home: Fragment()
         {
             return Home()
         }
+
+        const val IDENTIFIER = "Home"
     }
 
 }

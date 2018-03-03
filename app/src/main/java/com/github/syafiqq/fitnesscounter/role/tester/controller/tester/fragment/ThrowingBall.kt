@@ -10,8 +10,10 @@ import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import timber.log.Timber
 
-class ThrowingBall: Fragment()
+class ThrowingBall: IdentifiableFragment()
 {
+    override val identifier: String
+        get() = ThrowingBall.IDENTIFIER
     private lateinit var listener: OnInteractionListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, state: Bundle?): View?
@@ -53,5 +55,7 @@ class ThrowingBall: Fragment()
         {
             return ThrowingBall()
         }
+
+        const val IDENTIFIER = "Throwing Ball"
     }
 }

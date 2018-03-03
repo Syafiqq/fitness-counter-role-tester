@@ -10,8 +10,10 @@ import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import timber.log.Timber
 
-class VerticalJump: Fragment()
+class VerticalJump: IdentifiableFragment()
 {
+    override val identifier: String
+        get() = VerticalJump.IDENTIFIER
     private lateinit var listener: OnInteractionListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, state: Bundle?): View?
@@ -53,5 +55,7 @@ class VerticalJump: Fragment()
         {
             return VerticalJump()
         }
+
+        const val IDENTIFIER = "Vertical Jump"
     }
 }

@@ -23,8 +23,10 @@ import java.util.Locale
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.math.pow
 
-class MedicalCheckUp: Fragment()
+class MedicalCheckUp: IdentifiableFragment()
 {
+    override val identifier: String
+        get() = MedicalCheckUp.IDENTIFIER
     private lateinit var listener: OnInteractionListener
     private val checkUp = MedicalCheckup()
     private var dialog = AtomicReference<MaterialDialog>(null)
@@ -196,6 +198,8 @@ class MedicalCheckUp: Fragment()
         {
             return MedicalCheckUp()
         }
+
+        const val IDENTIFIER = "Medical Check"
     }
 
     fun Editable.toFloat(): Float?
