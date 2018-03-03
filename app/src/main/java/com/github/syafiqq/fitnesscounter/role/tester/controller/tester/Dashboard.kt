@@ -299,6 +299,11 @@ class Dashboard: AppCompatActivity(),
         }
     }
 
+    override fun getOService(): StopwatchService.Observable
+    {
+        return App.instance.stopwatchService
+    }
+
     companion object
     {
         const val CURRENT_FRAGMENT = "CURRENT_FRAGMENT"
