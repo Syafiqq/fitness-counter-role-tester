@@ -69,8 +69,11 @@ class StopwatchService: Service()
         val stopwatch = stopwatchService.start(stopwatch, startedAt)
         stopwatches.set(index, stopwatch)
 
-        notification = notification ?: createNotification()
-        startForeground(notificationID, notification)
+        if (notification == null)
+        {
+            notification = notification ?: createNotification()
+            startForeground(notificationID, notification)
+        }
         return stopwatch
     }
 
