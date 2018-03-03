@@ -61,6 +61,7 @@ class Dashboard: AppCompatActivity(),
     private var activeCategory: EventCategory? = null
 
     private var user: FirebaseUser? = null
+    private var savedState: MutableMap<String, Any?> = hashMapOf()
 
     private var stopwatchService: StopwatchService? = null
     private val stopwatchO = Observer { o, arg ->
@@ -135,11 +136,23 @@ class Dashboard: AppCompatActivity(),
     {
         Timber.d("onSaveInstanceState [$state]")
 
+        this.savedState.clear()
         var mState = state ?: Bundle()
 
         mState = drawerHeader.saveInstanceState(mState)
         mState = drawer.saveInstanceState(mState)
+        this.activeEvent?.let { mState.putSerializable(M_ACTIVE_EVENT, it) }
         super.onSaveInstanceState(mState)
+    }
+
+    override fun onRestoreInstanceState(state: Bundle?)
+    {
+        Timber.d("onRestoreInstanceState [$state]")
+        super.onRestoreInstanceState(state)
+
+        state?.let {
+            it.getSerializable(M_ACTIVE_EVENT)?.let { this.savedState[M_ACTIVE_EVENT] = it }
+        }
     }
 
     override fun onBackPressed()
@@ -185,6 +198,16 @@ class Dashboard: AppCompatActivity(),
         event?.let {
             this.events[++eventCounter] = it
             this.drawerHeader.addProfile(ProfileDrawerItem().withName(it.event).withIdentifier(eventCounter.toLong()), eventCounter)
+
+            if (this.activeEvent == null)
+            {
+                this.activeEvent = it
+            }
+            else if (this.savedState[M_ACTIVE_EVENT] != null && this.savedState[M_ACTIVE_EVENT] as Event == it)
+            {
+                this.savedState.remove(M_ACTIVE_EVENT)
+                this.activeEvent = it
+            }
         }
     }
 
@@ -267,6 +290,7 @@ class Dashboard: AppCompatActivity(),
     companion object
     {
         const val CURRENT_FRAGMENT = "CURRENT_FRAGMENT"
+        const val M_ACTIVE_EVENT = "m_active_event"
     }
 
 }
