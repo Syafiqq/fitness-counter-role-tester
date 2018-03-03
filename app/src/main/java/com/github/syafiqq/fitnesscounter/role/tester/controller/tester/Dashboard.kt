@@ -124,6 +124,8 @@ class Dashboard: AppCompatActivity(),
             this.addObserver(stopwatchO)
             stopwatchService = this.service
         }
+
+        this.listRegisteredEvent()
     }
 
     override fun onDestroy()
@@ -132,14 +134,6 @@ class Dashboard: AppCompatActivity(),
 
         App.instance.stopwatchService.deleteObserver(stopwatchO)
         super.onDestroy()
-    }
-
-    override fun onResume()
-    {
-        Timber.d("onResume")
-
-        super.onResume()
-        this.listRegisteredEvent()
     }
 
     override fun onSaveInstanceState(state: Bundle?)
