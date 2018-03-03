@@ -20,7 +20,6 @@ import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.ThrowingBall
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.VerticalJump
 import com.github.syafiqq.fitnesscounter.role.tester.model.Settings
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
@@ -105,12 +104,21 @@ class Dashboard: AppCompatActivity(),
                 .withOnDrawerItemClickListener({ _, _, category -> this.activateCategory(this.categories[category.identifier.toInt()]!!); false })
                 .build()
 
-        this.user = FirebaseAuth.getInstance().currentUser
+        if ((supportFragmentManager.findFragmentByTag(CURRENT_FRAGMENT) == null) || state == null)
+        {
+            supportFragmentManager
+                    .beginTransaction()
+                    .add(R.id.fragment, Home.newInstance(), CURRENT_FRAGMENT)
+                    .commit()
+        }
+        else
+        {
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment, supportFragmentManager.findFragmentByTag(CURRENT_FRAGMENT))
+                    .commit()
+        }
 
-        Timber.d("Current user [${user?.uid}]")
-        Timber.d("Current Selected [${drawerHeader.activeProfile?.name}]")
-
-        this.listRegisteredEvent()
         with(App.instance.stopwatchService)
         {
             this.addObserver(stopwatchO)
@@ -124,6 +132,14 @@ class Dashboard: AppCompatActivity(),
 
         App.instance.stopwatchService.deleteObserver(stopwatchO)
         super.onDestroy()
+    }
+
+    override fun onResume()
+    {
+        Timber.d("onResume")
+
+        super.onResume()
+        this.listRegisteredEvent()
     }
 
     override fun onSaveInstanceState(state: Bundle?)
@@ -270,5 +286,8 @@ class Dashboard: AppCompatActivity(),
     }
 
     companion object
+    {
+        const val CURRENT_FRAGMENT = "CURRENT_FRAGMENT"
+    }
 
 }
