@@ -7,12 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.afollestad.materialdialogs.MaterialDialog
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.role.tester.R
+import com.github.syafiqq.fitnesscounter.role.tester.controller.service.StopwatchService
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.changeAndShow
+import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.org.joda.time.toFormattedStopwatch
 import kotlinx.android.synthetic.main.fragment_tester_illinois.*
+import org.joda.time.DateTime
 import timber.log.Timber
+import java.util.Observer
+import java.util.Timer
+import java.util.TimerTask
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.Illinois as MIllinois
 
 class Illinois: IdentifiableFragment()
@@ -20,7 +25,65 @@ class Illinois: IdentifiableFragment()
     override val identifier: String
         get() = Illinois.IDENTIFIER
     private lateinit var listener: OnInteractionListener
+    private lateinit var timer: Timer
+
+    private var updateText = createTimerTask()
+    private var stopwatchService: StopwatchService? = null
+    private val stopwatchO = Observer { o, arg ->
+        if (o is StopwatchService.Observable)
+        {
+            Timber.d("Stopwatch Initialized")
+            stopwatchService = arg as StopwatchService
+        }
+    }
+
     private val illinois = MIllinois()
+
+    override fun onCreate(state: Bundle?)
+    {
+        Timber.d("onCreate [$state]")
+        super.onCreate(state)
+
+        with(this.listener.getOService())
+        {
+            this.addObserver(stopwatchO)
+            stopwatchService = this.service
+        }
+    }
+
+    override fun onDestroy()
+    {
+        Timber.d("onDestroy")
+        this.listener.getOService().deleteObserver(stopwatchO)
+        super.onDestroy()
+    }
+
+    override fun onResume()
+    {
+        Timber.d("onResume")
+
+        super.onResume()
+        timer = Timer()
+
+        try
+        {
+            timer.scheduleAtFixedRate(updateText, 0, TIMER_DELAY)
+        }
+        catch (e: Exception)
+        {
+            updateText = createTimerTask()
+            timer.scheduleAtFixedRate(updateText, 0, TIMER_DELAY)
+            Timber.e(e)
+        }
+    }
+
+    override fun onPause()
+    {
+        Timber.d("onPause")
+
+        timer.cancel()
+        super.onPause()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, state: Bundle?): View?
     {
@@ -34,18 +97,10 @@ class Illinois: IdentifiableFragment()
 
         this.button_send.setOnClickListener { _ -> this.dialog.changeAndShow(this.dialogs["confirmation-send"].apply { this?.setContent("Apakah anda yakin mengirim nilai peserta ${this@Illinois.edittext_participant.text}") }!!) }
 
-        this.dialogs.putAll(mapOf(
-                "please-wait" to MaterialDialog.Builder(this.context!!)
-                        .canceledOnTouchOutside(false)
-                        .content(super.getResources().getString(R.string.label_please_wait))
-                        .progress(true, 0)
-                        .build(),
-                "confirmation-send" to MaterialDialog.Builder(this.context!!)
-                        .title("Konfirmasi")
-                        .positiveText("Ya")
-                        .negativeText("Tidak")
-                        .onPositive { _, _ -> doSend() }
-                        .build()))
+        this.button_start.setOnClickListener {
+            Timber.d("button_start ${this.stopwatchService}")
+            this.stopwatchService?.run { this.start(this.getStopwatch(), DateTime.now(), 0) }
+        }
         super.onViewCreated(view, state)
     }
 
@@ -118,6 +173,7 @@ class Illinois: IdentifiableFragment()
     interface OnInteractionListener
     {
         fun getEvent(): Event
+        fun getOService(): StopwatchService.Observable
     }
 
     companion object
@@ -130,5 +186,23 @@ class Illinois: IdentifiableFragment()
         const val IDENTIFIER = "Illinois"
         const val M_RESULT = "m_result"
         const val M_PARTICIPANT = "m_participant"
+        const val TIMER_DELAY: Long = 500
+    }
+
+    private fun createTimerTask(): TimerTask
+    {
+        Timber.d("createTimerTask")
+
+        return object: TimerTask()
+        {
+            override fun run()
+            {
+                this@Illinois.activity?.runOnUiThread {
+                    this@Illinois.stopwatchService?.let {
+                        this@Illinois.textview_clock.text = it.timeElapsed(it.getStopwatch(), DateTime.now()).toFormattedStopwatch()
+                    }
+                }
+            }
+        }
     }
 }
