@@ -20,6 +20,7 @@ import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.ThrowingBall
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.VerticalJump
 import com.github.syafiqq.fitnesscounter.role.tester.model.Settings
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
@@ -49,17 +50,10 @@ class Dashboard: AppCompatActivity(),
 
     private var eventCounter = -1
     private var events: MutableMap<Int, Event> = hashMapOf()
-    private var activeEvent: Event? by Delegates.observable(null as Event?) { _, oldValue, newValue ->
-        if (oldValue?.id != null)
-        {
-            val path = DataMapper.event(id = oldValue.id)["events"]!!
-            FirebaseDatabase.getInstance().getReference(path).keepSynced(false)
-        }
-        if (newValue?.id != null)
-        {
-            val path = DataMapper.event(id = newValue.id)["events"]!!
-            FirebaseDatabase.getInstance().getReference(path).keepSynced(true)
-        }
+    private var activeEvent: Event? by Delegates.observable(null as Event?) { _, old, new ->
+        old?.id.let { FirebaseDatabase.getInstance().getReference(DataMapper.event(id = it)["events"]!!).keepSynced(false) }
+        new?.id.let { FirebaseDatabase.getInstance().getReference(DataMapper.event(id = it)["events"]!!).keepSynced(true) }
+        if (new != old) new?.let(this::activateEvent)
     }
 
     private var categoryCounter = -1
@@ -91,7 +85,7 @@ class Dashboard: AppCompatActivity(),
                 .withProfileImagesVisible(false)
                 .withCompactStyle(true)
                 .withHeaderBackground(R.drawable.blank_primary_dark)
-                .withOnAccountHeaderListener({ _, event, _ -> this.activateEvent(this.events[event.identifier.toInt()]!!); false })
+                .withOnAccountHeaderListener({ _, event, _ -> this.activeEvent = this.events[event.identifier.toInt()]!!; false })
                 .build()
 
         this.drawer = DrawerBuilder()
@@ -125,6 +119,7 @@ class Dashboard: AppCompatActivity(),
             stopwatchService = this.service
         }
 
+        this.user = FirebaseAuth.getInstance().currentUser
         this.listRegisteredEvent()
     }
 
@@ -190,35 +185,25 @@ class Dashboard: AppCompatActivity(),
         event?.let {
             this.events[++eventCounter] = it
             this.drawerHeader.addProfile(ProfileDrawerItem().withName(it.event).withIdentifier(eventCounter.toLong()), eventCounter)
-
-            if (this.activeEvent == null)
-            {
-                this.activateEvent(it)
-            }
         }
     }
 
     private fun activateEvent(event: Event)
     {
         Timber.d("activateEvent [$event]")
-
-        if (this.activeEvent != event)
-        {
-            this.drawer.deselect()
-            this.drawer.removeAllItems()
-            this.categories.clear()
-            this.activateCategory(null)
-            this.categoryCounter = -1
-            arrayOf(
-                    "Medical Check",
-                    "Illinois",
-                    "Vertical Jump",
-                    "Throwing Ball",
-                    "Push Up",
-                    "Sit Up",
-                    "Run 1600 m").forEach { addNewCategory(EventCategory(it)) }
-            this.activeEvent = event
-        }
+        this.drawer.deselect()
+        this.drawer.removeAllItems()
+        this.categories.clear()
+        this.activateCategory(null)
+        this.categoryCounter = -1
+        arrayOf(
+                "Medical Check",
+                "Illinois",
+                "Vertical Jump",
+                "Throwing Ball",
+                "Push Up",
+                "Sit Up",
+                "Run 1600 m").forEach { addNewCategory(EventCategory(it)) }
     }
 
     private fun addNewCategory(category: EventCategory?)
