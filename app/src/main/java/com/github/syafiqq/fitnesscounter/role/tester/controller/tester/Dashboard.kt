@@ -222,13 +222,13 @@ class Dashboard: AppCompatActivity(),
         this.activateCategory(null)
         this.categoryCounter = -1
         arrayOf(
-                "Medical Check",
-                "Illinois",
-                "Vertical Jump",
-                "Throwing Ball",
-                "Push Up",
-                "Sit Up",
-                "Run 1600 m").forEach { addNewCategory(EventCategory(it)) }
+                MedicalCheckUp.IDENTIFIER,
+                Illinois.IDENTIFIER,
+                VerticalJump.IDENTIFIER,
+                ThrowingBall.IDENTIFIER,
+                PushUp.IDENTIFIER,
+                SitUp.IDENTIFIER,
+                Run1600m.IDENTIFIER).forEach { addNewCategory(EventCategory(it)) }
     }
 
     private fun addNewCategory(category: EventCategory?)
@@ -248,14 +248,14 @@ class Dashboard: AppCompatActivity(),
         {
             val fragment: Fragment = when (category?.category)
             {
-                "Medical Check" -> MedicalCheckUp.newInstance()
-                "Illinois"      -> Illinois.newInstance()
-                "Vertical Jump" -> VerticalJump.newInstance()
-                "Throwing Ball" -> ThrowingBall.newInstance()
-                "Push Up"       -> PushUp.newInstance()
-                "Sit Up"        -> SitUp.newInstance()
-                "Run 1600 m"    -> Run1600m.newInstance()
-                else            -> Home.newInstance()
+                MedicalCheckUp.IDENTIFIER -> MedicalCheckUp.newInstance()
+                Illinois.IDENTIFIER       -> Illinois.newInstance()
+                VerticalJump.IDENTIFIER   -> VerticalJump.newInstance()
+                ThrowingBall.IDENTIFIER   -> ThrowingBall.newInstance()
+                PushUp.IDENTIFIER         -> PushUp.newInstance()
+                SitUp.IDENTIFIER          -> SitUp.newInstance()
+                Run1600m.IDENTIFIER       -> Run1600m.newInstance()
+                else                      -> Home.newInstance()
             }
 
             if (category == null)
