@@ -270,7 +270,7 @@ class Dashboard: AppCompatActivity(),
             }
 
             val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragment, fragment)
+            transaction.replace(R.id.fragment, fragment, CURRENT_FRAGMENT)
             transaction.commit()
 
             this.activeCategory = category
