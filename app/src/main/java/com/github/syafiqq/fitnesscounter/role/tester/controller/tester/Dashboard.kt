@@ -118,6 +118,39 @@ class Dashboard: AppCompatActivity(),
         }
     }
 
+    override fun onDestroy()
+    {
+        Timber.d("onDestroy")
+
+        App.instance.stopwatchService.deleteObserver(stopwatchO)
+        super.onDestroy()
+    }
+
+    override fun onSaveInstanceState(state: Bundle?)
+    {
+        Timber.d("onSaveInstanceState [$state]")
+
+        var mState = state ?: Bundle()
+
+        mState = drawerHeader.saveInstanceState(mState)
+        mState = drawer.saveInstanceState(mState)
+        super.onSaveInstanceState(mState)
+    }
+
+    override fun onBackPressed()
+    {
+        Timber.d("onBackPressed")
+
+        if (drawer.isDrawerOpen)
+        {
+            drawer.closeDrawer()
+        }
+        else
+        {
+            super.onBackPressed()
+        }
+    }
+
     private fun listRegisteredEvent()
     {
         Timber.d("listRegisteredEvent")
@@ -234,39 +267,6 @@ class Dashboard: AppCompatActivity(),
         {
             return this.activeEvent!!
         }
-    }
-
-    override fun onSaveInstanceState(state: Bundle?)
-    {
-        Timber.d("onSaveInstanceState [$state]")
-
-        var mState = state ?: Bundle()
-
-        mState = drawerHeader.saveInstanceState(mState)
-        mState = drawer.saveInstanceState(mState)
-        super.onSaveInstanceState(mState)
-    }
-
-    override fun onBackPressed()
-    {
-        Timber.d("onBackPressed")
-
-        if (drawer.isDrawerOpen)
-        {
-            drawer.closeDrawer()
-        }
-        else
-        {
-            super.onBackPressed()
-        }
-    }
-
-    override fun onDestroy()
-    {
-        Timber.d("onDestroy")
-
-        App.instance.stopwatchService.deleteObserver(stopwatchO)
-        super.onDestroy()
     }
 
     companion object
