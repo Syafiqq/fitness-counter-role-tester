@@ -100,11 +100,11 @@ class Dashboard: AppCompatActivity(),
                 .withOnDrawerItemClickListener({ _, _, category -> this.activateCategory(this.categories[category.identifier.toInt()]!!); false })
                 .build()
 
-        if ((supportFragmentManager.findFragmentByTag(CURRENT_FRAGMENT) == null) || state == null)
+        if (state == null)
         {
             supportFragmentManager
                     .beginTransaction()
-                    .add(R.id.fragment, Home.newInstance(), CURRENT_FRAGMENT)
+                    .add(R.id.fragment, Home.newInstance(), Home.IDENTIFIER)
                     .commit()
         }
 
@@ -137,6 +137,7 @@ class Dashboard: AppCompatActivity(),
         mState = drawer.saveInstanceState(mState)
         this.activeEvent?.let { mState.putSerializable(M_ACTIVE_EVENT, it) }
         this.activeCategory?.let { mState.putSerializable(M_ACTIVE_CATEGORY, it) }
+        if (supportFragmentManager.findFragmentById(R.id.fragment) is IdentifiableFragment) mState.putString(M_CURRENT_FRAGMENT, (supportFragmentManager.findFragmentById(R.id.fragment) as IdentifiableFragment).identifier)
         super.onSaveInstanceState(mState)
     }
 
@@ -148,6 +149,7 @@ class Dashboard: AppCompatActivity(),
         state?.let {
             it.getSerializable(M_ACTIVE_EVENT)?.let { this.savedState[M_ACTIVE_EVENT] = it }
             it.getSerializable(M_ACTIVE_CATEGORY)?.let { this.savedState[M_ACTIVE_CATEGORY] = it }
+            it.getString(M_CURRENT_FRAGMENT)?.let { this.savedState[M_CURRENT_FRAGMENT] = it }
         }
     }
 
@@ -233,10 +235,10 @@ class Dashboard: AppCompatActivity(),
             this.categories[++categoryCounter] = it
             this.drawer.addItem(PrimaryDrawerItem().withName(it.category).withIdentifier(categoryCounter.toLong()))
 
-            if (this.savedState[M_ACTIVE_CATEGORY] != null && this.savedState[M_ACTIVE_CATEGORY] == it)
+            if (this.savedState[M_ACTIVE_CATEGORY] != null && this.savedState[M_CURRENT_FRAGMENT] != null && this.savedState[M_ACTIVE_CATEGORY] == it)
             {
                 val active = this.savedState.remove(M_ACTIVE_CATEGORY)
-                if ((supportFragmentManager.findFragmentByTag(CURRENT_FRAGMENT) as IdentifiableFragment).identifier != (active as EventCategory).category)
+                if ((supportFragmentManager.findFragmentByTag(this.savedState[M_CURRENT_FRAGMENT] as String) as IdentifiableFragment).identifier != (active as EventCategory).category)
                 {
                     this.activateCategory(it)
                 }
@@ -244,7 +246,7 @@ class Dashboard: AppCompatActivity(),
                 {
                     supportFragmentManager
                             .beginTransaction()
-                            .replace(R.id.fragment, supportFragmentManager.findFragmentByTag(CURRENT_FRAGMENT))
+                            .replace(R.id.fragment, supportFragmentManager.findFragmentByTag(this.savedState[M_CURRENT_FRAGMENT] as String))
                             .commit()
                 }
             }
@@ -253,20 +255,26 @@ class Dashboard: AppCompatActivity(),
 
     private fun activateCategory(category: EventCategory?)
     {
+        fun checkAvailability(category: EventCategory): Fragment?
+        {
+            return this.supportFragmentManager.findFragmentByTag(category.category)
+        }
+
         Timber.d("activateCategory [$category]")
         if (category != this.activeCategory)
         {
             val fragment: Fragment = when (category?.category)
-            {
-                MedicalCheckUp.IDENTIFIER -> MedicalCheckUp.newInstance()
-                Illinois.IDENTIFIER       -> Illinois.newInstance()
-                VerticalJump.IDENTIFIER   -> VerticalJump.newInstance()
-                ThrowingBall.IDENTIFIER   -> ThrowingBall.newInstance()
-                PushUp.IDENTIFIER         -> PushUp.newInstance()
-                SitUp.IDENTIFIER          -> SitUp.newInstance()
-                Run1600m.IDENTIFIER       -> Run1600m.newInstance()
+            { // @formatter:off
+                MedicalCheckUp.IDENTIFIER -> checkAvailability(category) ?: MedicalCheckUp.newInstance()
+                Illinois.IDENTIFIER       -> checkAvailability(category) ?: Illinois.newInstance()
+                VerticalJump.IDENTIFIER   -> checkAvailability(category) ?: VerticalJump.newInstance()
+                ThrowingBall.IDENTIFIER   -> checkAvailability(category) ?: ThrowingBall.newInstance()
+                PushUp.IDENTIFIER         -> checkAvailability(category) ?: PushUp.newInstance()
+                SitUp.IDENTIFIER          -> checkAvailability(category) ?: SitUp.newInstance()
+                Run1600m.IDENTIFIER       -> checkAvailability(category) ?: Run1600m.newInstance()
+                Home.IDENTIFIER           -> checkAvailability(category) ?: Home.newInstance()
                 else                      -> Home.newInstance()
-            }
+            }// @formatter:on
 
             val transaction = supportFragmentManager.beginTransaction()
             if (category == null)
@@ -276,7 +284,7 @@ class Dashboard: AppCompatActivity(),
             }
             else
             {
-                transaction.replace(R.id.fragment, fragment, CURRENT_FRAGMENT)
+                transaction.replace(R.id.fragment, fragment, (fragment as IdentifiableFragment).identifier)
                 category.category?.let {
                     this.toolbar.title = it
                 }
@@ -306,9 +314,9 @@ class Dashboard: AppCompatActivity(),
 
     companion object
     {
-        const val CURRENT_FRAGMENT = "CURRENT_FRAGMENT"
         const val M_ACTIVE_EVENT = "m_active_event"
         const val M_ACTIVE_CATEGORY = "m_active_category"
+        const val M_CURRENT_FRAGMENT = "m_current_fragment"
     }
 
 }
