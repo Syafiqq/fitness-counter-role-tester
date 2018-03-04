@@ -126,7 +126,7 @@ class MedicalCheckUp: IdentifiableFragment()
 
     private fun calculateBmi(tbb: Float?, weight: Float?): Float?
     {
-        Timber.d("calculateRatio [$tbb, $weight]")
+        Timber.d("calculateBmi [$tbb, $weight]")
 
         val bmi = if (tbb == null || weight == null) null else (weight / (tbb / 100).pow(2)).takeIf { it.isFinite() }
         this.h_edittext_bmi.setText(String.format(Locale.getDefault(), "%.3f", bmi ?: 0f))
