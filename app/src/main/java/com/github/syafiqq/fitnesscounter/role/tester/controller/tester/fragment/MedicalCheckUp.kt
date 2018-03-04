@@ -15,6 +15,7 @@ import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.MedicalChe
 import com.github.syafiqq.fitnesscounter.core.helpers.tester.PresetHelper
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.custom.android.text.CTextWatcher
+import com.github.syafiqq.fitnesscounter.role.tester.ext.android.text.toReadableFloat
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.changeAndShow
 import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.fragment_tester_medical_check_up.*
@@ -45,7 +46,7 @@ class MedicalCheckUp: IdentifiableFragment()
             {
                 with(this@MedicalCheckUp)
                 {
-                    this.checkUp.tbb = s?.toFloat()
+                    this.checkUp.tbb = s?.toReadableFloat()
                     this.checkUp.ratio = this.calculateRatio(this.checkUp.tbb, this.checkUp.tbd)
                     this.checkUp.bmi = this.calculateBmi(this.checkUp.tbb, this.checkUp.weight)
                 }
@@ -57,7 +58,7 @@ class MedicalCheckUp: IdentifiableFragment()
             {
                 with(this@MedicalCheckUp)
                 {
-                    this.checkUp.tbd = s?.toFloat()
+                    this.checkUp.tbd = s?.toReadableFloat()
                     this.checkUp.ratio = this.calculateRatio(this.checkUp.tbb, this.checkUp.tbd)
                 }
             }
@@ -68,7 +69,7 @@ class MedicalCheckUp: IdentifiableFragment()
             {
                 with(this@MedicalCheckUp)
                 {
-                    this.checkUp.weight = s?.toFloat()
+                    this.checkUp.weight = s?.toReadableFloat()
                     this.checkUp.bmi = this.calculateBmi(this.checkUp.tbb, this.checkUp.weight)
                 }
             }
@@ -171,21 +172,21 @@ class MedicalCheckUp: IdentifiableFragment()
         Timber.d("saveChanges")
 
         // Anthropometric
-        this.checkUp.tbb = this.h_edittext_tbb.text.toFloat()
-        this.checkUp.tbd = this.h_edittext_tbd.text.toFloat()
+        this.checkUp.tbb = this.h_edittext_tbb.text.toReadableFloat()
+        this.checkUp.tbd = this.h_edittext_tbd.text.toReadableFloat()
         this.checkUp.ratio = this.calculateRatio(this.checkUp.tbb, this.checkUp.tbd)
-        this.checkUp.weight = this.h_edittext_weight.text.toFloat()
+        this.checkUp.weight = this.h_edittext_weight.text.toReadableFloat()
         this.checkUp.bmi = this.calculateBmi(this.checkUp.tbb, this.checkUp.weight)
         // Posture and Gait
         this.checkUp.posture = if (this.radiogroup_postur.checkedRadioButtonId < 0) null else view?.findViewById<RadioButton>(this.radiogroup_postur.checkedRadioButtonId)?.text.toString()
         this.checkUp.gait = if (this.radiogroup_aa.checkedRadioButtonId < 0) null else view?.findViewById<RadioButton>(this.radiogroup_aa.checkedRadioButtonId)?.text.toString()
         // Cardiovascular
-        this.checkUp.pulse = this.h_edittext_denyut.text.toFloat()
-        this.checkUp.pressure = if (this.h_edittext_mm.text.toFloat() == null || this.h_edittext_hg.text.toFloat() == null) null else "${this.h_edittext_mm.text.toFloat()} / ${this.h_edittext_hg.text.toFloat()}"
+        this.checkUp.pulse = this.h_edittext_denyut.text.toReadableFloat()
+        this.checkUp.pressure = if (this.h_edittext_mm.text.toReadableFloat() == null || this.h_edittext_hg.text.toReadableFloat() == null) null else "${this.h_edittext_mm.text.toReadableFloat()} / ${this.h_edittext_hg.text.toReadableFloat()}"
         this.checkUp.ictus = if (this.radiogroup_ictus.checkedRadioButtonId < 0) null else view?.findViewById<RadioButton>(this.radiogroup_ictus.checkedRadioButtonId)?.text.toString()
         this.checkUp.heart = if (this.radiogroup_jantung.checkedRadioButtonId < 0) null else view?.findViewById<RadioButton>(this.radiogroup_jantung.checkedRadioButtonId)?.text.toString()
         // Respiratory
-        this.checkUp.frequency = this.h_edittext_frekuensi.text.toFloat()
+        this.checkUp.frequency = this.h_edittext_frekuensi.text.toReadableFloat()
         this.checkUp.retraction = if (this.radiogroup_retraksi.checkedRadioButtonId < 0) null else view?.findViewById<RadioButton>(this.radiogroup_retraksi.checkedRadioButtonId)?.text.toString()
         this.checkUp.rLocation = if (TextUtils.isEmpty(this.h_edittext_lokasi_retraksi.text.toString())) null else this.h_edittext_lokasi_retraksi.text.toString()
         this.checkUp.breath = if (this.radiogroup_suara_napas.checkedRadioButtonId < 0) null else view?.findViewById<RadioButton>(this.radiogroup_suara_napas.checkedRadioButtonId)?.text.toString()
@@ -306,10 +307,5 @@ class MedicalCheckUp: IdentifiableFragment()
         const val IDENTIFIER = "Medical Check"
         const val M_RESULT = "m_result"
         const val M_PARTICIPANT = "m_participant"
-    }
-
-    fun Editable.toFloat(): Float?
-    {
-        return this.toString().toFloatOrNull()?.takeIf { it.isFinite() }
     }
 }
