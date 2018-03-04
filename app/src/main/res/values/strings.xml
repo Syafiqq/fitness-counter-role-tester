@@ -114,4 +114,9 @@
     <string name="command_start">Start</string>
     <string name="command_stop">Stop</string>
     <string name="command_reset">Reset</string>
+    <string name="hint_vertical_jump_raihan_tegak">Raihan Tegak</string>
+    <string name="hint_vertical_jump_loncatan_1">Loncatan 1</string>
+    <string name="hint_vertical_jump_loncatan_2">Loncatan 2</string>
+    <string name="hint_vertical_jump_loncatan_3">Locantan 3</string>
+    <string name="hint_vertical_jump_deviation">Selisih</string>
 </resources>
