@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import android.support.v4.app.NotificationCompat
-import android.support.v4.app.TaskStackBuilder
 import com.danielbostwick.stopwatch.core.model.Stopwatch
 import com.danielbostwick.stopwatch.core.service.DefaultStopwatchService
 import com.github.syafiqq.fitnesscounter.role.tester.R
@@ -17,6 +16,7 @@ import org.joda.time.Duration
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicReferenceArray
 import kotlin.properties.Delegates
+
 
 class StopwatchService: Service()
 {
@@ -106,11 +106,8 @@ class StopwatchService: Service()
     {
         Timber.d("createNotification")
 
-        val notificationIntent = Intent(this, Dashboard::class.java)
-        val stackBuilder = TaskStackBuilder.create(this).apply {
-            this.addNextIntent(notificationIntent)
-        }
-        val pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+        val notificationIntent = Intent(applicationContext, Dashboard::class.java)
+        val pendingIntent = PendingIntent.getActivity(applicationContext, System.currentTimeMillis().toInt(), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         return NotificationCompat.Builder(this, "stopwatch")
                 .setSmallIcon(R.drawable.notification_icon_background)
