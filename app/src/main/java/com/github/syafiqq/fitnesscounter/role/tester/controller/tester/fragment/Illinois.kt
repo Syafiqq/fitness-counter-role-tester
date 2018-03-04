@@ -213,7 +213,7 @@ class Illinois: IdentifiableFragment()
             with(this@Illinois)
             {
                 this.stopwatchState = StopwatchStatus.PREPARED
-                this.displayStopwatch(org.joda.time.Duration.millis(0L))
+                this.displayStopwatch(Duration.millis(0L))
             }
         }
     }
