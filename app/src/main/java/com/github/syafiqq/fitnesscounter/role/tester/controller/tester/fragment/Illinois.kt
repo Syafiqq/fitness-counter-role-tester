@@ -197,6 +197,7 @@ class Illinois: IdentifiableFragment()
         Timber.d("startStopwatch [$view]")
 
         this.stopwatchService?.run {
+            this.reset(this.getStopwatch())
             this.start(this.getStopwatch(), DateTime.now())
             with(this@Illinois)
             {
