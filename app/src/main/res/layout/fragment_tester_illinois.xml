@@ -105,7 +105,8 @@
                 android:layout_marginEnd="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="8dp"
-                android:background="@color/md_red_600"/>
+                android:background="@color/md_red_600"
+                android:visibility="gone"/>
 
         <android.support.constraint.Barrier
                 android:layout_width="wrap_content"
@@ -122,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/group_finish"
                 tools:layout_editor_absoluteY="16dp"
-                app:constraint_referenced_ids="button_stop,button_save,button_send"
+                app:constraint_referenced_ids="button_save,button_send"
                 android:visibility="gone"
                 tools:ignore="MissingConstraints"/>
     </android.support.constraint.ConstraintLayout>
