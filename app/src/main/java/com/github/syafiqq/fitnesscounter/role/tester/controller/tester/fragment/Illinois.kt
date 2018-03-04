@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.danielbostwick.stopwatch.core.model.Stopwatch
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.controller.service.StopwatchService
@@ -14,10 +15,12 @@ import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.material
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.org.joda.time.toFormattedStopwatch
 import kotlinx.android.synthetic.main.fragment_tester_illinois.*
 import org.joda.time.DateTime
+import org.joda.time.Duration
 import timber.log.Timber
 import java.util.Observer
 import java.util.Timer
 import java.util.TimerTask
+import kotlin.properties.Delegates
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.Illinois as MIllinois
 
 class Illinois: IdentifiableFragment()
@@ -25,7 +28,7 @@ class Illinois: IdentifiableFragment()
     override val identifier: String
         get() = Illinois.IDENTIFIER
     private lateinit var listener: OnInteractionListener
-    private lateinit var timer: Timer
+    private var timer: Timer? = null
 
     private var updateText = createTimerTask()
     private var stopwatchService: StopwatchService? = null
@@ -36,6 +39,7 @@ class Illinois: IdentifiableFragment()
             stopwatchService = arg as StopwatchService
         }
     }
+    private var stopwatchState by Delegates.observable(StopwatchStatus.PREPARED) { _, _, new -> shiftUI(new) }
 
     private val illinois = MIllinois()
 
@@ -63,25 +67,14 @@ class Illinois: IdentifiableFragment()
         Timber.d("onResume")
 
         super.onResume()
-        timer = Timer()
-
-        try
-        {
-            timer.scheduleAtFixedRate(updateText, 0, TIMER_DELAY)
-        }
-        catch (e: Exception)
-        {
-            updateText = createTimerTask()
-            timer.scheduleAtFixedRate(updateText, 0, TIMER_DELAY)
-            Timber.e(e)
-        }
+        this.watchStopwatch()
     }
 
     override fun onPause()
     {
         Timber.d("onPause")
 
-        timer.cancel()
+        this.unwatchStopwatch()
         super.onPause()
     }
 
@@ -97,10 +90,8 @@ class Illinois: IdentifiableFragment()
 
         this.button_send.setOnClickListener { _ -> this.dialog.changeAndShow(this.dialogs["confirmation-send"].apply { this?.setContent("Apakah anda yakin mengirim nilai peserta ${this@Illinois.edittext_participant.text}") }!!) }
 
-        this.button_start.setOnClickListener {
-            Timber.d("button_start ${this.stopwatchService}")
-            this.stopwatchService?.run { this.start(this.getStopwatch(), DateTime.now(), 0) }
-        }
+        this.button_start.setOnClickListener(this::startStopwatch)
+        this.button_stop.setOnClickListener(this::stopStopwatch)
         super.onViewCreated(view, state)
     }
 
@@ -125,6 +116,8 @@ class Illinois: IdentifiableFragment()
 
         state.putSerializable(M_RESULT, this.illinois)
         state.putInt(M_PARTICIPANT, this.edittext_participant.text.toString().toIntOrNull() ?: 0)
+        state.putString(M_STOPWATCH_STATE, this.stopwatchState.name)
+        this.stopwatchService?.let { state.putSerializable(M_STOPWATCH, it.getStopwatch()) }
         super.onSaveInstanceState(state)
     }
 
@@ -136,6 +129,8 @@ class Illinois: IdentifiableFragment()
         state?.let {
             it.getSerializable(M_RESULT)?.let { this.illinois.set(it as MIllinois) }
             it.getInt(M_PARTICIPANT).let { this.edittext_participant.setText(if (it == 0) "" else it.toString()) }
+            it.getString(M_STOPWATCH_STATE)?.let { this.stopwatchState = StopwatchStatus.valueOf(it) }
+            if (this.stopwatchService != null) it.getSerializable(M_STOPWATCH)?.let { this.stopwatchService!!.getStopwatch().set(it as Stopwatch) }
         }
 
         this.loadChanges()
@@ -168,12 +163,132 @@ class Illinois: IdentifiableFragment()
     override fun loadChanges()
     {
         Timber.d("loadChanges")
+        this.illinois.start?.let { if (this.stopwatchService != null) this.stopwatchService?.getStopwatch()?.startedAt = DateTime(it) }
+        this.illinois.elapsed?.let { this.displayStopwatch(Duration.millis(it)) }
     }
 
     interface OnInteractionListener
     {
         fun getEvent(): Event
         fun getOService(): StopwatchService.Observable
+    }
+
+    private fun startStopwatch(view: View? = null)
+    {
+        Timber.d("startStopwatch [$view]")
+
+        this.stopwatchService?.run {
+            this.start(this.getStopwatch(), DateTime.now())
+            with(this@Illinois)
+            {
+                this.illinois.start = this@run.getStopwatch().startedAt.millis
+                this.stopwatchState = StopwatchStatus.STARTED
+            }
+        }
+    }
+
+    private fun stopStopwatch(view: View? = null)
+    {
+        Timber.d("stopStopwatch [$view]")
+
+        this.stopwatchService?.run {
+            this.pause(this.getStopwatch(), DateTime.now())
+            with(this@Illinois)
+            {
+                this.illinois.end = this@run.getStopwatch().startedAt.millis
+                this.illinois.elapsed = (this.illinois.end ?: 0L) - (this.illinois.start ?: 0L)
+                this.stopwatchState = StopwatchStatus.STOPPED
+                this.illinois.elapsed?.let { this.displayStopwatch(org.joda.time.Duration.millis(it)) }
+            }
+        }
+    }
+
+    private fun shiftUI(state: StopwatchStatus)
+    {
+        when (state)
+        {
+            StopwatchStatus.PREPARED ->
+            {
+                this.button_start.visibility = View.VISIBLE
+                this.button_stop.visibility = View.GONE
+                this.group_finish.visibility = View.GONE
+            }
+            StopwatchStatus.STARTED  ->
+            {
+                this.button_start.visibility = View.GONE
+                this.button_stop.visibility = View.VISIBLE
+                this.group_finish.visibility = View.GONE
+                this.watchStopwatch()
+            }
+            StopwatchStatus.STOPPED  ->
+            {
+                this.button_start.visibility = View.GONE
+                this.button_stop.visibility = View.GONE
+                this.group_finish.visibility = View.VISIBLE
+                this.unwatchStopwatch()
+            }
+        }
+    }
+
+    private fun createTimerTask(): TimerTask
+    {
+        Timber.d("createTimerTask")
+
+        return object: TimerTask()
+        {
+            override fun run()
+            {
+                with(this@Illinois)
+                {
+                    this.activity?.runOnUiThread {
+                        this.stopwatchService?.let {
+                            this.displayStopwatch(it.timeElapsed(it.getStopwatch(), DateTime.now()))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun watchStopwatch()
+    {
+        Timber.d("watchStopwatch")
+
+        if (stopwatchState == StopwatchStatus.STARTED)
+        {
+            this.unwatchStopwatch()
+            timer = Timer().apply {
+                try
+                {
+                    this.scheduleAtFixedRate(updateText, 0, TIMER_DELAY)
+                }
+                catch (e: Exception)
+                {
+                    updateText = createTimerTask()
+                    this.scheduleAtFixedRate(updateText, 0, TIMER_DELAY)
+                    Timber.e(e)
+                }
+            }
+        }
+    }
+
+    private fun unwatchStopwatch()
+    {
+        Timber.d("unwatchStopwatch")
+
+        timer?.cancel()
+    }
+
+    private fun displayStopwatch(duration: Duration)
+    {
+        this.textview_clock.text = duration.toFormattedStopwatch()
+    }
+
+    private enum class StopwatchStatus
+    {
+        PREPARED,
+        STARTED,
+        STOPPED
     }
 
     companion object
@@ -186,23 +301,8 @@ class Illinois: IdentifiableFragment()
         const val IDENTIFIER = "Illinois"
         const val M_RESULT = "m_result"
         const val M_PARTICIPANT = "m_participant"
-        const val TIMER_DELAY: Long = 500
-    }
-
-    private fun createTimerTask(): TimerTask
-    {
-        Timber.d("createTimerTask")
-
-        return object: TimerTask()
-        {
-            override fun run()
-            {
-                this@Illinois.activity?.runOnUiThread {
-                    this@Illinois.stopwatchService?.let {
-                        this@Illinois.textview_clock.text = it.timeElapsed(it.getStopwatch(), DateTime.now()).toFormattedStopwatch()
-                    }
-                }
-            }
-        }
+        const val M_STOPWATCH_STATE = "m_stopwatch_state"
+        const val M_STOPWATCH = "m_stopwatch"
+        const val TIMER_DELAY: Long = 1000
     }
 }
