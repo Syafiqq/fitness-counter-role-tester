@@ -9,10 +9,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.danielbostwick.stopwatch.core.model.Stopwatch
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
+import com.github.syafiqq.fitnesscounter.core.helpers.tester.PresetHelper
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.controller.service.StopwatchService
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.changeAndShow
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.org.joda.time.toFormattedStopwatch
+import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.fragment_tester_illinois.*
 import org.joda.time.DateTime
 import org.joda.time.Duration
@@ -152,6 +154,22 @@ class Illinois: IdentifiableFragment()
             else
             {
                 this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
+                PresetHelper.saveIllinois(event.presetActive!!, this.edittext_participant.text.toString().toInt(), this.illinois, DatabaseReference.CompletionListener { error, _ ->
+                    run {
+                        with(this@Illinois)
+                        {
+                            if (error == null)
+                            {
+                                Toast.makeText(this.context!!, "Pengiriman Berhasil", Toast.LENGTH_LONG).show()
+                            }
+                            else
+                            {
+                                Toast.makeText(this.context!!, "Error Pengiriman, Lebih baik simpan terlebih dahulu", Toast.LENGTH_LONG).show()
+                            }
+                            this.dialog.get()?.dismiss()
+                        }
+                    }
+                })
             }
         }
     }
