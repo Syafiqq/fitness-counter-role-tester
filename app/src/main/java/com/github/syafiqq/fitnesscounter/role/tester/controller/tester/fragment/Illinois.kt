@@ -92,6 +92,7 @@ class Illinois: IdentifiableFragment()
 
         this.button_start.setOnClickListener(this::startStopwatch)
         this.button_stop.setOnClickListener(this::stopStopwatch)
+        this.button_reset.setOnClickListener(this::resetStopwatch)
         super.onViewCreated(view, state)
     }
 
@@ -164,7 +165,7 @@ class Illinois: IdentifiableFragment()
     {
         Timber.d("loadChanges")
         this.illinois.start?.let { if (this.stopwatchService != null) this.stopwatchService?.getStopwatch()?.startedAt = DateTime(it) }
-        this.illinois.elapsed?.let { this.displayStopwatch(Duration.millis(it)) }
+        this.illinois.elapsed?.let { this.displayStopwatch(Duration.millis(if (stopwatchState == StopwatchStatus.PREPARED) 0L else it)) }
     }
 
     interface OnInteractionListener
@@ -203,6 +204,20 @@ class Illinois: IdentifiableFragment()
         }
     }
 
+    private fun resetStopwatch(view: View? = null)
+    {
+        Timber.d("resetStopwatch [$view]")
+
+        this.stopwatchService?.run {
+            this.reset(this.getStopwatch())
+            with(this@Illinois)
+            {
+                this.stopwatchState = StopwatchStatus.PREPARED
+                this.displayStopwatch(org.joda.time.Duration.millis(0L))
+            }
+        }
+    }
+
     private fun shiftUI(state: StopwatchStatus)
     {
         when (state)
@@ -212,6 +227,7 @@ class Illinois: IdentifiableFragment()
                 this.button_start.visibility = View.VISIBLE
                 this.button_stop.visibility = View.GONE
                 this.group_finish.visibility = View.GONE
+                this.unwatchStopwatch()
             }
             StopwatchStatus.STARTED  ->
             {
