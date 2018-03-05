@@ -95,17 +95,17 @@
                 android:visibility="visible"/>
 
         <Button
-                android:text="@string/command_stop"
+                android:text="@string/command_count"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/button_stop"
+                android:id="@+id/button_counter"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="8dp"
-                android:background="@color/md_red_600"
+                android:background="@color/md_green_600"
                 android:visibility="gone"/>
 
         <Button
@@ -131,7 +131,7 @@
                 app:barrierDirection="top"
                 tools:layout_editor_absoluteY="492dp"
                 tools:layout_editor_absoluteX="8dp"
-                app:constraint_referenced_ids="button_stop,button_start,button_save,button_send"
+                app:constraint_referenced_ids="button_counter,button_start,button_save,button_send"
                 tools:ignore="MissingConstraints"/>
 
         <android.support.constraint.Group

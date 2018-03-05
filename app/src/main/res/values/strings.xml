@@ -119,4 +119,5 @@
     <string name="hint_vertical_jump_loncatan_2">Loncatan 2</string>
     <string name="hint_vertical_jump_loncatan_3">Locantan 3</string>
     <string name="hint_vertical_jump_deviation">Selisih</string>
+    <string name="command_count">Hitung</string>
 </resources>
