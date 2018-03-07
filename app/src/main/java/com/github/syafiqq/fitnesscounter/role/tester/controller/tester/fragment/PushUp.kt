@@ -43,7 +43,7 @@ class PushUp: IdentifiableFragment()
     }
     private var stopwatchState by Delegates.observable(StopwatchStatus.PREPARED) { _, _, new -> shiftUI(new) }
     private val pushUp = MPushUp()
-    private val limit = 5000L
+    private val limit = 60000L
 
     override fun onCreate(state: Bundle?)
     {
