@@ -224,6 +224,11 @@ class Run1600m: IdentifiableFragment()
     override fun loadChanges()
     {
         Timber.d("loadChanges")
+        this.edittext_participant_1.setText((this.runs[0].id ?: "").toString())
+        this.edittext_participant_2.setText((this.runs[1].id ?: "").toString())
+        this.edittext_participant_3.setText((this.runs[2].id ?: "").toString())
+        this.edittext_participant_4.setText((this.runs[3].id ?: "").toString())
+        this.edittext_participant_5.setText((this.runs[4].id ?: "").toString())
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?)
@@ -358,6 +363,21 @@ class Run1600m: IdentifiableFragment()
             this.reset(this.getStopwatch())
             with(this@Run1600m)
             {
+                this.runs.forEach {
+                    it.status = StopwatchStatus.PREPARED
+                    it.id = null
+                    it.current = 0
+                    with(it.run)
+                    {
+                        this.start = null
+                        this.lap1 = null
+                        this.lap2 = null
+                        this.lap3 = null
+                        this.end = null
+                        this.elapsed = null
+                    }
+                    this.loadChanges()
+                }
                 this.stopwatchState = StopwatchStatus.PREPARED
                 this.displayStopwatch(Duration.millis(0L))
             }
