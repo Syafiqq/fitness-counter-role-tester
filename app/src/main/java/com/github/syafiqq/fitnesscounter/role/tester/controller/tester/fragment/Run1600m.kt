@@ -1,5 +1,6 @@
 package com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -10,7 +11,9 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import com.danielbostwick.stopwatch.core.model.Stopwatch
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
@@ -25,7 +28,6 @@ import org.joda.time.DateTime
 import org.joda.time.Duration
 import timber.log.Timber
 import java.io.Serializable
-import java.util.Locale
 import java.util.Observer
 import java.util.Timer
 import java.util.TimerTask
@@ -294,24 +296,36 @@ class Run1600m: IdentifiableFragment()
                 {
                     run.run.end = DateTime.now().millis
                     run.run.elapsed = (run.run.end ?: 0) - (run.run.start ?: 0)
+                    run.status = StopwatchStatus.STOPPED
+
+                    this.stopStopwatch()
                 }
             }
             setButtonText(index, run)
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setButtonText(index: Int, run: IdRun1600m)
     {
         Timber.d("setButtonText [$index, $run]")
-        this.view?.findViewById<Button>(this.resources.getIdentifier("button_counter_" + (index + 1), "id", context!!.packageName))?.text =
-                String.format(Locale.getDefault(), "Peserta - ${index + 1} || %s || Lap - ${run.current + 1}", when (run.current)
-                {
-                    0    -> Duration.millis(0L).toFormattedStopwatch()
-                    1    -> Duration.millis((run.run.lap1 ?: 0) - (run.run.start ?: 0)).toFormattedStopwatch()
-                    2    -> Duration.millis((run.run.lap2 ?: 0) - (run.run.start ?: 0)).toFormattedStopwatch()
-                    3    -> Duration.millis((run.run.lap3 ?: 0) - (run.run.start ?: 0)).toFormattedStopwatch()
-                    else -> Duration.millis(run.run.elapsed ?: 0).toFormattedStopwatch()
-                })
+        val duration = when (run.current)
+        {
+            0    -> Duration.millis(0L).toFormattedStopwatch()
+            1    -> Duration.millis((run.run.lap1 ?: 0) - (run.run.start ?: 0)).toFormattedStopwatch()
+            2    -> Duration.millis((run.run.lap2 ?: 0) - (run.run.start ?: 0)).toFormattedStopwatch()
+            3    -> Duration.millis((run.run.lap3 ?: 0) - (run.run.start ?: 0)).toFormattedStopwatch()
+            else -> Duration.millis(run.run.elapsed ?: 0).toFormattedStopwatch()
+        }
+        this.view?.findViewById<Button>(this.resources.getIdentifier("button_counter_" + (index + 1), "id", context!!.packageName))?.apply {
+            this.text = "Peserta - ${index + 1} || $duration || Lap - ${run.current + 1}"
+            this.visibility = if (run.current < 4) View.VISIBLE else View.GONE
+        }
+        this.view?.findViewById<TextView>(this.resources.getIdentifier("textview_elapsed_" + (index + 1), "id", context!!.packageName))?.apply {
+            this.text = duration
+            this.visibility = if (run.current < 4) View.GONE else View.VISIBLE
+        }
+        this.view?.findViewById<EditText>(this.resources.getIdentifier("edittext_participant_" + (index + 1), "id", context!!.packageName))?.visibility = if (run.current in 1..3) View.GONE else View.VISIBLE
     }
 
     private fun stopStopwatch(view: View? = null)
