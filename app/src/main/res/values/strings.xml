@@ -10,8 +10,12 @@
     <string name="app_name">Fitness Counter</string>
     <string name="auth_grant_authorization">Memberikan Hak Akses</string>
     <string name="auth_no_previlege_access">Anda tidak mempunyai hak untuk aplikasi ini!</string>
+    <string name="command_count">Hitung</string>
+    <string name="command_reset">Reset</string>
     <string name="command_save">Simpan</string>
     <string name="command_send">Kirim</string>
+    <string name="command_start">Start</string>
+    <string name="command_stop">Stop</string>
     <string name="crash_toast_text">Kirim Laporan Kerusakan</string>
     <string name="default_notification_channel_id">counter</string>
     <string name="default_notification_channel_name">fitness-counter-student</string>
@@ -20,6 +24,11 @@
     <string name="error_invalid_email">Email tidak valid</string>
     <string name="error_invalid_password">Password terlalu pendek</string>
     <string name="error_password_not_same">Password tidak Sama</string>
+    <string name="hint_vertical_jump_deviation">Selisih</string>
+    <string name="hint_vertical_jump_loncatan_1">Loncatan 1</string>
+    <string name="hint_vertical_jump_loncatan_2">Loncatan 2</string>
+    <string name="hint_vertical_jump_loncatan_3">Locantan 3</string>
+    <string name="hint_vertical_jump_raihan_tegak">Raihan Tegak</string>
     <string name="item_kesimpulan_no">Disarankan tidak mengikuti ujian keterampilan olahraga</string>
     <string name="item_kesimpulan_yes">Dapat mengikuti ujian keterampilan olahraga</string>
     <string name="item_mata_julig">Julig</string>
@@ -41,6 +50,11 @@
     <string name="label_auth_weak_password">Password terlalu mudah untuk dibobol</string>
     <string name="label_login_failed">Login Gagal</string>
     <string name="label_participant">No Peserta</string>
+    <string name="label_participant_1">No Peserta 1</string>
+    <string name="label_participant_2">No Peserta 2</string>
+    <string name="label_participant_3">No Peserta 3</string>
+    <string name="label_participant_4">No Peserta 4</string>
+    <string name="label_participant_5">No Peserta 5</string>
     <string name="label_password_reset_failed">Permintaan Gagal Dilakukan</string>
     <string name="label_password_reset_success">Permintaan dikirm, cek email anda !</string>
     <string name="label_please_wait">Tunggu Sebentar</string>
@@ -82,6 +96,7 @@
     <string name="medical_check_verbal_item_bibir">Verbal</string>
     <string name="medical_check_verbal_item_mata">Mata (Penglihatan)</string>
     <string name="medical_check_verbal_item_telinga">Telinga (Pendegaran)</string>
+    <string name="number_0">0</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_name">Name</string>
@@ -95,6 +110,7 @@
     <string name="sign_in_question">Sudah Punya Akun ?</string>
     <string name="sign_up_question">Belum Punya Akun ?</string>
     <string name="slash_separator">/</string>
+    <string name="template_stopwatch">00:00.000</string>
     <string name="title_activity_login">Masuk</string>
     <string name="title_activity_password_reset">Password Reset</string>
     <string name="title_activity_register">Daftar</string>
@@ -110,15 +126,4 @@
     <string name="unit_tekanan">mmHg</string>
     <string name="welcoming_text">SELAMAT DATANG</string>
     <string name="yes">Ya</string>
-    <string name="template_stopwatch">00:00.000</string>
-    <string name="command_start">Start</string>
-    <string name="command_stop">Stop</string>
-    <string name="command_reset">Reset</string>
-    <string name="hint_vertical_jump_raihan_tegak">Raihan Tegak</string>
-    <string name="hint_vertical_jump_loncatan_1">Loncatan 1</string>
-    <string name="hint_vertical_jump_loncatan_2">Loncatan 2</string>
-    <string name="hint_vertical_jump_loncatan_3">Locantan 3</string>
-    <string name="hint_vertical_jump_deviation">Selisih</string>
-    <string name="command_count">Hitung</string>
-    <string name="number_0">0</string>
 </resources>
