@@ -4,6 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -26,6 +29,7 @@ import java.util.Timer
 import java.util.TimerTask
 import kotlin.properties.Delegates
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.Run1600m as MRun1600m
+
 
 class Run1600m: IdentifiableFragment()
 {
@@ -60,6 +64,7 @@ class Run1600m: IdentifiableFragment()
     {
         Timber.d("onCreate [$state]")
         super.onCreate(state)
+        super.setHasOptionsMenu(true)
 
         with(this.listener.getOService())
         {
@@ -206,6 +211,34 @@ class Run1600m: IdentifiableFragment()
     override fun loadChanges()
     {
         Timber.d("loadChanges")
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?)
+    {
+        Timber.d("onCreateOptionsMenu [$menu, $inflater]")
+
+        inflater?.inflate(R.menu.menu_fragment_run, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean
+    {
+        Timber.d("onOptionsItemSelected [$item]")
+
+        return when (item?.itemId)
+        {
+            R.id.action_add    ->
+            {
+                this.participant += if (this.participant < 4) 1 else 0
+                true
+            }
+            R.id.action_remove ->
+            {
+                this.participant -= if (this.participant > 0) 1 else 0
+                true
+            }
+            else               -> super.onOptionsItemSelected(item)
+        }
     }
 
     interface OnInteractionListener

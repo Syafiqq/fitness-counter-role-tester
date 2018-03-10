@@ -126,4 +126,6 @@
     <string name="unit_tekanan">mmHg</string>
     <string name="welcoming_text">SELAMAT DATANG</string>
     <string name="yes">Ya</string>
+    <string name="command_add">Add</string>
+    <string name="command_minus">Remove</string>
 </resources>
