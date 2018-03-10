@@ -37,7 +37,9 @@ class Run1600m: IdentifiableFragment()
         get() = Run1600m.IDENTIFIER
     private lateinit var listener: OnInteractionListener
     private var timer: Timer? = null
-    private var participant = 0
+    private var participant by Delegates.observable(-1) { _, _, new ->
+        this.runsV.forEachIndexed { index, layout -> layout.visibility = if (index <= new) View.VISIBLE else View.GONE }
+    }
 
     private var updateText = createTimerTask()
     private var stopwatchService: StopwatchService? = null
@@ -229,12 +231,12 @@ class Run1600m: IdentifiableFragment()
         {
             R.id.action_add    ->
             {
-                this.participant += if (this.participant < 4) 1 else 0
+                this.participant += if (this.participant < 5 && this.stopwatchState == StopwatchStatus.PREPARED) 1 else 0
                 true
             }
             R.id.action_remove ->
             {
-                this.participant -= if (this.participant > 0) 1 else 0
+                this.participant -= if (this.participant > -1 && this.stopwatchState == StopwatchStatus.PREPARED) 1 else 0
                 true
             }
             else               -> super.onOptionsItemSelected(item)

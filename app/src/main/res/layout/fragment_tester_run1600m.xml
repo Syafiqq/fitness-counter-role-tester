@@ -98,7 +98,8 @@
                 app:layout_constraintStart_toStartOf="@+id/textview_clock"
                 app:layout_constraintEnd_toEndOf="@+id/textview_clock"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="4dp">
+                android:layout_marginBottom="4dp"
+                android:visibility="gone">
 
             <EditText
                     android:layout_width="match_parent"
@@ -136,7 +137,8 @@
                 app:layout_constraintStart_toStartOf="@+id/textview_clock"
                 app:layout_constraintEnd_toEndOf="@+id/textview_clock"
                 android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp">
+                android:layout_marginBottom="4dp"
+                android:visibility="gone">
 
 
             <EditText
@@ -176,7 +178,8 @@
                 app:layout_constraintStart_toStartOf="@+id/textview_clock"
                 app:layout_constraintEnd_toEndOf="@+id/textview_clock"
                 android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp">
+                android:layout_marginBottom="4dp"
+                android:visibility="gone">
 
 
             <EditText
@@ -216,7 +219,8 @@
                 app:layout_constraintStart_toStartOf="@+id/textview_clock"
                 app:layout_constraintEnd_toEndOf="@+id/textview_clock"
                 android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp">
+                android:layout_marginBottom="4dp"
+                android:visibility="gone">
 
 
             <EditText
@@ -256,7 +260,8 @@
                 app:layout_constraintStart_toStartOf="@+id/textview_clock"
                 app:layout_constraintEnd_toEndOf="@+id/textview_clock"
                 android:layout_marginTop="4dp"
-                android:layout_marginBottom="8dp">
+                android:layout_marginBottom="8dp"
+                android:visibility="gone">
 
             <EditText
                     android:layout_width="match_parent"
