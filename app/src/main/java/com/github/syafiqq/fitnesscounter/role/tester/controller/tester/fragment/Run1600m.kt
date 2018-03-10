@@ -171,14 +171,14 @@ class Run1600m: IdentifiableFragment()
         val event = this.listener.getEvent()
         if (event.presetActive != null)
         {
-            if (this.runs.take(this.participant).any { it.id == null })
+            if (this.runs.take(this.participant + 1).any { it.id == null })
             {
                 Toast.makeText(this.context!!, "Nomor Peserta Tidak Valid", Toast.LENGTH_LONG).show()
             }
             else
             {
                 this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
-                PresetHelper.savesRun1600m(event.presetActive!!, this.runs.take(this.participant).associate { idRun -> idRun.id!! to idRun.run }, DatabaseReference.CompletionListener { error, _ ->
+                PresetHelper.savesRun1600m(event.presetActive!!, this.runs.take(this.participant + 1).associate { idRun -> idRun.id!! to idRun.run }, DatabaseReference.CompletionListener { error, _ ->
                     run {
                         with(this@Run1600m)
                         {
@@ -259,7 +259,7 @@ class Run1600m: IdentifiableFragment()
             val started = this@run.getStopwatch().startedAt.millis
             with(this@Run1600m)
             {
-                this.runs.take(this.participant).forEach {
+                this.runs.take(this.participant + 1).forEach {
                     it.status = StopwatchStatus.STARTED
                     it.run.start = started
                 }
@@ -272,7 +272,7 @@ class Run1600m: IdentifiableFragment()
     {
         Timber.d("stopStopwatch [$view]")
 
-        if (this.runs.take(this.participant).all { it.status == StopwatchStatus.STOPPED })
+        if (this.runs.take(this.participant + 1).all { it.status == StopwatchStatus.STOPPED })
         {
             this.stopwatchService?.run {
                 val now = DateTime.now()
