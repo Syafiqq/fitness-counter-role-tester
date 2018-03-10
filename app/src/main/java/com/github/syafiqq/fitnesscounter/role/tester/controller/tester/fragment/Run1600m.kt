@@ -308,13 +308,13 @@ class Run1600m: IdentifiableFragment()
             StopwatchStatus.PREPARED ->
             {
                 this.button_start.visibility = View.VISIBLE
-                this.group_finish.visibility = View.GONE
+                this.group_finish.visibility = View.INVISIBLE
                 this.unwatchStopwatch()
             }
             StopwatchStatus.STARTED  ->
             {
                 this.button_start.visibility = View.GONE
-                this.group_finish.visibility = View.GONE
+                this.group_finish.visibility = View.INVISIBLE
                 this.watchStopwatch()
             }
             StopwatchStatus.STOPPED  ->
