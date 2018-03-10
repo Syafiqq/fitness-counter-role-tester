@@ -45,7 +45,8 @@
                 android:name=".controller.tester.Dashboard"
                 android:label="@string/title_tester_activity_dashboard"
                 android:theme="@style/AppTheme.NoActionBar"
-                android:windowSoftInputMode="adjustResize">
+                android:windowSoftInputMode="adjustResize"
+                android:screenOrientation="portrait">
         </activity>
 
         <service
