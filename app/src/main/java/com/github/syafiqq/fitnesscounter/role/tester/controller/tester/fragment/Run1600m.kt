@@ -229,6 +229,8 @@ class Run1600m: IdentifiableFragment()
         this.edittext_participant_3.setText((this.runs[2].id ?: "").toString())
         this.edittext_participant_4.setText((this.runs[3].id ?: "").toString())
         this.edittext_participant_5.setText((this.runs[4].id ?: "").toString())
+        this.shiftUI(this.stopwatchState)
+        this.runs.forEachIndexed(this::setButtonText)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?)
@@ -327,13 +329,13 @@ class Run1600m: IdentifiableFragment()
         }
         this.view?.findViewById<Button>(this.resources.getIdentifier("button_counter_" + (index + 1), "id", context!!.packageName))?.apply {
             this.text = "Peserta - ${index + 1} || $duration || Lap - ${run.current + 1}"
-            this.visibility = if (run.current < 4) View.VISIBLE else View.GONE
+            this.visibility = if (run.current < 4 && run.status == StopwatchStatus.STARTED) View.VISIBLE else View.GONE
         }
         this.view?.findViewById<TextView>(this.resources.getIdentifier("textview_elapsed_" + (index + 1), "id", context!!.packageName))?.apply {
             this.text = duration
-            this.visibility = if (run.current < 4) View.GONE else View.VISIBLE
+            this.visibility = if (run.current < 4 && run.status != StopwatchStatus.STOPPED) View.GONE else View.VISIBLE
         }
-        this.view?.findViewById<EditText>(this.resources.getIdentifier("edittext_participant_" + (index + 1), "id", context!!.packageName))?.visibility = if (run.current in 1..3) View.GONE else View.VISIBLE
+        this.view?.findViewById<EditText>(this.resources.getIdentifier("edittext_participant_" + (index + 1), "id", context!!.packageName))?.visibility = if (run.current in 1..3 || run.status == StopwatchStatus.STARTED) View.GONE else View.VISIBLE
     }
 
     private fun stopStopwatch(view: View? = null)
