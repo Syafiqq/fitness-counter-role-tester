@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
 import com.danielbostwick.stopwatch.core.model.Stopwatch
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
@@ -32,6 +33,7 @@ class Run1600m: IdentifiableFragment()
         get() = Run1600m.IDENTIFIER
     private lateinit var listener: OnInteractionListener
     private var timer: Timer? = null
+    private var participant = 0
 
     private var updateText = createTimerTask()
     private var stopwatchService: StopwatchService? = null
@@ -51,6 +53,8 @@ class Run1600m: IdentifiableFragment()
             IdRun1600m(),
             IdRun1600m()
     )
+
+    private lateinit var runsV: Array<LinearLayout>
 
     override fun onCreate(state: Bundle?)
     {
@@ -97,6 +101,13 @@ class Run1600m: IdentifiableFragment()
     {
         Timber.d("onViewCreated [$view, $state]")
 
+        this.runsV = arrayOf(
+                this.container_1,
+                this.container_2,
+                this.container_3,
+                this.container_4,
+                this.container_5
+        )
         this.button_send.setOnClickListener { _ -> this.dialog.changeAndShow(this.dialogs["confirmation-send"].apply { this?.setContent("Apakah anda yakin mengirim nilai paserta ?") }!!) }
 
         this.button_start.setOnClickListener(this::startStopwatch)
@@ -123,8 +134,8 @@ class Run1600m: IdentifiableFragment()
     {
         Timber.d("onSaveInstanceState [$state]")
 
-        state.putSerializable(M_RESULT, this.run)
-        state.putInt(M_PARTICIPANT, this.edittext_participant.text.toString().toIntOrNull() ?: 0)
+        state.putSerializable(M_RESULT, this.runs)
+        state.putInt(M_PARTICIPANT, this.participant)
         state.putString(M_STOPWATCH_STATE, this.stopwatchState.name)
         this.stopwatchService?.let { state.putSerializable(M_STOPWATCH, it.getStopwatch()) }
         super.onSaveInstanceState(state)
@@ -136,8 +147,8 @@ class Run1600m: IdentifiableFragment()
 
         super.onActivityCreated(state)
         state?.let {
-            it.getSerializable(M_RESULT)?.let { this.run.set(it as MRun1600m) }
-            it.getInt(M_PARTICIPANT).let { this.edittext_participant.setText(if (it == 0) "" else it.toString()) }
+            it.getSerializable(M_RESULT)?.let { (it as Array<IdRun1600m>).forEachIndexed { index, data -> this.runs[index].set(data) } }
+            it.getInt(M_PARTICIPANT).let { this.participant = it }
             it.getString(M_STOPWATCH_STATE)?.let { this.stopwatchState = StopwatchStatus.valueOf(it) }
             if (this.stopwatchService != null) it.getSerializable(M_STOPWATCH)?.let { this.stopwatchService!!.getStopwatch().set(it as Stopwatch) }
         }
@@ -153,14 +164,14 @@ class Run1600m: IdentifiableFragment()
         val event = this.listener.getEvent()
         if (event.presetActive != null)
         {
-            if (this.edittext_participant.text.toString().toIntOrNull() == null)
+            if (this.runs.take(this.participant).any { it.id == null })
             {
                 Toast.makeText(this.context!!, "Nomor Peserta Tidak Valid", Toast.LENGTH_LONG).show()
             }
             else
             {
                 this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
-                PresetHelper.saveRun1600m(event.presetActive!!, this.edittext_participant.text.toString().toInt(), this.run, DatabaseReference.CompletionListener { error, _ ->
+                PresetHelper.savesRun1600m(event.presetActive!!, this.runs.take(this.participant).associate { idRun -> idRun.id!! to idRun.run }, DatabaseReference.CompletionListener { error, _ ->
                     run {
                         with(this@Run1600m)
                         {
@@ -183,13 +194,18 @@ class Run1600m: IdentifiableFragment()
     override fun saveChanges()
     {
         Timber.d("saveChanges")
+
+        //Id
+        this.runs[0].id = this.edittext_participant_1.text.toString().toIntOrNull()
+        this.runs[1].id = this.edittext_participant_2.text.toString().toIntOrNull()
+        this.runs[2].id = this.edittext_participant_3.text.toString().toIntOrNull()
+        this.runs[3].id = this.edittext_participant_4.text.toString().toIntOrNull()
+        this.runs[4].id = this.edittext_participant_5.text.toString().toIntOrNull()
     }
 
     override fun loadChanges()
     {
         Timber.d("loadChanges")
-        this.run.start.let { if (this.stopwatchService != null) this.stopwatchService?.getStopwatch()?.startedAt = DateTime(it) }
-        this.run.elapsed.let { this.displayStopwatch(Duration.millis(if (stopwatchState == StopwatchStatus.PREPARED) 0L else it)) }
     }
 
     interface OnInteractionListener
@@ -205,9 +221,13 @@ class Run1600m: IdentifiableFragment()
         this.stopwatchService?.run {
             this.reset(this.getStopwatch())
             this.start(this.getStopwatch(), DateTime.now())
+            val started = this@run.getStopwatch().startedAt.millis
             with(this@Run1600m)
             {
-                this.run.start = this@run.getStopwatch().startedAt.millis
+                this.runs.take(this.participant).forEach {
+                    it.status = StopwatchStatus.STARTED
+                    it.run.start = started
+                }
                 this.stopwatchState = StopwatchStatus.STARTED
             }
         }
@@ -217,14 +237,17 @@ class Run1600m: IdentifiableFragment()
     {
         Timber.d("stopStopwatch [$view]")
 
-        this.stopwatchService?.run {
-            this.pause(this.getStopwatch(), DateTime.now())
-            with(this@Run1600m)
-            {
-                this.run.end = this@run.getStopwatch().startedAt.millis
-                this.run.elapsed = (this.run.end ?: 0L) - (this.run.start ?: 0L)
-                this.stopwatchState = StopwatchStatus.STOPPED
-                this.run.elapsed.let { this.displayStopwatch(org.joda.time.Duration.millis(it)) }
+        if (this.runs.take(this.participant).all { it.status == StopwatchStatus.STOPPED })
+        {
+            this.stopwatchService?.run {
+                val now = DateTime.now()
+                val elapsed = this.timeElapsed(this.getStopwatch(), now)
+                this.pause(this.getStopwatch(), now)
+                with(this@Run1600m)
+                {
+                    this.stopwatchState = StopwatchStatus.STOPPED
+                    this.displayStopwatch(elapsed)
+                }
             }
         }
     }
@@ -250,25 +273,38 @@ class Run1600m: IdentifiableFragment()
             StopwatchStatus.PREPARED ->
             {
                 this.button_start.visibility = View.VISIBLE
-                this.button_stop.visibility = View.GONE
                 this.group_finish.visibility = View.GONE
                 this.unwatchStopwatch()
             }
             StopwatchStatus.STARTED  ->
             {
                 this.button_start.visibility = View.GONE
-                this.button_stop.visibility = View.VISIBLE
                 this.group_finish.visibility = View.GONE
                 this.watchStopwatch()
             }
             StopwatchStatus.STOPPED  ->
             {
                 this.button_start.visibility = View.GONE
-                this.button_stop.visibility = View.GONE
                 this.group_finish.visibility = View.VISIBLE
                 this.unwatchStopwatch()
             }
         }
+
+        this.button_counter_1.visibility = if (state == StopwatchStatus.STARTED) View.VISIBLE else View.GONE
+        this.button_counter_2.visibility = if (state == StopwatchStatus.STARTED) View.VISIBLE else View.GONE
+        this.button_counter_3.visibility = if (state == StopwatchStatus.STARTED) View.VISIBLE else View.GONE
+        this.button_counter_4.visibility = if (state == StopwatchStatus.STARTED) View.VISIBLE else View.GONE
+        this.button_counter_5.visibility = if (state == StopwatchStatus.STARTED) View.VISIBLE else View.GONE
+        this.edittext_participant_1.visibility = if (state == StopwatchStatus.STARTED) View.GONE else View.VISIBLE
+        this.edittext_participant_2.visibility = if (state == StopwatchStatus.STARTED) View.GONE else View.VISIBLE
+        this.edittext_participant_3.visibility = if (state == StopwatchStatus.STARTED) View.GONE else View.VISIBLE
+        this.edittext_participant_4.visibility = if (state == StopwatchStatus.STARTED) View.GONE else View.VISIBLE
+        this.edittext_participant_5.visibility = if (state == StopwatchStatus.STARTED) View.GONE else View.VISIBLE
+        this.textview_elapsed_1.visibility = if (state == StopwatchStatus.STOPPED) View.VISIBLE else View.GONE
+        this.textview_elapsed_2.visibility = if (state == StopwatchStatus.STOPPED) View.VISIBLE else View.GONE
+        this.textview_elapsed_3.visibility = if (state == StopwatchStatus.STOPPED) View.VISIBLE else View.GONE
+        this.textview_elapsed_4.visibility = if (state == StopwatchStatus.STOPPED) View.VISIBLE else View.GONE
+        this.textview_elapsed_5.visibility = if (state == StopwatchStatus.STOPPED) View.VISIBLE else View.GONE
     }
 
     private fun createTimerTask(): TimerTask
@@ -348,5 +384,14 @@ class Run1600m: IdentifiableFragment()
     }
 }
 
-class IdRun1600m(id: Int? = null, run: MRun1600m = MRun1600m(), status: Run1600m.StopwatchStatus = Run1600m.StopwatchStatus.PREPARED):
+class IdRun1600m(var id: Int? = null, var run: MRun1600m = MRun1600m(), var current: Int = 0, var status: Run1600m.StopwatchStatus = Run1600m.StopwatchStatus.PREPARED):
         Serializable
+{
+    fun set(run: IdRun1600m)
+    {
+        this.id = run.id
+        this.status = run.status
+        this.current = run.current
+        this.run.set(run.run)
+    }
+}
