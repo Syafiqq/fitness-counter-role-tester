@@ -109,27 +109,27 @@
                 <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="Peserta 1"
+                        android:hint="@string/label_participant_1"
                         android:id="@+id/edittext_participant_1"
                         android:gravity="center_vertical"/>
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                    android:text="Button"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/button_counter_1"
                     android:layout_weight="1"
-                    android:visibility="visible"/>
+                    android:visibility="gone"/>
 
             <TextView
-                    android:text="TextView"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/textview_elapsed_1"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:visibility="visible"/>
+                    android:visibility="gone"/>
         </LinearLayout>
 
         <LinearLayout
@@ -154,27 +154,27 @@
                 <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="Peserta 2"
+                        android:hint="@string/label_participant_2"
                         android:id="@+id/edittext_participant_2"
                         android:gravity="center_vertical"/>
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                    android:text="Button"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/button_counter_2"
                     android:layout_weight="1"
-                    android:visibility="visible"/>
+                    android:visibility="gone"/>
 
             <TextView
-                    android:text="TextView"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/textview_elapsed_2"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:visibility="visible"/>
+                    android:visibility="gone"/>
         </LinearLayout>
 
         <LinearLayout
@@ -199,27 +199,27 @@
                 <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="Peserta 3"
+                        android:hint="@string/label_participant_3"
                         android:id="@+id/edittext_participant_3"
                         android:gravity="center_vertical"/>
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                    android:text="Button"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/button_counter_3"
                     android:layout_weight="1"
-                    android:visibility="visible"/>
+                    android:visibility="gone"/>
 
             <TextView
-                    android:text="TextView"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/textview_elapsed_3"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:visibility="visible"/>
+                    android:visibility="gone"/>
         </LinearLayout>
 
         <LinearLayout
@@ -244,27 +244,27 @@
                 <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="Peserta 4"
+                        android:hint="@string/label_participant_4"
                         android:id="@+id/edittext_participant_4"
                         android:gravity="center_vertical"/>
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                    android:text="Button"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/button_counter_4"
                     android:layout_weight="1"
-                    android:visibility="visible"/>
+                    android:visibility="gone"/>
 
             <TextView
-                    android:text="TextView"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/textview_elapsed_4"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:visibility="visible"/>
+                    android:visibility="gone"/>
         </LinearLayout>
 
         <LinearLayout
@@ -289,27 +289,27 @@
                 <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="Peserta 5"
+                        android:hint="@string/label_participant_5"
                         android:id="@+id/edittext_participant_5"
                         android:gravity="center_vertical"/>
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                    android:text="Button"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/button_counter_5"
                     android:layout_weight="1"
-                    android:visibility="visible"/>
+                    android:visibility="gone"/>
 
             <TextView
-                    android:text="TextView"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/textview_elapsed_5"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:visibility="visible"/>
+                    android:visibility="gone"/>
         </LinearLayout>
 
         <android.support.constraint.Barrier
