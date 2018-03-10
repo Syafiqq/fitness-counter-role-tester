@@ -264,19 +264,22 @@ class Run1600m: IdentifiableFragment()
     {
         Timber.d("startStopwatch [$view]")
 
-        this.stopwatchService?.run {
-            this.reset(this.getStopwatch())
-            this.start(this.getStopwatch(), DateTime.now())
-            val started = this@run.getStopwatch().startedAt.millis
-            with(this@Run1600m)
-            {
-                this.runs.take(this.participant + 1).forEachIndexed { index, run ->
-                    run.status = StopwatchStatus.STARTED
-                    run.run.start = started
-                    run.current = 0
-                    this.setButtonText(index, run)
+        if (this.participant >= 0)
+        {
+            this.stopwatchService?.run {
+                this.reset(this.getStopwatch())
+                this.start(this.getStopwatch(), DateTime.now())
+                val started = this@run.getStopwatch().startedAt.millis
+                with(this@Run1600m)
+                {
+                    this.runs.take(this.participant + 1).forEachIndexed { index, run ->
+                        run.status = StopwatchStatus.STARTED
+                        run.run.start = started
+                        run.current = 0
+                        this.setButtonText(index, run)
+                    }
+                    this.stopwatchState = StopwatchStatus.STARTED
                 }
-                this.stopwatchState = StopwatchStatus.STARTED
             }
         }
     }
