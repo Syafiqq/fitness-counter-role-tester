@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_tester_run1600m.*
 import org.joda.time.DateTime
 import org.joda.time.Duration
 import timber.log.Timber
+import java.io.Serializable
 import java.util.Observer
 import java.util.Timer
 import java.util.TimerTask
@@ -96,10 +97,9 @@ class Run1600m: IdentifiableFragment()
     {
         Timber.d("onViewCreated [$view, $state]")
 
-        this.button_send.setOnClickListener { _ -> this.dialog.changeAndShow(this.dialogs["confirmation-send"].apply { this?.setContent("Apakah anda yakin mengirim nilai peserta ${this@Run1600m.edittext_participant.text}") }!!) }
+        this.button_send.setOnClickListener { _ -> this.dialog.changeAndShow(this.dialogs["confirmation-send"].apply { this?.setContent("Apakah anda yakin mengirim nilai paserta ?") }!!) }
 
         this.button_start.setOnClickListener(this::startStopwatch)
-        this.button_stop.setOnClickListener(this::stopStopwatch)
         this.button_reset.setOnClickListener(this::resetStopwatch)
         super.onViewCreated(view, state)
     }
@@ -348,4 +348,5 @@ class Run1600m: IdentifiableFragment()
     }
 }
 
-class IdRun1600m(id: Int? = null, run: MRun1600m = MRun1600m(), status: Run1600m.StopwatchStatus = Run1600m.StopwatchStatus.PREPARED)
+class IdRun1600m(id: Int? = null, run: MRun1600m = MRun1600m(), status: Run1600m.StopwatchStatus = Run1600m.StopwatchStatus.PREPARED):
+        Serializable
