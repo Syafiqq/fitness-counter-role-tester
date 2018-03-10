@@ -121,6 +121,13 @@ class Run1600m: IdentifiableFragment()
 
         this.button_start.setOnClickListener(this::startStopwatch)
         this.button_reset.setOnClickListener(this::resetStopwatch)
+
+        this.button_counter_1.setOnClickListener { shiftLap(0, this.runs[0]) }
+        this.button_counter_2.setOnClickListener { shiftLap(1, this.runs[1]) }
+        this.button_counter_3.setOnClickListener { shiftLap(2, this.runs[2]) }
+        this.button_counter_4.setOnClickListener { shiftLap(3, this.runs[3]) }
+        this.button_counter_5.setOnClickListener { shiftLap(4, this.runs[4]) }
+
         super.onViewCreated(view, state)
     }
 
@@ -272,8 +279,30 @@ class Run1600m: IdentifiableFragment()
         }
     }
 
+    private fun shiftLap(index: Int, run: IdRun1600m)
+    {
+        Timber.d("shiftLap [$index, $run]")
+        if (run.current < 4)
+        {
+            ++run.current
+            when (run.current)
+            {
+                1    -> run.run.lap1 = DateTime.now().millis
+                2    -> run.run.lap2 = DateTime.now().millis
+                3    -> run.run.lap3 = DateTime.now().millis
+                else ->
+                {
+                    run.run.end = DateTime.now().millis
+                    run.run.elapsed = (run.run.end ?: 0) - (run.run.start ?: 0)
+                }
+            }
+            setButtonText(index, run)
+        }
+    }
+
     private fun setButtonText(index: Int, run: IdRun1600m)
     {
+        Timber.d("setButtonText [$index, $run]")
         this.view?.findViewById<Button>(this.resources.getIdentifier("button_counter_" + (index + 1), "id", context!!.packageName))?.text =
                 String.format(Locale.getDefault(), "Peserta - ${index + 1} || %s || Lap - ${run.current + 1}", when (run.current)
                 {
