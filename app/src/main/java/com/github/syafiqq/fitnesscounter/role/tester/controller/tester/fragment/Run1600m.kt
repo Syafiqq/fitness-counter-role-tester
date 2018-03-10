@@ -89,7 +89,7 @@ class Run1600m: IdentifiableFragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, state: Bundle?): View?
     {
         Timber.d("onCreateView [$inflater, $container, $state]")
-        return inflater.inflate(R.layout.fragment_tester_run, container, false)
+        return inflater.inflate(R.layout.fragment_tester_run1600m, container, false)
     }
 
     override fun onViewCreated(view: View, state: Bundle?)
