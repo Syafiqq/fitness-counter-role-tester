@@ -9,6 +9,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.danielbostwick.stopwatch.core.model.Stopwatch
@@ -24,6 +25,7 @@ import org.joda.time.DateTime
 import org.joda.time.Duration
 import timber.log.Timber
 import java.io.Serializable
+import java.util.Locale
 import java.util.Observer
 import java.util.Timer
 import java.util.TimerTask
@@ -259,13 +261,28 @@ class Run1600m: IdentifiableFragment()
             val started = this@run.getStopwatch().startedAt.millis
             with(this@Run1600m)
             {
-                this.runs.take(this.participant + 1).forEach {
-                    it.status = StopwatchStatus.STARTED
-                    it.run.start = started
+                this.runs.take(this.participant + 1).forEachIndexed { index, run ->
+                    run.status = StopwatchStatus.STARTED
+                    run.run.start = started
+                    run.current = 0
+                    this.setButtonText(index, run)
                 }
                 this.stopwatchState = StopwatchStatus.STARTED
             }
         }
+    }
+
+    private fun setButtonText(index: Int, run: IdRun1600m)
+    {
+        this.view?.findViewById<Button>(this.resources.getIdentifier("button_counter_" + (index + 1), "id", context!!.packageName))?.text =
+                String.format(Locale.getDefault(), "Peserta - ${index + 1} || %s || Lap - ${run.current + 1}", when (run.current)
+                {
+                    0    -> Duration.millis(0L).toFormattedStopwatch()
+                    1    -> Duration.millis((run.run.lap1 ?: 0) - (run.run.start ?: 0)).toFormattedStopwatch()
+                    2    -> Duration.millis((run.run.lap2 ?: 0) - (run.run.start ?: 0)).toFormattedStopwatch()
+                    3    -> Duration.millis((run.run.lap3 ?: 0) - (run.run.start ?: 0)).toFormattedStopwatch()
+                    else -> Duration.millis(run.run.elapsed ?: 0).toFormattedStopwatch()
+                })
     }
 
     private fun stopStopwatch(view: View? = null)
