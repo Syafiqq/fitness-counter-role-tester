@@ -43,7 +43,13 @@ class Run1600m: IdentifiableFragment()
     }
     private var stopwatchState by Delegates.observable(StopwatchStatus.PREPARED) { _, _, new -> shiftUI(new) }
 
-    private val run = MRun1600m()
+    private val runs = arrayOf(
+            IdRun1600m(),
+            IdRun1600m(),
+            IdRun1600m(),
+            IdRun1600m(),
+            IdRun1600m()
+    )
 
     override fun onCreate(state: Bundle?)
     {
@@ -182,8 +188,8 @@ class Run1600m: IdentifiableFragment()
     override fun loadChanges()
     {
         Timber.d("loadChanges")
-        this.run.start?.let { if (this.stopwatchService != null) this.stopwatchService?.getStopwatch()?.startedAt = DateTime(it) }
-        this.run.elapsed?.let { this.displayStopwatch(Duration.millis(if (stopwatchState == StopwatchStatus.PREPARED) 0L else it)) }
+        this.run.start.let { if (this.stopwatchService != null) this.stopwatchService?.getStopwatch()?.startedAt = DateTime(it) }
+        this.run.elapsed.let { this.displayStopwatch(Duration.millis(if (stopwatchState == StopwatchStatus.PREPARED) 0L else it)) }
     }
 
     interface OnInteractionListener
@@ -218,7 +224,7 @@ class Run1600m: IdentifiableFragment()
                 this.run.end = this@run.getStopwatch().startedAt.millis
                 this.run.elapsed = (this.run.end ?: 0L) - (this.run.start ?: 0L)
                 this.stopwatchState = StopwatchStatus.STOPPED
-                this.run.elapsed?.let { this.displayStopwatch(org.joda.time.Duration.millis(it)) }
+                this.run.elapsed.let { this.displayStopwatch(org.joda.time.Duration.millis(it)) }
             }
         }
     }
@@ -319,7 +325,7 @@ class Run1600m: IdentifiableFragment()
         this.textview_clock.text = duration.toFormattedStopwatch()
     }
 
-    private enum class StopwatchStatus
+    enum class StopwatchStatus
     {
         PREPARED,
         STARTED,
@@ -342,4 +348,4 @@ class Run1600m: IdentifiableFragment()
     }
 }
 
-class IdRun1600m(id: Int? = null, run: MRun1600m = MRun1600m())
+class IdRun1600m(id: Int? = null, run: MRun1600m = MRun1600m(), status: Run1600m.StopwatchStatus = Run1600m.StopwatchStatus.PREPARED)
