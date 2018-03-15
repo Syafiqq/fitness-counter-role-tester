@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.IBinder
 import com.github.syafiqq.fitnesscounter.role.tester.controller.service.StopwatchService
 import com.google.firebase.database.FirebaseDatabase
+import net.danlew.android.joda.JodaTimeAndroid
 import org.acra.ACRA
 import org.acra.ReportField
 import org.acra.ReportingInteractionMode
@@ -39,6 +40,7 @@ class App: Application()
 
         super.onCreate()
         this.initializeTimber()
+        JodaTimeAndroid.init(this)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
             val channelId = getString(R.string.default_notification_channel_id)
