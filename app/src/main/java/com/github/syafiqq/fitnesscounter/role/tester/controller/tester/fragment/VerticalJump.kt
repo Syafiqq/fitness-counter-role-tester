@@ -16,6 +16,9 @@ import com.github.syafiqq.fitnesscounter.role.tester.ext.android.text.toReadable
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.changeAndShow
 import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.fragment_tester_vertical_jump.*
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.util.Locale
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.VerticalJump as MVerticalJump
@@ -139,7 +142,7 @@ class VerticalJump: IdentifiableFragment()
             else
             {
                 this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
-                PresetHelper.saveVerticalJump(event.presetActive!!, this.edittext_participant.text.toString().toInt(), this.result, DatabaseReference.CompletionListener { error, _ ->
+                PresetHelper.saveVerticalJump(event.presetActive!!, DateTime.now(DateTimeZone.forID("Asia/Jakarta")).toString(DateTimeFormat.forPattern("yyyyMMdd")), this.edittext_participant.text.toString().toInt(), this.result, DatabaseReference.CompletionListener { error, _ ->
                     run {
                         with(this@VerticalJump)
                         {

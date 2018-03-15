@@ -19,6 +19,9 @@ import com.github.syafiqq.fitnesscounter.role.tester.ext.android.text.toReadable
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.changeAndShow
 import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.fragment_tester_medical_check_up.*
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.util.Locale
 import kotlin.math.pow
@@ -149,7 +152,7 @@ class MedicalCheckUp: IdentifiableFragment()
             else
             {
                 this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
-                PresetHelper.saveMedicalCheckUp(event.presetActive!!, h_edittext_participant.text.toString().toInt(), this.checkUp, DatabaseReference.CompletionListener { error, _ ->
+                PresetHelper.saveMedicalCheckUp(event.presetActive!!, DateTime.now(DateTimeZone.forID("Asia/Jakarta")).toString(DateTimeFormat.forPattern("yyyyMMdd")), h_edittext_participant.text.toString().toInt(), this.checkUp, DatabaseReference.CompletionListener { error, _ ->
                     with(this@MedicalCheckUp)
                     {
                         if (error == null)
