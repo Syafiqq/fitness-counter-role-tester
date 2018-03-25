@@ -64,7 +64,6 @@ class LoginActivity: AppCompatActivity()
         Timber.d("onStart")
 
         super.onStart()
-        this.populateField("syafiq.rezpector@gmail.com", "password")
     }
 
     override fun onStop()
