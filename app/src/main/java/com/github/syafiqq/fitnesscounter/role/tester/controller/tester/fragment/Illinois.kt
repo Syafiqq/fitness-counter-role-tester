@@ -3,9 +3,7 @@ package com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import com.danielbostwick.stopwatch.core.model.Stopwatch
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
@@ -56,6 +54,7 @@ class Illinois: IdentifiableFragment()
             this.addObserver(stopwatchO)
             stopwatchService = this.service
         }
+        super.setHasOptionsMenu(true)
     }
 
     override fun onDestroy()
@@ -144,6 +143,27 @@ class Illinois: IdentifiableFragment()
 
         this.loadChanges()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        Timber.d("onCreateOptionsMenu [$menu, $inflater]")
+
+        inflater?.inflate(R.menu.menu_fragment_illinois, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        Timber.d("onOptionsItemSelected [$item]")
+
+        return when (item?.itemId) {
+            R.id.action_reset -> {
+                if (this.stopwatchState == StopwatchStatus.STOPPED) this.resetStopwatch()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+
 
     override fun doSend(v: View?)
     {
