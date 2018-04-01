@@ -12,6 +12,7 @@ import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.core.helpers.tester.PresetHelper
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.controller.service.StopwatchService
+import com.github.syafiqq.fitnesscounter.role.tester.custom.android.text.CTextWatcher
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.changeAndShow
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.org.joda.time.toFormattedStopwatch
 import com.google.firebase.database.DatabaseReference
@@ -21,9 +22,7 @@ import org.joda.time.DateTimeZone
 import org.joda.time.Duration
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
-import java.util.Observer
-import java.util.Timer
-import java.util.TimerTask
+import java.util.*
 import kotlin.properties.Delegates
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.Illinois as MIllinois
 
@@ -97,6 +96,11 @@ class Illinois: IdentifiableFragment()
         this.button_start.setOnClickListener(this::startStopwatch)
         this.button_stop.setOnClickListener(this::stopStopwatch)
         this.button_reset.setOnClickListener(this::resetStopwatch)
+        this.edittext_participant.addTextChangedListener(object : CTextWatcher {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                this@Illinois.button_start.isEnabled = s?.length!! > 0
+            }
+        })
         super.onViewCreated(view, state)
     }
 
@@ -245,6 +249,7 @@ class Illinois: IdentifiableFragment()
         {
             StopwatchStatus.PREPARED ->
             {
+                this.edittext_participant.isEnabled = true
                 this.button_start.visibility = View.VISIBLE
                 this.button_stop.visibility = View.GONE
                 this.group_finish.visibility = View.GONE
@@ -252,6 +257,7 @@ class Illinois: IdentifiableFragment()
             }
             StopwatchStatus.STARTED  ->
             {
+                this.edittext_participant.isEnabled = false
                 this.button_start.visibility = View.GONE
                 this.button_stop.visibility = View.VISIBLE
                 this.group_finish.visibility = View.GONE
@@ -259,6 +265,7 @@ class Illinois: IdentifiableFragment()
             }
             StopwatchStatus.STOPPED  ->
             {
+                this.edittext_participant.isEnabled = false
                 this.button_start.visibility = View.GONE
                 this.button_stop.visibility = View.GONE
                 this.group_finish.visibility = View.VISIBLE

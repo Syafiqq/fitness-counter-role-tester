@@ -92,6 +92,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="8dp"
                 android:background="@color/md_green_600"
+            android:enabled="false"
                 android:visibility="visible"/>
 
         <Button
