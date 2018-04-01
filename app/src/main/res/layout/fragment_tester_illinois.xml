@@ -81,33 +81,33 @@
                 android:layout_marginRight="8dp"/>
 
         <Button
-                android:text="@string/command_start"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/button_start"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp"
-                android:background="@color/md_green_600"
+            android:id="@+id/button_start"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/md_green_600"
             android:enabled="false"
-                android:visibility="visible"/>
+            android:text="@string/command_start"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-                android:text="@string/command_stop"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/button_stop"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp"
-                android:background="@color/md_red_600"
-                android:visibility="gone"/>
+            android:id="@+id/button_stop"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/md_red_600"
+            android:text="@string/command_stop"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
                 android:text="@string/command_reset"
