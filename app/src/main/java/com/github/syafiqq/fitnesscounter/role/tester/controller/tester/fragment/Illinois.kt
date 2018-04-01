@@ -94,7 +94,6 @@ class Illinois: IdentifiableFragment()
 
         this.button_start.setOnClickListener(this::startStopwatch)
         this.button_stop.setOnClickListener(this::stopStopwatch)
-        this.button_reset.setOnClickListener(this::resetStopwatch)
         this.edittext_participant.addTextChangedListener(object : CTextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 this@Illinois.button_start.isEnabled = s?.length!! > 0
