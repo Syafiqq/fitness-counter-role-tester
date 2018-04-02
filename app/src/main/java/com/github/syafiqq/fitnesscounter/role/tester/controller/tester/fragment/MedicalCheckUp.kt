@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextUtils
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.RadioButton
 import android.widget.Toast
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
@@ -23,7 +21,7 @@ import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
-import java.util.Locale
+import java.util.*
 import kotlin.math.pow
 
 class MedicalCheckUp: IdentifiableFragment()
@@ -32,6 +30,12 @@ class MedicalCheckUp: IdentifiableFragment()
         get() = MedicalCheckUp.IDENTIFIER
     private lateinit var listener: OnInteractionListener
     private val checkUp = MedicalCheckup()
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        super.setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, state: Bundle?): View?
     {
@@ -77,7 +81,6 @@ class MedicalCheckUp: IdentifiableFragment()
                 }
             }
         })
-        this.button_send.setOnClickListener { _ -> this.dialog.changeAndShow(this.dialogs["confirmation-send"].apply { this?.setContent("Apakah anda yakin mengirim nilai peserta ${this@MedicalCheckUp.h_edittext_participant.text}") }!!) }
         super.onViewCreated(view, state)
     }
 
@@ -167,6 +170,27 @@ class MedicalCheckUp: IdentifiableFragment()
                     }
                 })
             }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        Timber.d("onCreateOptionsMenu [$menu, $inflater]")
+
+        inflater?.inflate(R.menu.menu_fragment_medical, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        Timber.d("onOptionsItemSelected [$item]")
+
+        return when (item?.itemId) {
+            R.id.action_send -> {
+                return this@MedicalCheckUp.run {
+                    this.dialog.changeAndShow(this.dialogs["confirmation-send"].apply { this?.setContent("Apakah anda yakin mengirim nilai peserta ${this@MedicalCheckUp.h_edittext_participant.text}") }!!)
+                    true
+                }
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
