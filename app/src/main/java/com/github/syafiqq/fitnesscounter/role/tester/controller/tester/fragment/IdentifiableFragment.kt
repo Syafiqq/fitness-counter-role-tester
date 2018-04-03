@@ -21,6 +21,7 @@ abstract class IdentifiableFragment: Fragment()
     protected var dialog = AtomicReference<MaterialDialog>(null)
     protected val dialogs = mutableMapOf<String, MaterialDialog>()
     protected open fun doSend(v: View? = null){}
+    protected open fun doSave(v: View? = null) {}
     protected open fun saveChanges(){}
     protected open fun loadChanges(){}
 
@@ -37,7 +38,7 @@ abstract class IdentifiableFragment: Fragment()
                         .title("Konfirmasi")
                         .positiveText("Ya")
                         .negativeText("Tidak")
-                        .onPositive { _, _ -> doSend() }
+                        .onPositive { _, _ -> doSave(); doSend() }
                         .build()))
         super.onViewCreated(view, state)
     }
