@@ -182,6 +182,11 @@ class MedicalCheckUp: IdentifiableFragment()
         super.doSave(v)
     }
 
+    override fun clearField(v: View?) {
+        Timber.d("clearField [$v]")
+        super.clearField(v)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         Timber.d("onCreateOptionsMenu [$menu, $inflater]")
 
@@ -193,11 +198,13 @@ class MedicalCheckUp: IdentifiableFragment()
         Timber.d("onOptionsItemSelected [$item]")
 
         return when (item?.itemId) {
-            R.id.action_send -> {
-                return this@MedicalCheckUp.run {
-                    this.dialog.changeAndShow(this.dialogs["confirmation-send"].apply { this?.setContent("Apakah anda yakin mengirim nilai peserta ${this@MedicalCheckUp.h_edittext_participant.text}") }!!)
-                    true
-                }
+            R.id.action_save -> {
+                this@MedicalCheckUp.doSave()
+                true
+            }
+            R.id.action_clear -> {
+                this@MedicalCheckUp.clearField()
+                true
             }
             else -> super.onOptionsItemSelected(item)
         }
