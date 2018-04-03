@@ -22,6 +22,7 @@ abstract class IdentifiableFragment: Fragment()
     protected val dialogs = mutableMapOf<String, MaterialDialog>()
     protected open fun doSend(v: View? = null){}
     protected open fun doSave(v: View? = null) {}
+    protected open fun clearField(v: View? = null) {}
     protected open fun saveChanges(){}
     protected open fun loadChanges(){}
 
