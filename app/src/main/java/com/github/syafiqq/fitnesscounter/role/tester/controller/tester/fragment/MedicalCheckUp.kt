@@ -81,6 +81,7 @@ class MedicalCheckUp: IdentifiableFragment()
                 }
             }
         })
+        this.button_send.setOnClickListener { _ -> this.dialog.changeAndShow(this.dialogs["confirmation-send"].apply { this?.setContent("Apakah anda yakin mengirim nilai peserta ${this@MedicalCheckUp.h_edittext_participant.text}") }!!) }
         super.onViewCreated(view, state)
     }
 
@@ -174,6 +175,11 @@ class MedicalCheckUp: IdentifiableFragment()
                 })
             }
         }
+    }
+
+    override fun doSave(v: View?) {
+        Timber.d("doSave [$v]")
+        super.doSave(v)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
