@@ -161,6 +161,9 @@ class MedicalCheckUp: IdentifiableFragment()
                         if (error == null)
                         {
                             Toast.makeText(this.context!!, "Pengiriman Berhasil", Toast.LENGTH_LONG).show()
+                            this.h_edittext_participant.setText("")
+                            this.checkUp.set(MedicalCheckup.EMPTY_DATA)
+                            this.loadChanges()
                         }
                         else
                         {
@@ -241,6 +244,7 @@ class MedicalCheckUp: IdentifiableFragment()
             this.radiobutton_postur_kifosis.text   -> this.radiobutton_postur_kifosis.isSelected = true
             this.radiobutton_postur_skoliosis.text -> this.radiobutton_postur_skoliosis.isSelected = true
             this.radiobutton_postur_ordosis.text   -> this.radiobutton_postur_ordosis.isSelected = true
+            else -> this.radiogroup_postur.clearCheck()
         }
         when (this.checkUp.gait)
         {
@@ -248,6 +252,7 @@ class MedicalCheckUp: IdentifiableFragment()
             this.radiobutton_aa_kelainan.text   -> this.radiobutton_aa_kelainan.isSelected = true
             this.radiobutton_aa_kelemahan.text  -> this.radiobutton_aa_kelemahan.isSelected = true
             this.radiobutton_aa_normal.text     -> this.radiobutton_aa_normal.isSelected = true
+            else -> this.radiogroup_aa.clearCheck()
         }
         // Cardiovascular
         this.h_edittext_denyut.setText(if (this.checkUp.pulse == null) "" else String.format(Locale.getDefault(), "%.2f", this.checkUp.pulse))
@@ -268,11 +273,13 @@ class MedicalCheckUp: IdentifiableFragment()
         {
             this.radiobutton_ictus_minus.text -> this.radiobutton_ictus_minus.isSelected = true
             this.radiobutton_ictus_plus.text  -> this.radiobutton_ictus_plus.isSelected = true
+            else -> this.radiogroup_ictus.clearCheck()
         }
         when (this.checkUp.heart)
         {
             this.radiobutton_jantung_normal.text -> this.radiobutton_jantung_normal.isSelected = true
             this.radiobutton_jantung_tidak.text  -> this.radiobutton_jantung_tidak.isSelected = true
+            else -> this.radiogroup_jantung.clearCheck()
         }
         // Respiratory
         this.h_edittext_frekuensi.setText(if (this.checkUp.frequency == null) "" else String.format(Locale.getDefault(), "%.2f", this.checkUp.frequency))
@@ -280,17 +287,20 @@ class MedicalCheckUp: IdentifiableFragment()
         {
             this.radiobutton_retraksi_minus.text -> this.radiobutton_retraksi_minus.isSelected = true
             this.radiobutton_retraksi_plus.text  -> this.radiobutton_retraksi_plus.isSelected = true
+            else -> this.radiogroup_retraksi.clearCheck()
         }
         this.h_edittext_lokasi_retraksi.setText(this.checkUp.rLocation ?: "")
         when (this.checkUp.breath)
         {
             this.radiobutton_suara_napas_abnormal.text -> this.radiobutton_suara_napas_abnormal.isSelected = true
             this.radiobutton_suara_napas_normal.text   -> this.radiobutton_suara_napas_normal.isSelected = true
+            else -> this.radiogroup_suara_napas.clearCheck()
         }
         when (this.checkUp.bPipeline)
         {
             this.radiobutton_saluran_napas_normal.text    -> this.radiobutton_saluran_napas_normal.isSelected = true
             this.radiobutton_saluran_napas_obstruksi.text -> this.radiobutton_saluran_napas_obstruksi.isSelected = true
+            else -> this.radiogroup_saluran_napas.clearCheck()
         }
         // Verbal
         when (this.checkUp.vision)
@@ -298,18 +308,21 @@ class MedicalCheckUp: IdentifiableFragment()
             this.radiobutton_mata_julig.text  -> this.radiobutton_mata_julig.isSelected = true
             this.radiobutton_mata_normal.text -> this.radiobutton_mata_normal.isSelected = true
             this.radiobutton_mata_pms.text    -> this.radiobutton_mata_pms.isSelected = true
+            else -> this.radiogroup_mata.clearCheck()
         }
         when (this.checkUp.hearing)
         {
             this.radiobutton_telinga_normal.text     -> this.radiobutton_telinga_normal.isSelected = true
             this.radiobutton_telinga_tuli.text       -> this.radiobutton_telinga_tuli.isSelected = true
             this.radiobutton_telinga_obstruktif.text -> this.radiobutton_telinga_obstruktif.isSelected = true
+            else -> this.radiogroup_telinga.clearCheck()
         }
         when (this.checkUp.verbal)
         {
             this.radiobutton_verbal_latah.text  -> this.radiobutton_verbal_latah.isSelected = true
             this.radiobutton_verbal_normal.text -> this.radiobutton_verbal_normal.isSelected = true
             this.radiobutton_verbal_tuna.text   -> this.radiobutton_verbal_tuna.isSelected = true
+            else -> this.radiogroup_verbal.clearCheck()
         }
         // Conclusion
         when (this.checkUp.conclusion)
