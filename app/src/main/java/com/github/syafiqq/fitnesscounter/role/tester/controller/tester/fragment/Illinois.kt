@@ -155,14 +155,16 @@ class Illinois: IdentifiableFragment()
 
         return when (item?.itemId) {
             R.id.action_reset -> {
-                if (this.stopwatchState == StopwatchStatus.STOPPED) this.resetStopwatch()
+                this.clearField()
+                true
+            }
+            R.id.action_save -> {
+                this.doSave()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-
 
     override fun doSend(v: View?)
     {
@@ -197,6 +199,22 @@ class Illinois: IdentifiableFragment()
                 })
             }
         }
+    }
+
+    override fun doSave(v: View?) {
+        Timber.d("doSave [$v]")
+        super.doSave(v)
+    }
+
+    override fun clearField(v: View?) {
+        Timber.d("clearField [$v]")
+        if (this.stopwatchState == StopwatchStatus.STARTED) {
+            this.stopStopwatch()
+        }
+        if (this.stopwatchState == StopwatchStatus.STOPPED) {
+            this.resetStopwatch()
+        }
+        super.clearField(v)
     }
 
     override fun saveChanges()
