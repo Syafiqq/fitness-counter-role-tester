@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_send"
-        android:icon="@drawable/content_save"
-        android:title="@string/command_send"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/action_save"
         android:icon="@drawable/database_plus"
         android:title="@string/command_save"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_clear"
+        android:icon="@drawable/playlist_remove"
+        android:title="@string/command_clear"
         app:showAsAction="never" />
 </menu>
