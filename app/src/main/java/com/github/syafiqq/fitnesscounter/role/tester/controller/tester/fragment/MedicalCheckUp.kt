@@ -162,9 +162,7 @@ class MedicalCheckUp: IdentifiableFragment()
                         if (error == null)
                         {
                             Toast.makeText(this.context!!, "Pengiriman Berhasil", Toast.LENGTH_LONG).show()
-                            this.h_edittext_participant.setText("")
-                            this.checkUp.set(MedicalCheckup.EMPTY_DATA)
-                            this.loadChanges()
+                            this.clearField()
                         }
                         else
                         {
@@ -184,6 +182,10 @@ class MedicalCheckUp: IdentifiableFragment()
 
     override fun clearField(v: View?) {
         Timber.d("clearField [$v]")
+
+        this.h_edittext_participant.setText("")
+        this.checkUp.set(MedicalCheckup.EMPTY_DATA)
+        this.loadChanges()
         super.clearField(v)
     }
 
