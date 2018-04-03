@@ -183,7 +183,6 @@ class MedicalCheckUp: IdentifiableFragment()
     override fun clearField(v: View?) {
         Timber.d("clearField [$v]")
 
-        this.h_edittext_participant.setText("")
         this.checkUp.set(MedicalCheckup.EMPTY_DATA)
         this.loadChanges()
         super.clearField(v)
