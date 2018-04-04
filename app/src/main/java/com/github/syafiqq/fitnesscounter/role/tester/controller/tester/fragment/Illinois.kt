@@ -188,6 +188,7 @@ class Illinois: IdentifiableFragment()
                             if (error == null)
                             {
                                 Toast.makeText(this.context!!, "Pengiriman Berhasil", Toast.LENGTH_LONG).show()
+                                this.clearField()
                             }
                             else
                             {
