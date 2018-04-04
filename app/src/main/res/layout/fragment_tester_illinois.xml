@@ -51,34 +51,19 @@
                 android:textAlignment="center"/>
 
         <Button
-                android:text="@string/command_send"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/button_send"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintEnd_toStartOf="@+id/button_save"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginLeft="8dp"/>
-
-        <Button
-                android:text="@string/command_save"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/button_save"
-                app:layout_constraintStart_toEndOf="@+id/button_send"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/button_send"
-                app:layout_constraintTop_toTopOf="@+id/button_send"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="8dp"/>
+            android:id="@+id/button_send"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/command_send"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/button_start"
@@ -87,6 +72,8 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:background="@color/md_green_600"
             android:enabled="false"
             android:text="@string/command_start"
@@ -102,6 +89,8 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:background="@color/md_red_600"
             android:text="@string/command_stop"
             android:visibility="gone"
@@ -114,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="top"
-            app:constraint_referenced_ids="button_stop,button_start,button_save,button_send"
+            app:constraint_referenced_ids="button_stop,button_start,button_send"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="492dp" />
@@ -124,7 +113,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="button_save,button_send"
+            app:constraint_referenced_ids="button_send"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="16dp" />
     </android.support.constraint.ConstraintLayout>
