@@ -1,153 +1,135 @@
-<ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:background="@color/md_white_1000"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        tools:context="com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.VerticalJump"
-        android:fillViewport="true">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/md_white_1000"
+    android:fillViewport="true"
+    tools:context="com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.VerticalJump">
 
     <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/_0_0"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp">
-
-        <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp"
-                android:id="@+id/_0_0">
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberSigned"
-                    android:hint="@string/label_participant"
-                    android:id="@+id/edittext_participant"/>
+                android:id="@+id/edittext_participant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/label_participant"
+                android:inputType="numberSigned" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/_0_0"
-                app:layout_constraintStart_toStartOf="@+id/_0_0"
-                android:id="@+id/_0_1"
-                app:layout_constraintTop_toBottomOf="@+id/_0_0"
-                android:layout_marginTop="24dp">
+            android:id="@+id/_0_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="@+id/_0_0"
+            app:layout_constraintStart_toStartOf="@+id/_0_0"
+            app:layout_constraintTop_toBottomOf="@+id/_0_0">
 
             <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:hint="@string/hint_vertical_jump_raihan_tegak"
-                    android:id="@+id/edittext_raihan_tegak"
-                    />
+                android:id="@+id/edittext_raihan_tegak"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_vertical_jump_raihan_tegak"
+                android:inputType="numberDecimal" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/_0_2"
-                app:layout_constraintEnd_toEndOf="@+id/_0_1"
-                app:layout_constraintStart_toStartOf="@+id/_0_1"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/_0_1">
+            android:id="@+id/_0_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/_0_1"
+            app:layout_constraintStart_toStartOf="@+id/_0_1"
+            app:layout_constraintTop_toBottomOf="@+id/_0_1">
 
             <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:hint="@string/hint_vertical_jump_loncatan_1"
-                    android:id="@+id/edittext_jump_1"/>
+                android:id="@+id/edittext_jump_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_vertical_jump_loncatan_1"
+                android:inputType="numberDecimal" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/_0_3"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/_0_2"
-                app:layout_constraintEnd_toEndOf="@+id/_0_2"
-                app:layout_constraintStart_toStartOf="@+id/_0_2">
+            android:id="@+id/_0_3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/_0_2"
+            app:layout_constraintStart_toStartOf="@+id/_0_2"
+            app:layout_constraintTop_toBottomOf="@+id/_0_2">
 
             <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:hint="@string/hint_vertical_jump_loncatan_2"
-                    android:id="@+id/edittext_jump_2"/>
+                android:id="@+id/edittext_jump_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_vertical_jump_loncatan_2"
+                android:inputType="numberDecimal" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/_0_4"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/_0_3"
-                app:layout_constraintEnd_toEndOf="@+id/_0_3"
-                app:layout_constraintStart_toStartOf="@+id/_0_3">
+            android:id="@+id/_0_4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/_0_3"
+            app:layout_constraintStart_toStartOf="@+id/_0_3"
+            app:layout_constraintTop_toBottomOf="@+id/_0_3">
 
             <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:hint="@string/hint_vertical_jump_loncatan_3"
-                    android:id="@+id/edittext_jump_3"/>
+                android:id="@+id/edittext_jump_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_vertical_jump_loncatan_3"
+                android:inputType="numberDecimal" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/_0_5"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/_0_4"
-                app:layout_constraintEnd_toEndOf="@+id/_0_4"
-                app:layout_constraintStart_toStartOf="@+id/_0_4"
-                >
+            android:id="@+id/_0_5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="63dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/button_send"
+            app:layout_constraintEnd_toEndOf="@+id/_0_4"
+            app:layout_constraintStart_toStartOf="@+id/_0_4"
+            app:layout_constraintTop_toBottomOf="@+id/_0_4">
 
             <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:hint="@string/hint_vertical_jump_deviation"
-                    android:id="@+id/edittext_deviation"
-                    android:enabled="false"/>
+                android:id="@+id/edittext_deviation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="@string/hint_vertical_jump_deviation"
+                android:inputType="numberDecimal" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
-                android:text="@string/command_save"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/button_save"
-                app:layout_constraintStart_toEndOf="@+id/button_send"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintEnd_toEndOf="@+id/_0_5"
-                app:layout_constraintTop_toTopOf="@+id/button_send"
-                app:layout_constraintBottom_toBottomOf="@+id/button_send"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"/>
-
-        <Button
-                android:text="@string/command_send"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/button_send"
-                app:layout_constraintStart_toStartOf="@+id/_0_5"
-                app:layout_constraintHorizontal_bias="0.51"
-                app:layout_constraintEnd_toStartOf="@+id/button_save"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@+id/_0_5"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintVertical_bias="1.0"
-                android:layout_marginRight="8dp"/>
+            android:id="@+id/button_send"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/command_send"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/_0_5" />
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
