@@ -82,6 +82,18 @@ class MedicalCheckUp: IdentifiableFragment()
             }
         })
         this.button_send.setOnClickListener { _ -> this.dialog.changeAndShow(this.dialogs["confirmation-send"].apply { this?.setContent("Apakah anda yakin mengirim nilai peserta ${this@MedicalCheckUp.h_edittext_participant.text}") }!!) }
+        this.h_edittext_participant.addTextChangedListener(object : CTextWatcher {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s?.isNotEmpty() == true) {
+                    this@MedicalCheckUp.group_entry.visibility = View.VISIBLE
+                    this@MedicalCheckUp.button_send.isEnabled = true
+                } else {
+                    this@MedicalCheckUp.group_entry.visibility = View.GONE
+                    this@MedicalCheckUp.button_send.isEnabled = false
+                }
+            }
+        })
+
         super.onViewCreated(view, state)
     }
 
