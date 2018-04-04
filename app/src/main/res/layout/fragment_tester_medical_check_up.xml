@@ -935,7 +935,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="64dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/barrier_button"
+            app:layout_constraintBottom_toTopOf="@+id/button_send"
             app:layout_constraintEnd_toEndOf="@+id/_5_0"
             app:layout_constraintStart_toStartOf="@+id/_5_0"
             app:layout_constraintTop_toBottomOf="@+id/_5_1">
@@ -959,7 +959,7 @@
             android:id="@+id/group_entry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             app:constraint_referenced_ids="_2_3,edittext_tbb,barrier3,_4_1,radiogroup_mata,barrier,_0_4,edittext_tbd,radiogroup_saluran_napas,_2_1,edittext_bmi,_5_1,_0_2,_0_8,_1_0,_0_7,_3_2,radiogroup_postur,radiogroup_jantung,radiogroup_retraksi,_0_3,radiogroup_kesimpulan,_4_0,edittext_frekuensi,_3_1,edittext_weight,_0_1,_2_4,radiogroup_suara_napas,edittext_ratio,radiogroup_ictus,_3_3,edittext_hg,_3_7,edittext_mm,_1_1,_2_6,radiogroup_aa,_2_7,radiogroup_verbal,_3_4,_0_5,_2_5,_4_3,_5_0,edittext_denyut,_3_6,_3_5,edittext_lokasi_retraksi,radiogroup_telinga,_1_2,_2_2,_4_2,_2_0,_3_0"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="16dp" />
@@ -974,15 +974,6 @@
             app:layout_constraintEnd_toEndOf="@+id/_5_0"
             app:layout_constraintHorizontal_bias="0.51"
             app:layout_constraintStart_toStartOf="@+id/_5_0" />
-
-        <android.support.constraint.Barrier
-            android:id="@+id/barrier_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="top"
-            app:constraint_referenced_ids="button_send"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="2344dp" />
 
 
     </android.support.constraint.ConstraintLayout>
