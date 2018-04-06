@@ -44,7 +44,7 @@
             android:text="@string/template_stopwatch"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-            app:layout_constraintBottom_toTopOf="@+id/button_reset"
+            app:layout_constraintBottom_toTopOf="@+id/barrier2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,43 +69,29 @@
         <Button
             android:id="@+id/button_send"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:text="@string/command_send"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_save"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/button_save"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="16dp"
-            android:text="@string/command_save"
-            app:layout_constraintBottom_toBottomOf="@+id/button_send"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/button_send"
-            app:layout_constraintTop_toTopOf="@+id/button_send" />
-
-        <Button
             android:id="@+id/button_start"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:background="@color/md_green_600"
             android:text="@string/command_start"
             android:visibility="visible"
+            android:enabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -113,9 +99,10 @@
         <Button
             android:id="@+id/button_counter"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:background="@color/md_green_600"
             android:text="@string/command_count"
@@ -124,29 +111,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/button_reset"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
-            android:background="@color/md_yellow_600"
-            android:text="@string/command_reset"
-            app:layout_constraintBottom_toTopOf="@+id/barrier2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_clock"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintVertical_chainStyle="packed" />
 
         <android.support.constraint.Barrier
             android:id="@+id/barrier2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="top"
-            app:constraint_referenced_ids="button_counter,button_start,button_save,button_send"
+            app:constraint_referenced_ids="button_counter,button_start,button_send"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="492dp" />
@@ -156,9 +127,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"
-            app:constraint_referenced_ids="button_reset,button_save,button_send"
+            app:constraint_referenced_ids="button_send"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="16dp" />
 
     </android.support.constraint.ConstraintLayout>
+
 </ScrollView>
