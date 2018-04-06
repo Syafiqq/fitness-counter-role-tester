@@ -109,7 +109,8 @@
             app:layout_constraintBottom_toTopOf="@+id/button_send"
             app:layout_constraintEnd_toEndOf="@+id/_0_4"
             app:layout_constraintStart_toStartOf="@+id/_0_4"
-            app:layout_constraintTop_toBottomOf="@+id/_0_4">
+            app:layout_constraintTop_toBottomOf="@+id/_0_4"
+            app:layout_constraintVertical_bias="0.0">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/edittext_deviation"
@@ -127,9 +128,19 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
+            android:enabled="false"
             android:text="@string/command_send"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/_0_5" />
+
+        <android.support.constraint.Group
+            android:id="@+id/group_entry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="_0_4,_0_2,_0_1,_0_5,_0_3"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="16dp" />
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
