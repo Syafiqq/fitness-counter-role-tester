@@ -4,9 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.Editable
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.core.helpers.tester.PresetHelper
@@ -20,7 +18,7 @@ import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
-import java.util.Locale
+import java.util.*
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.VerticalJump as MVerticalJump
 
 class VerticalJump: IdentifiableFragment()
@@ -29,6 +27,11 @@ class VerticalJump: IdentifiableFragment()
         get() = VerticalJump.IDENTIFIER
     private lateinit var listener: OnInteractionListener
     private val result = MVerticalJump()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        super.setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, state: Bundle?): View?
     {
@@ -57,6 +60,17 @@ class VerticalJump: IdentifiableFragment()
         this.edittext_jump_1.addTextChangedListener(textChangeListener)
         this.edittext_jump_2.addTextChangedListener(textChangeListener)
         this.edittext_jump_3.addTextChangedListener(textChangeListener)
+        this.edittext_participant.addTextChangedListener(object : CTextWatcher {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s?.isNotEmpty() == true) {
+                    this@VerticalJump.group_entry.visibility = View.VISIBLE
+                    this@VerticalJump.button_send.isEnabled = true
+                } else {
+                    this@VerticalJump.group_entry.visibility = View.GONE
+                    this@VerticalJump.button_send.isEnabled = false
+                }
+            }
+        })
 
         super.onViewCreated(view, state)
     }
@@ -125,6 +139,44 @@ class VerticalJump: IdentifiableFragment()
         }
 
         this.loadChanges()
+    }
+
+    override fun doSave(v: View?) {
+        Timber.d("doSave [$v]")
+        super.doSave(v)
+    }
+
+    override fun clearField(v: View?) {
+        Timber.d("clearField [$v]")
+
+        this.result.set(MVerticalJump.EMPTY_DATA)
+
+        Timber.d("Result : ${this.result}")
+        this.loadChanges()
+        super.clearField(v)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        Timber.d("onCreateOptionsMenu [$menu, $inflater]")
+
+        inflater?.inflate(R.menu.menu_fragment_vertical, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        Timber.d("onOptionsItemSelected [$item]")
+
+        return when (item?.itemId) {
+            R.id.action_save -> {
+                this@VerticalJump.doSave()
+                true
+            }
+            R.id.action_clear -> {
+                this@VerticalJump.clearField()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun doSend(v: View?)
