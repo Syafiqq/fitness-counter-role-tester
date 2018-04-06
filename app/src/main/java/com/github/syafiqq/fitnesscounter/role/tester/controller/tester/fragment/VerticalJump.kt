@@ -152,6 +152,10 @@ class VerticalJump: IdentifiableFragment()
         this.result.set(MVerticalJump.EMPTY_DATA)
 
         Timber.d("Result : ${this.result}")
+        this.edittext_raihan_tegak.setText("")
+        this.edittext_jump_1.setText("")
+        this.edittext_jump_2.setText("")
+        this.edittext_jump_3.setText("")
         this.loadChanges()
         super.clearField(v)
     }
@@ -201,6 +205,7 @@ class VerticalJump: IdentifiableFragment()
                             if (error == null)
                             {
                                 Toast.makeText(this.context!!, "Pengiriman Berhasil", Toast.LENGTH_LONG).show()
+                                this.clearField()
                             }
                             else
                             {
