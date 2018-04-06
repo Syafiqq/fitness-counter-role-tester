@@ -3,15 +3,14 @@ package com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import com.danielbostwick.stopwatch.core.model.Stopwatch
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.core.helpers.tester.PresetHelper
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.controller.service.StopwatchService
+import com.github.syafiqq.fitnesscounter.role.tester.custom.android.text.CTextWatcher
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.changeAndShow
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.org.joda.time.toFormattedStopwatch
 import com.google.firebase.database.DatabaseReference
@@ -21,9 +20,7 @@ import org.joda.time.DateTimeZone
 import org.joda.time.Duration
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
-import java.util.Observer
-import java.util.Timer
-import java.util.TimerTask
+import java.util.*
 import kotlin.properties.Delegates
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.ThrowingBall as MThrowingBall
 
@@ -57,6 +54,8 @@ class ThrowingBall: IdentifiableFragment()
             this.addObserver(stopwatchO)
             stopwatchService = this.service
         }
+
+        super.setHasOptionsMenu(true)
     }
 
     override fun onDestroy()
@@ -96,7 +95,11 @@ class ThrowingBall: IdentifiableFragment()
         this.button_send.setOnClickListener { _ -> this.dialog.changeAndShow(this.dialogs["confirmation-send"].apply { this?.setContent("Apakah anda yakin mengirim nilai peserta ${this@ThrowingBall.edittext_participant.text}") }!!) }
         this.button_start.setOnClickListener(this::startStopwatch)
         this.button_counter.setOnClickListener(this::countStopwatch)
-        this.button_reset.setOnClickListener(this::resetStopwatch)
+        this.edittext_participant.addTextChangedListener(object : CTextWatcher {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                this@ThrowingBall.button_start.isEnabled = s?.length!! > 0
+            }
+        })
         super.onViewCreated(view, state)
     }
 
@@ -141,6 +144,31 @@ class ThrowingBall: IdentifiableFragment()
         this.loadChanges()
     }
 
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        Timber.d("onCreateOptionsMenu [$menu, $inflater]")
+
+        inflater?.inflate(R.menu.menu_fragment_throwing, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        Timber.d("onOptionsItemSelected [$item]")
+
+        return when (item?.itemId) {
+            R.id.action_reset -> {
+                this.clearField()
+                true
+            }
+            R.id.action_save -> {
+                this.doSave()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+
     override fun doSend(v: View?)
     {
         Timber.d("doSend [$v]")
@@ -163,6 +191,7 @@ class ThrowingBall: IdentifiableFragment()
                             if (error == null)
                             {
                                 android.widget.Toast.makeText(this.context!!, "Pengiriman Berhasil", android.widget.Toast.LENGTH_LONG).show()
+                                this.clearField()
                             }
                             else
                             {
@@ -174,6 +203,24 @@ class ThrowingBall: IdentifiableFragment()
                 })
             }
         }
+    }
+
+    override fun doSave(v: View?) {
+        Timber.d("doSave [$v]")
+        super.doSave(v)
+    }
+
+    override fun clearField(v: View?) {
+        Timber.d("clearField [$v]")
+        this.throwing.set(MThrowingBall.EMPTY_DATA)
+        this.textview_counter.text = ""
+        if (this.stopwatchState == StopwatchStatus.STARTED) {
+            this.stopStopwatch()
+        }
+        if (this.stopwatchState == StopwatchStatus.STOPPED) {
+            this.resetStopwatch()
+        }
+        super.clearField(v)
     }
 
     override fun saveChanges()
@@ -259,6 +306,7 @@ class ThrowingBall: IdentifiableFragment()
         {
             StopwatchStatus.PREPARED ->
             {
+                this.edittext_participant.isEnabled = true
                 this.button_start.visibility = View.VISIBLE
                 this.button_counter.visibility = View.GONE
                 this.group_finish.visibility = View.GONE
@@ -266,6 +314,7 @@ class ThrowingBall: IdentifiableFragment()
             }
             StopwatchStatus.STARTED  ->
             {
+                this.edittext_participant.isEnabled = false
                 this.button_start.visibility = View.GONE
                 this.button_counter.visibility = View.VISIBLE
                 this.group_finish.visibility = View.GONE
@@ -273,6 +322,7 @@ class ThrowingBall: IdentifiableFragment()
             }
             StopwatchStatus.STOPPED  ->
             {
+                this.edittext_participant.isEnabled = false
                 this.button_start.visibility = View.GONE
                 this.button_counter.visibility = View.GONE
                 this.group_finish.visibility = View.VISIBLE
