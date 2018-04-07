@@ -114,13 +114,17 @@ class Run1600m: IdentifiableFragment()
         this.button_send.setOnClickListener { _ -> this.dialog.changeAndShow(this.dialogs["confirmation-send"].apply { this?.setContent("Apakah anda yakin mengirim nilai paserta ?") }!!) }
 
         this.button_start.setOnClickListener(this::startStopwatch)
-        //this.button_reset.setOnClickListener(this::resetStopwatch)
 
         this.button_counter_1.setOnClickListener { shiftLap(0, this.runs[0]) }
         this.button_counter_2.setOnClickListener { shiftLap(1, this.runs[1]) }
         this.button_counter_3.setOnClickListener { shiftLap(2, this.runs[2]) }
         this.button_counter_4.setOnClickListener { shiftLap(3, this.runs[3]) }
         this.button_counter_5.setOnClickListener { shiftLap(4, this.runs[4]) }
+        this.button_counter_1.setOnLongClickListener { shiftLap(0, this.runs[0], true); true }
+        this.button_counter_2.setOnLongClickListener { shiftLap(1, this.runs[1], true); true }
+        this.button_counter_3.setOnLongClickListener { shiftLap(2, this.runs[2], true); true }
+        this.button_counter_4.setOnLongClickListener { shiftLap(3, this.runs[3], true); true }
+        this.button_counter_5.setOnLongClickListener { shiftLap(4, this.runs[4], true); true }
 
         super.onViewCreated(view, state)
     }
@@ -334,9 +338,18 @@ class Run1600m: IdentifiableFragment()
         }
     }
 
-    private fun shiftLap(index: Int, run: IdRun1600m)
+    private fun shiftLap(index: Int, run: IdRun1600m, dead: Boolean = false)
     {
         Timber.d("shiftLap [$index, $run]")
+
+        if (dead) {
+            run.current = 4
+            run.run.end = DateTime.now().plusHours(2).millis
+            run.run.elapsed = (run.run.end ?: 0) - (run.run.start ?: 0)
+            run.status = StopwatchStatus.STOPPED
+            this.stopStopwatch()
+        }
+
         if (run.current < 4)
         {
             ++run.current
@@ -354,8 +367,9 @@ class Run1600m: IdentifiableFragment()
                     this.stopStopwatch()
                 }
             }
-            setButtonText(index, run)
         }
+
+        setButtonText(index, run)
     }
 
     @SuppressLint("SetTextI18n")
