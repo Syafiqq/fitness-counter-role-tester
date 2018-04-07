@@ -294,6 +294,8 @@ class Run1600m: IdentifiableFragment()
                     this.stopwatchState = StopwatchStatus.STARTED
                 }
             }
+        } else {
+            Toast.makeText(this.activity, "Cek Nomor Peserta Kembail", Toast.LENGTH_SHORT).show()
         }
     }
 
