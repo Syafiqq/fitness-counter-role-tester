@@ -213,7 +213,7 @@ class PushUp: IdentifiableFragment()
     override fun clearField(v: View?) {
         Timber.d("clearField [$v]")
         this.pushUp.set(MPushUp.EMPTY_DATA)
-        this.textview_counter.text = ""
+        this.textview_counter.text = "0"
         if (this.stopwatchState == StopwatchStatus.STARTED) {
             this.stopStopwatch()
         }

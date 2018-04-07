@@ -213,7 +213,7 @@ class ThrowingBall: IdentifiableFragment()
     override fun clearField(v: View?) {
         Timber.d("clearField [$v]")
         this.throwing.set(MThrowingBall.EMPTY_DATA)
-        this.textview_counter.text = ""
+        this.textview_counter.text = "0"
         if (this.stopwatchState == StopwatchStatus.STARTED) {
             this.stopStopwatch()
         }
