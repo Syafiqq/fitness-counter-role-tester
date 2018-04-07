@@ -34,6 +34,7 @@ class Run1600m: IdentifiableFragment()
     private var timer: Timer? = null
     private var participant by Delegates.observable(-1) { _, _, new ->
         this.runsV.forEachIndexed { index, layout -> layout.visibility = if (index <= new) View.VISIBLE else View.GONE }
+        this@Run1600m.button_start?.isEnabled = new > 0
     }
 
     private var updateText = createTimerTask()
