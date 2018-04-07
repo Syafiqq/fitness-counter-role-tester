@@ -1,8 +1,10 @@
 package com.github.syafiqq.fitnesscounter.role.tester.controller.tester
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import com.github.syafiqq.fitnesscounter.core.custom.com.google.firebase.database.CChildEventListener
 import com.github.syafiqq.fitnesscounter.core.custom.com.google.firebase.database.CValueEventListener
 import com.github.syafiqq.fitnesscounter.core.db.external.DataMapper
@@ -11,15 +13,7 @@ import com.github.syafiqq.fitnesscounter.core.db.external.poko.EventCategory
 import com.github.syafiqq.fitnesscounter.role.tester.App
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.controller.service.StopwatchService
-import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Home
-import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.IdentifiableFragment
-import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Illinois
-import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.MedicalCheckUp
-import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.PushUp
-import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.Run1600m
-import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.SitUp
-import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.ThrowingBall
-import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.VerticalJump
+import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.*
 import com.github.syafiqq.fitnesscounter.role.tester.model.Settings
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -33,7 +27,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import kotlinx.android.synthetic.main.tester_activity_dashboard.*
 import timber.log.Timber
-import java.util.Observer
+import java.util.*
 import kotlin.properties.Delegates
 
 
@@ -48,6 +42,7 @@ class Dashboard: AppCompatActivity(),
 {
     private lateinit var drawer: Drawer
     private lateinit var drawerHeader: AccountHeader
+    private var isPressedTwice: Boolean = false
 
     private var eventCounter = -1
     private var events: MutableMap<Int, Event> = hashMapOf()
@@ -163,7 +158,19 @@ class Dashboard: AppCompatActivity(),
         }
         else
         {
-            super.onBackPressed()
+            if (this.activeCategory?.category != Home.IDENTIFIER) {
+                this.activateCategory(EventCategory(Home.IDENTIFIER))
+            } else {
+                if (isPressedTwice) {
+                    super.onBackPressed()
+                    return
+                }
+
+                this.isPressedTwice = true
+                Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+
+                Handler().postDelayed({ isPressedTwice = false }, 2000)
+            }
         }
     }
 
