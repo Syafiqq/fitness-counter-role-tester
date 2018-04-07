@@ -188,6 +188,10 @@ class Run1600m: IdentifiableFragment()
                             if (error == null)
                             {
                                 Toast.makeText(this.context!!, "Pengiriman Berhasil", Toast.LENGTH_LONG).show()
+                                this.runs.forEach {
+                                    it.id = null
+                                }
+                                this.clearField()
                             }
                             else
                             {
@@ -199,6 +203,29 @@ class Run1600m: IdentifiableFragment()
                 })
             }
         }
+    }
+
+    override fun doSave(v: View?) {
+        Timber.d("doSave [$v]")
+        super.doSave(v)
+    }
+
+    override fun clearField(v: View?) {
+        Timber.d("clearField [$v]")
+
+        this.runs.forEach {
+            it.current = 0
+            it.status = StopwatchStatus.STOPPED
+            it.run.set(MRun1600m.EMPTY_DATA)
+        }
+        if (this.stopwatchState == StopwatchStatus.STARTED) {
+            this.stopStopwatch()
+        }
+        if (this.stopwatchState == StopwatchStatus.STOPPED) {
+            this.resetStopwatch()
+        }
+
+        super.clearField(v)
     }
 
     override fun saveChanges()
@@ -255,6 +282,14 @@ class Run1600m: IdentifiableFragment()
             R.id.action_remove ->
             {
                 this.participant -= if (this.participant > -1 && this.stopwatchState == StopwatchStatus.PREPARED) 1 else 0
+                true
+            }
+            R.id.action_reset -> {
+                this.clearField()
+                true
+            }
+            R.id.action_save -> {
+                this.doSave()
                 true
             }
             else               -> super.onOptionsItemSelected(item)
@@ -375,7 +410,6 @@ class Run1600m: IdentifiableFragment()
             {
                 this.runs.forEach {
                     it.status = StopwatchStatus.PREPARED
-                    it.id = null
                     it.current = 0
                     with(it.run)
                     {
