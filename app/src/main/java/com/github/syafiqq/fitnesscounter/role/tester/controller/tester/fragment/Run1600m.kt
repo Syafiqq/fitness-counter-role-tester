@@ -4,17 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.view.*
+import android.widget.*
 import com.danielbostwick.stopwatch.core.model.Stopwatch
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.core.helpers.tester.PresetHelper
@@ -30,9 +21,7 @@ import org.joda.time.Duration
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.io.Serializable
-import java.util.Observer
-import java.util.Timer
-import java.util.TimerTask
+import java.util.*
 import kotlin.properties.Delegates
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.Run1600m as MRun1600m
 
@@ -124,7 +113,7 @@ class Run1600m: IdentifiableFragment()
         this.button_send.setOnClickListener { _ -> this.dialog.changeAndShow(this.dialogs["confirmation-send"].apply { this?.setContent("Apakah anda yakin mengirim nilai paserta ?") }!!) }
 
         this.button_start.setOnClickListener(this::startStopwatch)
-        this.button_reset.setOnClickListener(this::resetStopwatch)
+        //this.button_reset.setOnClickListener(this::resetStopwatch)
 
         this.button_counter_1.setOnClickListener { shiftLap(0, this.runs[0]) }
         this.button_counter_2.setOnClickListener { shiftLap(1, this.runs[1]) }
@@ -216,11 +205,19 @@ class Run1600m: IdentifiableFragment()
         Timber.d("saveChanges")
 
         //Id
-        this.runs[0].id = this.edittext_participant_1.text.toString().toIntOrNull()
-        this.runs[1].id = this.edittext_participant_2.text.toString().toIntOrNull()
-        this.runs[2].id = this.edittext_participant_3.text.toString().toIntOrNull()
-        this.runs[3].id = this.edittext_participant_4.text.toString().toIntOrNull()
-        this.runs[4].id = this.edittext_participant_5.text.toString().toIntOrNull()
+        this.setIds()
+    }
+
+    private fun setIds() {
+        arrayListOf<EditText>(
+                this.edittext_participant_1,
+                this.edittext_participant_2,
+                this.edittext_participant_3,
+                this.edittext_participant_4,
+                this.edittext_participant_5
+        ).forEachIndexed { k, v ->
+            this.runs[k].id = v.text.toString().toIntOrNull()
+        }
     }
 
     override fun loadChanges()
@@ -272,8 +269,14 @@ class Run1600m: IdentifiableFragment()
     private fun startStopwatch(view: View? = null)
     {
         Timber.d("startStopwatch [$view]")
+        this.setIds()
+        val participants = this.runs.take(this.participant + 1)
 
-        if (this.participant >= 0)
+        if (
+                this.participant >= 0 &&
+                participants.none { it.id == null } &&
+                participants.distinctBy(IdRun1600m::id).size == (this.participant + 1)
+        )
         {
             this.stopwatchService?.run {
                 this.reset(this.getStopwatch())
