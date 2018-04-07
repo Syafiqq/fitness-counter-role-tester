@@ -426,6 +426,11 @@ class Run1600m: IdentifiableFragment()
         this.edittext_participant_3.visibility = if (state == StopwatchStatus.STARTED) View.GONE else View.VISIBLE
         this.edittext_participant_4.visibility = if (state == StopwatchStatus.STARTED) View.GONE else View.VISIBLE
         this.edittext_participant_5.visibility = if (state == StopwatchStatus.STARTED) View.GONE else View.VISIBLE
+        this.edittext_participant_1.isEnabled = state == StopwatchStatus.PREPARED
+        this.edittext_participant_2.isEnabled = state == StopwatchStatus.PREPARED
+        this.edittext_participant_3.isEnabled = state == StopwatchStatus.PREPARED
+        this.edittext_participant_4.isEnabled = state == StopwatchStatus.PREPARED
+        this.edittext_participant_5.isEnabled = state == StopwatchStatus.PREPARED
         this.textview_elapsed_1.visibility = if (state == StopwatchStatus.STOPPED) View.VISIBLE else View.GONE
         this.textview_elapsed_2.visibility = if (state == StopwatchStatus.STOPPED) View.VISIBLE else View.GONE
         this.textview_elapsed_3.visibility = if (state == StopwatchStatus.STOPPED) View.VISIBLE else View.GONE
