@@ -334,7 +334,7 @@ class Run1600m: IdentifiableFragment()
             else -> Duration.millis(run.run.elapsed ?: 0).toFormattedStopwatch()
         }
         this.view?.findViewById<Button>(this.resources.getIdentifier("button_counter_" + (index + 1), "id", context!!.packageName))?.apply {
-            this.text = "Peserta - ${index + 1} || $duration || Lap - ${run.current + 1}"
+            this.text = "Peserta - ${run.id} || Lintasan - ${index + 1} || $duration || Lap - ${run.current + 1}"
             this.visibility = if (run.current < 4 && run.status == StopwatchStatus.STARTED) View.VISIBLE else View.GONE
         }
         this.view?.findViewById<TextView>(this.resources.getIdentifier("textview_elapsed_" + (index + 1), "id", context!!.packageName))?.apply {
