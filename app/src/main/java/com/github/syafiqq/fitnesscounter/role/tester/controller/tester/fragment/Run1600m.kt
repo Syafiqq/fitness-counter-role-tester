@@ -280,7 +280,7 @@ class Run1600m: IdentifiableFragment()
         {
             R.id.action_add    ->
             {
-                this.participant += if (this.participant < 5 && this.stopwatchState == StopwatchStatus.PREPARED) 1 else 0
+                this.participant += if (this.participant < 4 && this.stopwatchState == StopwatchStatus.PREPARED) 1 else 0
                 true
             }
             R.id.action_remove ->
