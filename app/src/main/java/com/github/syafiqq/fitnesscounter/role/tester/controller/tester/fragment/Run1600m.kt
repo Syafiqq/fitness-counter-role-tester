@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.danielbostwick.stopwatch.core.model.Stopwatch
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
@@ -309,6 +310,12 @@ class Run1600m: IdentifiableFragment()
     private fun startStopwatch(view: View? = null)
     {
         Timber.d("startStopwatch [$view]")
+
+        val focus = this.activity?.currentFocus
+        if (focus != null) {
+            val imm = this.activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(focus.windowToken, 0)
+        }
         this.setIds()
         val participants = this.runs.take(this.participant + 1)
 
