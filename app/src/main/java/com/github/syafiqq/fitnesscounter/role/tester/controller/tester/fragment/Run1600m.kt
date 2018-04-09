@@ -33,8 +33,17 @@ class Run1600m: IdentifiableFragment()
         get() = Run1600m.IDENTIFIER
     private lateinit var listener: OnInteractionListener
     private var timer: Timer? = null
-    private var participant by Delegates.observable(-1) { _, _, new ->
+    private var participant by Delegates.observable(-1) { _, old, new ->
         this.runsV.forEachIndexed { index, layout -> layout.visibility = if (index <= new) View.VISIBLE else View.GONE }
+        if (new < old) {
+            when (new) {
+                -1 -> this.edittext_participant_1.setText("")
+                0 -> this.edittext_participant_2.setText("")
+                1 -> this.edittext_participant_3.setText("")
+                2 -> this.edittext_participant_4.setText("")
+                3 -> this.edittext_participant_5.setText("")
+            }
+        }
         this@Run1600m.button_start?.isEnabled = new > 0
     }
 
