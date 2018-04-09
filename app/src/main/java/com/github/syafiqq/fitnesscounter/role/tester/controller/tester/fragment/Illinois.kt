@@ -209,6 +209,7 @@ class Illinois: IdentifiableFragment()
 
     override fun clearField(v: View?) {
         Timber.d("clearField [$v]")
+        this.illinois.set(MIllinois.EMPTY_DATA)
         if (this.stopwatchState == StopwatchStatus.STARTED) {
             this.stopStopwatch()
         }
