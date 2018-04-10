@@ -1,6 +1,9 @@
 package com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.dao.tester
 
-import android.arch.persistence.room.*
+import android.arch.persistence.room.Dao
+import android.arch.persistence.room.Insert
+import android.arch.persistence.room.OnConflictStrategy
+import android.arch.persistence.room.Query
 import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.poko.tester.PushUp as PPushUp
 
 /**
@@ -18,6 +21,6 @@ interface PushUp {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg push: PPushUp)
 
-    @Delete()
-    fun delete(push: PPushUp)
+    @Query("DELETE FROM `push` WHERE `queue` = :queue AND `preset` = :preset")
+    fun delete(preset: String, queue: Int)
 }
