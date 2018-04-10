@@ -1,9 +1,6 @@
 package com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.dao.tester
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Delete
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.poko.tester.ThrowingBall as PThrowingBall
 
 /**
@@ -18,7 +15,7 @@ interface ThrowingBall {
     @Query("SELECT * FROM `throwing` WHERE `preset`=:preset")
     fun findByPreset(preset: String): List<PThrowingBall>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg throwing: PThrowingBall)
 
     @Delete()

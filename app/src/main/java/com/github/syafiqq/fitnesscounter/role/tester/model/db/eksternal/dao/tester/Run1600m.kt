@@ -1,9 +1,6 @@
 package com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.dao.tester
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Delete
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.poko.tester.Run1600m as PRun1600m
 
 /**
@@ -18,7 +15,7 @@ interface Run1600m {
     @Query("SELECT * FROM `run` WHERE `preset`=:preset")
     fun findByPreset(preset: String): List<PRun1600m>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg run: PRun1600m)
 
     @Delete()

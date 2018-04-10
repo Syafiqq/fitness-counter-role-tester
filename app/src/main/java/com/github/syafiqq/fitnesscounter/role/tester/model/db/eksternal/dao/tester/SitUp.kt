@@ -1,9 +1,6 @@
 package com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.dao.tester
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Delete
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.poko.tester.SitUp as PSitUp
 
 /**
@@ -18,7 +15,7 @@ interface SitUp {
     @Query("SELECT * FROM `sit` WHERE `preset`=:preset")
     fun findByPreset(preset: String): List<PSitUp>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg sit: PSitUp)
 
     @Delete()
