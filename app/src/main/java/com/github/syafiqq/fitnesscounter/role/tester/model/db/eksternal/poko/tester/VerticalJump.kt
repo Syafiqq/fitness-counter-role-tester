@@ -18,6 +18,7 @@ data class VerticalJump(
         // Id
         @ColumnInfo(name = "queue")       var queue: Int? = null,
         @ColumnInfo(name = "preset")      var preset: String? = null,
+        @ColumnInfo(name = "stamp")       var stamp: String? = null,
 
         @ColumnInfo(name = "initial")      var initial: Float? = null,
         @ColumnInfo(name = "try1")         var try1: Float? = null,

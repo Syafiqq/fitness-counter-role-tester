@@ -18,6 +18,8 @@ data class MedicalCheckup(
         // Id
         @ColumnInfo(name = "queue")       var queue: Int? = null,
         @ColumnInfo(name = "preset")      var preset: String? = null,
+        @ColumnInfo(name = "stamp")       var stamp: String? = null,
+
         // Anthropometric
         @ColumnInfo(name = "tbb")         var tbb: Float? = null,
         @ColumnInfo(name = "tbd")         var tbd: Float? = null,

@@ -18,12 +18,13 @@ data class Run1600m(
         // Id
         @ColumnInfo(name = "queue")       var queue: Int? = null,
         @ColumnInfo(name = "preset")      var preset: String? = null,
+        @ColumnInfo(name = "stamp")       var stamp: String? = null,
 
-         @ColumnInfo(name = "start")      var start: Long? = null,
-         @ColumnInfo(name = "lap1")       var lap1: Long? = null,
-         @ColumnInfo(name = "lap2")       var lap2: Long? = null,
-         @ColumnInfo(name = "lap3")       var lap3: Long? = null,
-         @ColumnInfo(name = "end")        var end: Long? = null,
-         @ColumnInfo(name = "elapsed")    var elapsed: Long? = null
+        @ColumnInfo(name = "start")      var start: Long? = null,
+        @ColumnInfo(name = "lap1")       var lap1: Long? = null,
+        @ColumnInfo(name = "lap2")       var lap2: Long? = null,
+        @ColumnInfo(name = "lap3")       var lap3: Long? = null,
+        @ColumnInfo(name = "end")        var end: Long? = null,
+        @ColumnInfo(name = "elapsed")    var elapsed: Long? = null
         // @formatter:on
 )

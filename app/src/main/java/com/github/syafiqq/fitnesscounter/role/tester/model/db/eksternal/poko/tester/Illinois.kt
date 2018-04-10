@@ -18,6 +18,7 @@ data class Illinois(
         // Id
         @ColumnInfo(name = "queue")       var queue: Int? = null,
         @ColumnInfo(name = "preset")      var preset: String? = null,
+        @ColumnInfo(name = "stamp")       var stamp: String? = null,
 
         @ColumnInfo(name = "start")       var start: Long? = null,
         @ColumnInfo(name = "end")         var end: Long? = null,
