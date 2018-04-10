@@ -11,7 +11,7 @@ import android.arch.persistence.room.PrimaryKey
  * Email        : id.muhammad.syafiq@gmail.com
  * Github       : Syafiqq
  */
-@Entity
+@Entity(tableName = "vertical")
 data class VerticalJump(
         // @formatter:off
         @PrimaryKey var uid:Int? = null,
