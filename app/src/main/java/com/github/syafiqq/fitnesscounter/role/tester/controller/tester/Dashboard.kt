@@ -1,5 +1,7 @@
 package com.github.syafiqq.fitnesscounter.role.tester.controller.tester
 
+import android.arch.persistence.room.Room
+import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
@@ -15,6 +17,7 @@ import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.controller.service.StopwatchService
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.*
 import com.github.syafiqq.fitnesscounter.role.tester.model.Settings
+import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.Database
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -45,6 +48,7 @@ class Dashboard: AppCompatActivity(),
 {
     private lateinit var drawer: Drawer
     private lateinit var drawerHeader: AccountHeader
+    private lateinit var db: Database
     private var isPressedTwice: Boolean = false
 
     private var eventCounter = -1
@@ -114,6 +118,10 @@ class Dashboard: AppCompatActivity(),
 
         this.user = FirebaseAuth.getInstance().currentUser
         this.listRegisteredEvent()
+
+        DoAsync({
+            this.db = Room.databaseBuilder(this, Database::class.java, "counter").build()
+        }).execute()
     }
 
     override fun onDestroy()
@@ -321,6 +329,10 @@ class Dashboard: AppCompatActivity(),
         return DateTime.now(DateTimeZone.forID("Asia/Jakarta")).toString(DateTimeFormat.forPattern("yyyyMMdd"))
     }
 
+    override fun getDb(): Database {
+        return this.db
+    }
+
     override fun getOService(): StopwatchService.Observable
     {
         return App.instance.stopwatchService
@@ -333,4 +345,15 @@ class Dashboard: AppCompatActivity(),
         const val M_CURRENT_FRAGMENT = "m_current_fragment"
     }
 
+    class DoAsync(val handler: () -> Unit, val next: (Void?) -> Unit = {}) : AsyncTask<Void, Void, Void>() {
+        override fun doInBackground(vararg params: Void?): Void? {
+            handler()
+            return null
+        }
+
+        override fun onPostExecute(result: Void?) {
+            next(result)
+            super.onPostExecute(result)
+        }
+    }
 }
