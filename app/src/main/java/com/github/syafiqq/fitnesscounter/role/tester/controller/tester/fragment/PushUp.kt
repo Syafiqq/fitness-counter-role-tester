@@ -16,9 +16,7 @@ import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.material
 import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.fragment_tester_push_up.*
 import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 import org.joda.time.Duration
-import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.util.*
 import kotlin.properties.Delegates
@@ -184,7 +182,7 @@ class PushUp: IdentifiableFragment()
             else
             {
                 this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
-                PresetHelper.savePushUp(event.presetActive!!, DateTime.now(DateTimeZone.forID("Asia/Jakarta")).toString(DateTimeFormat.forPattern("yyyyMMdd")), this.edittext_participant.text.toString().toInt(), this.pushUp, DatabaseReference.CompletionListener { error, _ ->
+                PresetHelper.savePushUp(event.presetActive!!, this.listener.getStamp(), this.edittext_participant.text.toString().toInt(), this.pushUp, DatabaseReference.CompletionListener { error, _ ->
                     run {
                         with(this@PushUp)
                         {
@@ -404,6 +402,7 @@ class PushUp: IdentifiableFragment()
     interface OnInteractionListener
     {
         fun getEvent(): Event
+        fun getStamp(): String
         fun getOService(): StopwatchService.Observable
     }
 

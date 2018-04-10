@@ -17,9 +17,7 @@ import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.material
 import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.fragment_tester_run1600m.*
 import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 import org.joda.time.Duration
-import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.io.Serializable
 import java.util.*
@@ -195,7 +193,7 @@ class Run1600m: IdentifiableFragment()
             else
             {
                 this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
-                PresetHelper.savesRun1600m(event.presetActive!!, DateTime.now(DateTimeZone.forID("Asia/Jakarta")).toString(DateTimeFormat.forPattern("yyyyMMdd")), this.runs.take(this.participant + 1).associate { idRun -> idRun.id!! to idRun.run }, DatabaseReference.CompletionListener { error, _ ->
+                PresetHelper.savesRun1600m(event.presetActive!!, this.listener.getStamp(), this.runs.take(this.participant + 1).associate { idRun -> idRun.id!! to idRun.run }, DatabaseReference.CompletionListener { error, _ ->
                     run {
                         with(this@Run1600m)
                         {
@@ -314,6 +312,7 @@ class Run1600m: IdentifiableFragment()
     {
         fun getEvent(): Event
         fun getOService(): StopwatchService.Observable
+        fun getStamp(): String
     }
 
     private fun startStopwatch(view: View? = null)
