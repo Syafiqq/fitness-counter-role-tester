@@ -26,6 +26,9 @@ import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import kotlinx.android.synthetic.main.tester_activity_dashboard.*
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.util.*
 import kotlin.properties.Delegates
@@ -312,6 +315,10 @@ class Dashboard: AppCompatActivity(),
         {
             return this.activeEvent!!
         }
+    }
+
+    override fun getStamp(): String {
+        return DateTime.now(DateTimeZone.forID("Asia/Jakarta")).toString(DateTimeFormat.forPattern("yyyyMMdd"))
     }
 
     override fun getOService(): StopwatchService.Observable
