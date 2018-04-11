@@ -23,4 +23,17 @@ data class ThrowingBall(
         @ColumnInfo(name = "start")       var start: Long? = null,
         @ColumnInfo(name = "counter")     var counter: Long? = null
         // @formatter:on
-)
+) {
+    fun set(throwing: ThrowingBall) {
+        this.uid = throwing.uid
+        this.queue = throwing.queue
+        this.preset = throwing.preset
+        this.stamp = throwing.stamp
+        this.start = throwing.start
+        this.counter = throwing.counter
+    }
+
+    companion object {
+        val EMPTY_DATA = ThrowingBall()
+    }
+}

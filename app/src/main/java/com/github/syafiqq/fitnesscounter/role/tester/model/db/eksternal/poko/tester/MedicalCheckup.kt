@@ -47,4 +47,35 @@ data class MedicalCheckup(
         // Conclusion
         @ColumnInfo(name = "conclusion")  var conclusion: Boolean = false
         // @formatter:on
-)
+) {
+    fun set(medical: MedicalCheckup) {
+        this.uid = medical.uid
+        this.queue = medical.queue
+        this.preset = medical.preset
+        this.stamp = medical.stamp
+        this.tbb = medical.tbb
+        this.tbd = medical.tbd
+        this.ratio = medical.ratio
+        this.weight = medical.weight
+        this.bmi = medical.bmi
+        this.posture = medical.posture
+        this.gait = medical.gait
+        this.pulse = medical.pulse
+        this.pressure = medical.pressure
+        this.ictus = medical.ictus
+        this.heart = medical.heart
+        this.frequency = medical.frequency
+        this.retraction = medical.retraction
+        this.rLocation = medical.rLocation
+        this.breath = medical.breath
+        this.bPipeline = medical.bPipeline
+        this.vision = medical.vision
+        this.hearing = medical.hearing
+        this.verbal = medical.verbal
+        this.conclusion = medical.conclusion
+    }
+
+    companion object {
+        val EMPTY_DATA = MedicalCheckup()
+    }
+}

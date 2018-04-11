@@ -26,4 +26,20 @@ data class VerticalJump(
         @ColumnInfo(name = "try3")         var try3: Float? = null,
         @ColumnInfo(name = "deviation")    var deviation: Float? = null
         // @formatter:on
-)
+) {
+    fun set(vertical: VerticalJump) {
+        this.uid = vertical.uid
+        this.queue = vertical.queue
+        this.preset = vertical.preset
+        this.stamp = vertical.stamp
+        this.initial = vertical.initial
+        this.try1 = vertical.try1
+        this.try2 = vertical.try2
+        this.try3 = vertical.try3
+        this.deviation = vertical.deviation
+    }
+
+    companion object {
+        val EMPTY_DATA = VerticalJump()
+    }
+}

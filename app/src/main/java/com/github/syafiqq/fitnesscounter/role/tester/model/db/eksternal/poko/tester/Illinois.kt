@@ -24,4 +24,18 @@ data class Illinois(
         @ColumnInfo(name = "end")         var end: Long? = null,
         @ColumnInfo(name = "elapsed")     var elapsed: Long? = null
         // @formatter:on
-)
+) {
+    fun set(illinois: Illinois) {
+        this.uid = illinois.uid
+        this.queue = illinois.queue
+        this.preset = illinois.preset
+        this.stamp = illinois.stamp
+        this.start = illinois.start
+        this.end = illinois.end
+        this.elapsed = illinois.elapsed
+    }
+
+    companion object {
+        val EMPTY_DATA = Illinois()
+    }
+}

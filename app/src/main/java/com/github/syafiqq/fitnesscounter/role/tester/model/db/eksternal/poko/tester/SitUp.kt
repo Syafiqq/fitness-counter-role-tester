@@ -23,4 +23,17 @@ data class SitUp(
         @ColumnInfo(name = "start")       var start: Long? = null,
         @ColumnInfo(name = "counter")     var counter: Long? = null
         // @formatter:on
-)
+) {
+    fun set(sit: SitUp) {
+        this.uid = sit.uid
+        this.queue = sit.queue
+        this.preset = sit.preset
+        this.stamp = sit.stamp
+        this.start = sit.start
+        this.counter = sit.counter
+    }
+
+    companion object {
+        val EMPTY_DATA = SitUp()
+    }
+}

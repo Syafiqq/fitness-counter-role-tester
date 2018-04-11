@@ -27,4 +27,21 @@ data class Run1600m(
         @ColumnInfo(name = "end")        var end: Long? = null,
         @ColumnInfo(name = "elapsed")    var elapsed: Long? = null
         // @formatter:on
-)
+) {
+    fun set(run: Run1600m) {
+        this.uid = run.uid
+        this.queue = run.queue
+        this.preset = run.preset
+        this.stamp = run.stamp
+        this.start = run.start
+        this.lap1 = run.lap1
+        this.lap2 = run.lap2
+        this.lap3 = run.lap3
+        this.end = run.end
+        this.elapsed = run.elapsed
+    }
+
+    companion object {
+        val EMPTY_DATA = Run1600m()
+    }
+}

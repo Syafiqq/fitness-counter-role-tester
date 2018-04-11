@@ -23,4 +23,17 @@ data class PushUp(
         @ColumnInfo(name = "start")       var start: Long? = null,
         @ColumnInfo(name = "counter")     var counter: Long? = null
         // @formatter:on
-)
+) {
+    fun set(push: PushUp) {
+        this.uid = push.uid
+        this.queue = push.queue
+        this.preset = push.preset
+        this.stamp = push.stamp
+        this.start = push.start
+        this.counter = push.counter
+    }
+
+    companion object {
+        val EMPTY_DATA = PushUp()
+    }
+}
