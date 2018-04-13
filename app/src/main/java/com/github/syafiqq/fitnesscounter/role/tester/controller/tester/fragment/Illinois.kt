@@ -10,9 +10,11 @@ import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.core.helpers.tester.PresetHelper
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.controller.service.StopwatchService
+import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.Dashboard
 import com.github.syafiqq.fitnesscounter.role.tester.custom.android.text.CTextWatcher
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.changeAndShow
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.org.joda.time.toFormattedStopwatch
+import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.Database
 import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.fragment_tester_illinois.*
 import org.joda.time.DateTime
@@ -21,6 +23,9 @@ import timber.log.Timber
 import java.util.*
 import kotlin.properties.Delegates
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.Illinois as MIllinois
+import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.dao.tester.Illinois as DIllinois
+import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.poko.tester.Illinois as PIllinois
+
 
 class Illinois: IdentifiableFragment()
 {
@@ -41,6 +46,7 @@ class Illinois: IdentifiableFragment()
     private var stopwatchState by Delegates.observable(StopwatchStatus.PREPARED) { _, _, new -> shiftUI(new) }
 
     private val illinois = MIllinois()
+    private val dIllinois = PIllinois()
 
     override fun onCreate(state: Bundle?)
     {
@@ -179,7 +185,8 @@ class Illinois: IdentifiableFragment()
             else
             {
                 this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
-                PresetHelper.saveIllinois(event.presetActive!!, this.listener.getStamp(), this.edittext_participant.text.toString().toInt(), this.illinois, DatabaseReference.CompletionListener { error, _ ->
+                this.doSave()
+                PresetHelper.saveIllinois(dIllinois.preset, dIllinois.stamp!!, dIllinois.queue, this.illinois, DatabaseReference.CompletionListener { error, _ ->
                     run {
                         with(this@Illinois)
                         {
@@ -187,6 +194,9 @@ class Illinois: IdentifiableFragment()
                             {
                                 Toast.makeText(this.context!!, "Pengiriman Berhasil", Toast.LENGTH_LONG).show()
                                 this.clearField()
+                                Dashboard.DoAsync({
+                                    this.listener.getDb().illinois().delete(dIllinois.preset, dIllinois.queue)
+                                }, {}).execute()
                             }
                             else
                             {
@@ -202,6 +212,16 @@ class Illinois: IdentifiableFragment()
 
     override fun doSave(v: View?) {
         Timber.d("doSave [$v]")
+        if (stopwatchState == StopwatchStatus.STOPPED) {
+            dIllinois.set(this.listener.getEvent().presetActive!!, this.listener.getStamp(), this.edittext_participant.text.toString().toInt(), this.illinois)
+            Dashboard.DoAsync({
+                this.listener.getDb().illinois().insert(dIllinois)
+            }, {
+                Toast.makeText(this.context, "Data Berhasil Disimpan", Toast.LENGTH_SHORT).show()
+            }
+            ).execute()
+        }
+
         super.doSave(v)
     }
 
@@ -233,6 +253,7 @@ class Illinois: IdentifiableFragment()
     {
         fun getEvent(): Event
         fun getStamp(): String
+        fun getDb(): Database
         fun getOService(): StopwatchService.Observable
     }
 
@@ -387,4 +408,13 @@ class Illinois: IdentifiableFragment()
         const val M_STOPWATCH = "m_stopwatch"
         const val TIMER_DELAY: Long = 1000
     }
+}
+
+private fun PIllinois.set(preset: String, stamp: String, queue: Int, illinois: MIllinois) {
+    this.queue = queue
+    this.preset = preset
+    this.stamp = stamp
+    this.start = illinois.start
+    this.end = illinois.end
+    this.elapsed = illinois.elapsed
 }

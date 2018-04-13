@@ -10,9 +10,11 @@ import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.core.helpers.tester.PresetHelper
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.controller.service.StopwatchService
+import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.Dashboard
 import com.github.syafiqq.fitnesscounter.role.tester.custom.android.text.CTextWatcher
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.changeAndShow
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.org.joda.time.toFormattedStopwatch
+import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.Database
 import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.fragment_tester_push_up.*
 import org.joda.time.DateTime
@@ -21,6 +23,8 @@ import timber.log.Timber
 import java.util.*
 import kotlin.properties.Delegates
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.PushUp as MPushUp
+import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.dao.tester.PushUp as DPushUp
+import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.poko.tester.PushUp as PPushUp
 
 class PushUp: IdentifiableFragment()
 {
@@ -40,6 +44,7 @@ class PushUp: IdentifiableFragment()
     }
     private var stopwatchState by Delegates.observable(StopwatchStatus.PREPARED) { _, _, new -> shiftUI(new) }
     private val pushUp = MPushUp()
+    private val dPushUp = PPushUp()
     private val limit = 60000L
 
     override fun onCreate(state: Bundle?)
@@ -182,7 +187,8 @@ class PushUp: IdentifiableFragment()
             else
             {
                 this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
-                PresetHelper.savePushUp(event.presetActive!!, this.listener.getStamp(), this.edittext_participant.text.toString().toInt(), this.pushUp, DatabaseReference.CompletionListener { error, _ ->
+                this.doSave()
+                PresetHelper.savePushUp(dPushUp.preset, dPushUp.stamp!!, dPushUp.queue, this.pushUp, DatabaseReference.CompletionListener { error, _ ->
                     run {
                         with(this@PushUp)
                         {
@@ -190,6 +196,9 @@ class PushUp: IdentifiableFragment()
                             {
                                 android.widget.Toast.makeText(this.context!!, "Pengiriman Berhasil", android.widget.Toast.LENGTH_LONG).show()
                                 this.clearField()
+                                Dashboard.DoAsync({
+                                    this.listener.getDb().push().delete(dPushUp.preset, dPushUp.queue)
+                                }, {}).execute()
                             }
                             else
                             {
@@ -205,6 +214,15 @@ class PushUp: IdentifiableFragment()
 
     override fun doSave(v: View?) {
         Timber.d("doSave [$v]")
+        if (stopwatchState == StopwatchStatus.STOPPED) {
+            dPushUp.set(this.listener.getEvent().presetActive!!, this.listener.getStamp(), this.edittext_participant.text.toString().toInt(), this.pushUp)
+            Dashboard.DoAsync({
+                this.listener.getDb().push().insert(dPushUp)
+            }, {
+                Toast.makeText(this.context, "Data Berhasil Disimpan", Toast.LENGTH_SHORT).show()
+            }
+            ).execute()
+        }
         super.doSave(v)
     }
 
@@ -403,6 +421,7 @@ class PushUp: IdentifiableFragment()
     {
         fun getEvent(): Event
         fun getStamp(): String
+        fun getDb(): Database
         fun getOService(): StopwatchService.Observable
     }
 
@@ -420,4 +439,12 @@ class PushUp: IdentifiableFragment()
         const val M_STOPWATCH = "m_stopwatch"
         const val TIMER_DELAY: Long = 1000
     }
+}
+
+private fun PPushUp.set(preset: String, stamp: String, queue: Int, push: MPushUp) {
+    this.queue = queue
+    this.preset = preset
+    this.stamp = stamp
+    this.start = push.start
+    this.counter = push.counter
 }

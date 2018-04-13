@@ -9,24 +9,30 @@ import android.view.*
 import android.widget.RadioButton
 import android.widget.Toast
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
-import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.MedicalCheckup
 import com.github.syafiqq.fitnesscounter.core.helpers.tester.PresetHelper
 import com.github.syafiqq.fitnesscounter.role.tester.R
+import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.Dashboard
 import com.github.syafiqq.fitnesscounter.role.tester.custom.android.text.CTextWatcher
 import com.github.syafiqq.fitnesscounter.role.tester.ext.android.text.toReadableFloat
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.changeAndShow
+import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.Database
 import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.fragment_tester_medical_check_up.*
 import timber.log.Timber
 import java.util.*
 import kotlin.math.pow
+import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.MedicalCheckup as MMedicalCheckup
+import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.dao.tester.MedicalCheckup as DMedicalCheckup
+import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.poko.tester.MedicalCheckup as PMedicalCheckup
 
 class MedicalCheckUp: IdentifiableFragment()
 {
     override val identifier: String
         get() = MedicalCheckUp.IDENTIFIER
     private lateinit var listener: OnInteractionListener
-    private val checkUp = MedicalCheckup()
+    private val checkUp = MMedicalCheckup()
+    private val dCheckUp = PMedicalCheckup()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -125,7 +131,7 @@ class MedicalCheckUp: IdentifiableFragment()
 
         super.onActivityCreated(state)
         state?.let {
-            it.getSerializable(M_RESULT)?.let { this.checkUp.set(it as MedicalCheckup) }
+            it.getSerializable(M_RESULT)?.let { this.checkUp.set(it as MMedicalCheckup) }
             it.getInt(M_PARTICIPANT).let { this.h_edittext_participant.setText(if (it == 0) "" else it.toString()) }
         }
 
@@ -165,13 +171,17 @@ class MedicalCheckUp: IdentifiableFragment()
             else
             {
                 this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
-                PresetHelper.saveMedicalCheckUp(event.presetActive!!, this.listener.getStamp(), h_edittext_participant.text.toString().toInt(), this.checkUp, DatabaseReference.CompletionListener { error, _ ->
+                this.doSave()
+                PresetHelper.saveMedicalCheckUp(dCheckUp.preset, dCheckUp.stamp!!, dCheckUp.queue, this.checkUp, DatabaseReference.CompletionListener { error, _ ->
                     with(this@MedicalCheckUp)
                     {
                         if (error == null)
                         {
                             Toast.makeText(this.context!!, "Pengiriman Berhasil", Toast.LENGTH_LONG).show()
                             this.clearField()
+                            Dashboard.DoAsync({
+                                this.listener.getDb().medical().delete(dCheckUp.preset, dCheckUp.queue)
+                            }, {}).execute()
                         }
                         else
                         {
@@ -186,13 +196,22 @@ class MedicalCheckUp: IdentifiableFragment()
 
     override fun doSave(v: View?) {
         Timber.d("doSave [$v]")
+        if (this.h_edittext_participant.text.toString().toIntOrNull() != null) {
+            dCheckUp.set(this.listener.getEvent().presetActive!!, this.listener.getStamp(), this.h_edittext_participant.text.toString().toInt(), this.checkUp)
+            Dashboard.DoAsync({
+                this.listener.getDb().medical().insert(dCheckUp)
+            }, {
+                Toast.makeText(this.context, "Data Berhasil Disimpan", Toast.LENGTH_SHORT).show()
+            }
+            ).execute()
+        }
         super.doSave(v)
     }
 
     override fun clearField(v: View?) {
         Timber.d("clearField [$v]")
 
-        this.checkUp.set(MedicalCheckup.EMPTY_DATA)
+        this.checkUp.set(MMedicalCheckup.EMPTY_DATA)
         this.loadChanges()
         super.clearField(v)
     }
@@ -358,6 +377,7 @@ class MedicalCheckUp: IdentifiableFragment()
     interface OnInteractionListener
     {
         fun getEvent(): Event
+        fun getDb(): Database
         fun getStamp(): String
     }
 
@@ -372,4 +392,30 @@ class MedicalCheckUp: IdentifiableFragment()
         const val M_RESULT = "m_result"
         const val M_PARTICIPANT = "m_participant"
     }
+}
+
+private fun PMedicalCheckup.set(preset: String, stamp: String, queue: Int, medical: MMedicalCheckup) {
+    this.queue = queue
+    this.preset = preset
+    this.stamp = stamp
+    this.tbb = medical.tbb
+    this.tbd = medical.tbd
+    this.ratio = medical.ratio
+    this.weight = medical.weight
+    this.bmi = medical.bmi
+    this.posture = medical.posture
+    this.gait = medical.gait
+    this.pulse = medical.pulse
+    this.pressure = medical.pressure
+    this.ictus = medical.ictus
+    this.heart = medical.heart
+    this.frequency = medical.frequency
+    this.retraction = medical.retraction
+    this.rLocation = medical.rLocation
+    this.breath = medical.breath
+    this.bPipeline = medical.bPipeline
+    this.vision = medical.vision
+    this.hearing = medical.hearing
+    this.verbal = medical.verbal
+    this.conclusion = medical.conclusion
 }

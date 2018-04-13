@@ -9,14 +9,18 @@ import android.widget.Toast
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.core.helpers.tester.PresetHelper
 import com.github.syafiqq.fitnesscounter.role.tester.R
+import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.Dashboard
 import com.github.syafiqq.fitnesscounter.role.tester.custom.android.text.CTextWatcher
 import com.github.syafiqq.fitnesscounter.role.tester.ext.android.text.toReadableFloat
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.changeAndShow
+import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.Database
 import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.fragment_tester_vertical_jump.*
 import timber.log.Timber
 import java.util.*
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.VerticalJump as MVerticalJump
+import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.dao.tester.VerticalJump as DVerticalJump
+import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.poko.tester.VerticalJump as PVerticalJump
 
 class VerticalJump: IdentifiableFragment()
 {
@@ -24,6 +28,8 @@ class VerticalJump: IdentifiableFragment()
         get() = VerticalJump.IDENTIFIER
     private lateinit var listener: OnInteractionListener
     private val result = MVerticalJump()
+    private val dVertical = PVerticalJump()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -140,6 +146,15 @@ class VerticalJump: IdentifiableFragment()
 
     override fun doSave(v: View?) {
         Timber.d("doSave [$v]")
+        if (this.edittext_participant.text.toString().toIntOrNull() != null) {
+            dVertical.set(this.listener.getEvent().presetActive!!, this.listener.getStamp(), this.edittext_participant.text.toString().toInt(), this.result)
+            Dashboard.DoAsync({
+                this.listener.getDb().vertical().insert(dVertical)
+            }, {
+                Toast.makeText(this.context, "Data Berhasil Disimpan", Toast.LENGTH_SHORT).show()
+            }
+            ).execute()
+        }
         super.doSave(v)
     }
 
@@ -195,7 +210,8 @@ class VerticalJump: IdentifiableFragment()
             else
             {
                 this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
-                PresetHelper.saveVerticalJump(event.presetActive!!, this.listener.getStamp(), this.edittext_participant.text.toString().toInt(), this.result, DatabaseReference.CompletionListener { error, _ ->
+                this.doSave()
+                PresetHelper.saveVerticalJump(dVertical.preset, dVertical.stamp!!, dVertical.queue, this.result, DatabaseReference.CompletionListener { error, _ ->
                     run {
                         with(this@VerticalJump)
                         {
@@ -203,6 +219,9 @@ class VerticalJump: IdentifiableFragment()
                             {
                                 Toast.makeText(this.context!!, "Pengiriman Berhasil", Toast.LENGTH_LONG).show()
                                 this.clearField()
+                                Dashboard.DoAsync({
+                                    this.listener.getDb().vertical().delete(dVertical.preset, dVertical.queue)
+                                }, {}).execute()
                             }
                             else
                             {
@@ -247,6 +266,7 @@ class VerticalJump: IdentifiableFragment()
     {
         fun getEvent(): Event
         fun getStamp(): String
+        fun getDb(): Database
     }
 
     companion object
@@ -260,4 +280,15 @@ class VerticalJump: IdentifiableFragment()
         const val M_RESULT = "m_result"
         const val M_PARTICIPANT = "m_participant"
     }
+}
+
+private fun PVerticalJump.set(preset: String, stamp: String, queue: Int, vertical: MVerticalJump) {
+    this.queue = queue
+    this.preset = preset
+    this.stamp = stamp
+    this.initial = vertical.initial
+    this.try1 = vertical.try1
+    this.try2 = vertical.try2
+    this.try3 = vertical.try3
+    this.deviation = vertical.deviation
 }

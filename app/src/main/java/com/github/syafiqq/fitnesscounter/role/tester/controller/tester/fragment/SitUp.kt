@@ -10,9 +10,11 @@ import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.core.helpers.tester.PresetHelper
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.controller.service.StopwatchService
+import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.Dashboard
 import com.github.syafiqq.fitnesscounter.role.tester.custom.android.text.CTextWatcher
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.changeAndShow
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.org.joda.time.toFormattedStopwatch
+import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.Database
 import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.fragment_tester_sit_up.*
 import org.joda.time.DateTime
@@ -21,6 +23,8 @@ import timber.log.Timber
 import java.util.*
 import kotlin.properties.Delegates
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.SitUp as MSitUp
+import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.dao.tester.SitUp as DSitUp
+import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.poko.tester.SitUp as PSitUp
 
 class SitUp: IdentifiableFragment()
 {
@@ -40,6 +44,8 @@ class SitUp: IdentifiableFragment()
     }
     private var stopwatchState by Delegates.observable(StopwatchStatus.PREPARED) { _, _, new -> shiftUI(new) }
     private val sitUp = MSitUp()
+    private val dSitUp = PSitUp()
+
     private val limit = 60000L
 
     override fun onCreate(state: Bundle?)
@@ -182,7 +188,8 @@ class SitUp: IdentifiableFragment()
             else
             {
                 this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
-                PresetHelper.saveSitUp(event.presetActive!!, this.listener.getStamp(), this.edittext_participant.text.toString().toInt(), this.sitUp, DatabaseReference.CompletionListener { error, _ ->
+                this.doSave()
+                PresetHelper.saveSitUp(dSitUp.preset, dSitUp.stamp!!, dSitUp.queue, this.sitUp, DatabaseReference.CompletionListener { error, _ ->
                     run {
                         with(this@SitUp)
                         {
@@ -190,6 +197,9 @@ class SitUp: IdentifiableFragment()
                             {
                                 android.widget.Toast.makeText(this.context!!, "Pengiriman Berhasil", android.widget.Toast.LENGTH_LONG).show()
                                 this.clearField()
+                                Dashboard.DoAsync({
+                                    this.listener.getDb().sit().delete(dSitUp.preset, dSitUp.queue)
+                                }, {}).execute()
                             }
                             else
                             {
@@ -205,6 +215,15 @@ class SitUp: IdentifiableFragment()
 
     override fun doSave(v: View?) {
         Timber.d("doSave [$v]")
+        if (stopwatchState == StopwatchStatus.STOPPED) {
+            dSitUp.set(this.listener.getEvent().presetActive!!, this.listener.getStamp(), this.edittext_participant.text.toString().toInt(), this.sitUp)
+            Dashboard.DoAsync({
+                this.listener.getDb().sit().insert(dSitUp)
+            }, {
+                Toast.makeText(this.context, "Data Berhasil Disimpan", Toast.LENGTH_SHORT).show()
+            }
+            ).execute()
+        }
         super.doSave(v)
     }
 
@@ -403,6 +422,7 @@ class SitUp: IdentifiableFragment()
     {
         fun getEvent(): Event
         fun getStamp(): String
+        fun getDb(): Database
         fun getOService(): StopwatchService.Observable
     }
 
@@ -420,4 +440,12 @@ class SitUp: IdentifiableFragment()
         const val M_STOPWATCH = "m_stopwatch"
         const val TIMER_DELAY: Long = 1000
     }
+}
+
+private fun PSitUp.set(preset: String, stamp: String, queue: Int, sit: MSitUp) {
+    this.queue = queue
+    this.preset = preset
+    this.stamp = stamp
+    this.start = sit.start
+    this.counter = sit.counter
 }

@@ -12,8 +12,10 @@ import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.core.helpers.tester.PresetHelper
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.controller.service.StopwatchService
+import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.Dashboard
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.changeAndShow
 import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.org.joda.time.toFormattedStopwatch
+import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.Database
 import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.fragment_tester_run1600m.*
 import org.joda.time.DateTime
@@ -23,6 +25,8 @@ import java.io.Serializable
 import java.util.*
 import kotlin.properties.Delegates
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.Run1600m as MRun1600m
+import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.dao.tester.Run1600m as DRun1600m
+import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.poko.tester.Run1600m as PRun1600m
 
 
 class Run1600m: IdentifiableFragment()
@@ -193,13 +197,20 @@ class Run1600m: IdentifiableFragment()
             else
             {
                 this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
-                PresetHelper.savesRun1600m(event.presetActive!!, this.listener.getStamp(), this.runs.take(this.participant + 1).associate { idRun -> idRun.id!! to idRun.run }, DatabaseReference.CompletionListener { error, _ ->
+                this.doSave()
+                val send = this.runs.take(this.participant + 1).associate { idRun -> idRun.id!! to idRun.run }
+                PresetHelper.savesRun1600m(event.presetActive!!, this.listener.getStamp(), send, DatabaseReference.CompletionListener { error, _ ->
                     run {
                         with(this@Run1600m)
                         {
                             if (error == null)
                             {
                                 Toast.makeText(this.context!!, "Pengiriman Berhasil", Toast.LENGTH_LONG).show()
+                                Dashboard.DoAsync({
+                                    send.keys.forEach {
+                                        this.listener.getDb().run().delete(event.presetActive!!, it)
+                                    }
+                                }, {}).execute()
                                 this.runs.forEach {
                                     it.id = null
                                 }
@@ -219,6 +230,20 @@ class Run1600m: IdentifiableFragment()
 
     override fun doSave(v: View?) {
         Timber.d("doSave [$v]")
+        if (stopwatchState == StopwatchStatus.STOPPED) {
+            Dashboard.DoAsync({
+                val dRun1600m = PRun1600m()
+                this.runs.take(this.participant + 1).associate { idRun -> idRun.id!! to idRun.run }.forEach { queue, run ->
+                    run {
+                        dRun1600m.set(this.listener.getEvent().presetActive!!, this.listener.getStamp(), queue, run)
+                        this.listener.getDb().run().insert(dRun1600m)
+                    }
+                }
+            }, {
+                Toast.makeText(this.context, "Data Berhasil Disimpan", Toast.LENGTH_SHORT).show()
+            }
+            ).execute()
+        }
         super.doSave(v)
     }
 
@@ -313,6 +338,7 @@ class Run1600m: IdentifiableFragment()
         fun getEvent(): Event
         fun getOService(): StopwatchService.Observable
         fun getStamp(): String
+        fun getDb(): Database
     }
 
     private fun startStopwatch(view: View? = null)
@@ -590,4 +616,16 @@ class IdRun1600m(var id: Int? = null, var run: MRun1600m = MRun1600m(), var curr
         this.current = run.current
         this.run.set(run.run)
     }
+}
+
+private fun PRun1600m.set(preset: String, stamp: String, queue: Int, run: MRun1600m) {
+    this.queue = queue
+    this.preset = preset
+    this.stamp = stamp
+    this.start = run.start
+    this.lap1 = run.lap1
+    this.lap2 = run.lap2
+    this.lap3 = run.lap3
+    this.end = run.end
+    this.elapsed = run.elapsed
 }
