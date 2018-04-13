@@ -2,7 +2,6 @@ package com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.poko.te
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
 
 /**
  * This fitness-counter-role-tester project created by :
@@ -14,7 +13,7 @@ import android.arch.persistence.room.PrimaryKey
 @Entity(tableName = "push")
 data class PushUp(
         // @formatter:off
-        @PrimaryKey var uid:Int? = null,
+        //@PrimaryKey var uid:Int? = null,
         // Id
         @ColumnInfo(name = "queue")       var queue: Int? = null,
         @ColumnInfo(name = "preset")      var preset: String? = null,
@@ -25,7 +24,7 @@ data class PushUp(
         // @formatter:on
 ) {
     fun set(push: PushUp) {
-        this.uid = push.uid
+        //this.uid =push.uid
         this.queue = push.queue
         this.preset = push.preset
         this.stamp = push.stamp
