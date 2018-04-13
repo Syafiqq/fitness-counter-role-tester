@@ -35,6 +35,7 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$libraries.android_support"
     implementation "com.android.support:design:$libraries.android_support"
     implementation "com.android.support:recyclerview-v7:$libraries.android_support"
+    implementation "com.android.support:cardview-v7:$libraries.android_support"
     implementation "com.android.support:support-annotations:$libraries.android_support"
     implementation "com.android.support:support-v4:$libraries.android_support"
     implementation "com.faendir:acra:$libraries.acra"
