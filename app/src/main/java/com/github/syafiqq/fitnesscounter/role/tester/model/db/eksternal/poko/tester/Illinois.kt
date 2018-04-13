@@ -10,13 +10,13 @@ import android.arch.persistence.room.Entity
  * Email        : id.muhammad.syafiq@gmail.com
  * Github       : Syafiqq
  */
-@Entity(tableName = "illinois")
+@Entity(tableName = "illinois", primaryKeys = ["queue", "preset"])
 data class Illinois(
         // @formatter:off
         //@PrimaryKey var uid:Int? = null,
         // Id
-        @ColumnInfo(name = "queue")       var queue: Int? = null,
-        @ColumnInfo(name = "preset")      var preset: String? = null,
+        @ColumnInfo(name = "queue")       var queue: Int = 0,
+        @ColumnInfo(name = "preset")      var preset: String = "",
         @ColumnInfo(name = "stamp")       var stamp: String? = null,
 
         @ColumnInfo(name = "start")       var start: Long? = null,
