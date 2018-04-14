@@ -7,7 +7,7 @@
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Masuk</string>
     <string name="action_sign_up_short">Daftar</string>
-    <string name="app_name">Fitness Counter</string>
+    <string name="app_name">Skill Test</string>
     <string name="auth_grant_authorization">Memberikan Hak Akses</string>
     <string name="auth_no_previlege_access">Anda tidak mempunyai hak untuk aplikasi ini!</string>
     <string name="command_count">Hitung</string>
