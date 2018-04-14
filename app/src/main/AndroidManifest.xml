@@ -1,57 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.github.syafiqq.fitnesscounter.role.tester">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.github.syafiqq.fitnesscounter.role.tester">
 
     <application
-            android:name=".App"
-            android:allowBackup="true"
-            android:fullBackupContent="@xml/backup_rules"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme"
-            tools:ignore="GoogleAppIndexingWarning"
-            tools:replace="android:icon">
+        android:name=".App"
+        android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher_r"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_r_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:icon">
         <activity
-                android:name=".controller.SplashScreen"
-                android:configChanges="orientation|keyboardHidden|screenSize"
-                android:label="@string/app_name"
-                android:theme="@style/FullscreenTheme">
+            android:name=".controller.SplashScreen"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name"
+            android:theme="@style/FullscreenTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-                android:name=".controller.auth.LoginActivity"
-                android:label="@string/title_activity_login"
-                android:theme="@style/AppThemeNoShadow"
-                android:windowSoftInputMode="adjustResize">
-        </activity>
+            android:name=".controller.auth.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppThemeNoShadow"
+            android:windowSoftInputMode="adjustResize" />
         <activity
-                android:name=".controller.auth.RegisterActivity"
-                android:label="@string/title_activity_register"
-                android:parentActivityName=".controller.auth.LoginActivity"
-                android:theme="@style/AppThemeNoShadow"
-                android:windowSoftInputMode="adjustResize">
+            android:name=".controller.auth.RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:parentActivityName=".controller.auth.LoginActivity"
+            android:theme="@style/AppThemeNoShadow"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.github.syafiqq.fitnesscounter.role.tester.controller.auth.LoginActivity"/>
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.github.syafiqq.fitnesscounter.role.tester.controller.auth.LoginActivity" />
         </activity>
         <activity
-                android:name=".controller.tester.Dashboard"
-                android:label="@string/title_tester_activity_dashboard"
-                android:theme="@style/AppTheme.NoActionBar"
-                android:windowSoftInputMode="adjustResize"
-                android:screenOrientation="portrait">
-        </activity>
+            android:name=".controller.tester.Dashboard"
+            android:label="@string/title_tester_activity_dashboard"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
 
-        <service
-                android:name=".controller.service.StopwatchService">
-        </service>
+        <service android:name=".controller.service.StopwatchService" />
     </application>
 
 </manifest>
