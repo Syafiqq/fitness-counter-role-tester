@@ -38,6 +38,7 @@ import kotlin.properties.Delegates
 
 
 class Dashboard: AppCompatActivity(),
+        Home.OnInteractionListener,
                  MedicalCheckUp.OnInteractionListener,
                  Illinois.OnInteractionListener,
                  VerticalJump.OnInteractionListener,
@@ -53,10 +54,14 @@ class Dashboard: AppCompatActivity(),
 
     private var eventCounter = -1
     private var events: MutableMap<Int, Event> = hashMapOf()
+    private var vOEvent = Event.Observable()
     private var activeEvent: Event? by Delegates.observable(null as Event?) { _, old, new ->
         old?.id.let { FirebaseDatabase.getInstance().getReference(DataMapper.event(id = it)["events"]!!).keepSynced(false) }
         new?.id.let { FirebaseDatabase.getInstance().getReference(DataMapper.event(id = it)["events"]!!).keepSynced(true) }
-        if (new != old) new?.let(this::activateEvent)
+        if (new != old) new?.let {
+            this.activateEvent(it)
+            vOEvent.set(it)
+        }
     }
 
     private var categoryCounter = -1
@@ -323,6 +328,10 @@ class Dashboard: AppCompatActivity(),
         {
             return this.activeEvent!!
         }
+    }
+
+    override fun getOEvent(): Event.Observable {
+        return this.vOEvent
     }
 
     override fun getStamp(): String {
