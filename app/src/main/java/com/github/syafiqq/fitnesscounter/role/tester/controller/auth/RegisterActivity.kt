@@ -17,12 +17,7 @@ import com.github.syafiqq.fitnesscounter.core.helpers.AuthHelper
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.model.Settings
 import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.*
 import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.activity_register.*
 import timber.log.Timber
@@ -50,6 +45,11 @@ class RegisterActivity: AppCompatActivity()
         this.edittext_password_conf.setOnEditorActionListener(this::onEditorActionClicked)
         this.button_submit.setOnClickListener(this::onSubmitButtonClicked)
         this.button_login.setOnClickListener(this::onLoginButtonClicked)
+
+        this.edittext_email.setText("syafiq.rezpector@gmail.cok")
+        this.edittext_password.setText("password")
+        this.edittext_password_conf.setText("password")
+        this.edittext_name.setText("Syafuq")
     }
 
     override fun onDestroy()

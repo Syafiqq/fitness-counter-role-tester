@@ -16,12 +16,7 @@ import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.Dashboard
 import com.github.syafiqq.fitnesscounter.role.tester.model.Settings
 import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthInvalidUserException
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.firebase.auth.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import kotlinx.android.synthetic.main.activity_login.*
@@ -63,6 +58,7 @@ class LoginActivity: AppCompatActivity()
     {
         Timber.d("onStart")
 
+        this.populateField("syafiq.rezpector@gmail.com", "password")
         super.onStart()
     }
 
