@@ -7,13 +7,24 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
+import com.github.syafiqq.fitnesscounter.core.helpers.tester.PresetHelper
 import com.github.syafiqq.fitnesscounter.role.tester.R
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.Dashboard
+import com.github.syafiqq.fitnesscounter.role.tester.ext.com.afollestad.materialdialogs.changeAndShow
 import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.Database
+import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.fragment_tester_home.*
 import timber.log.Timber
 import java.util.*
+import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.Illinois as MIllinois
+import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.MedicalCheckup as MMedicalCheckup
+import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.PushUp as MPushUp
+import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.Run1600m as MRun1600m
+import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.SitUp as MSitUp
+import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.ThrowingBall as MThrowingBall
+import com.github.syafiqq.fitnesscounter.core.db.external.poko.tester.VerticalJump as MVerticalJump
 import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.poko.tester.Illinois as PIllinois
 import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.poko.tester.MedicalCheckup as PMedicalCheckup
 import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.poko.tester.PushUp as PPushUp
@@ -62,7 +73,111 @@ class Home : IdentifiableFragment() {
         Timber.d("onViewCreated [$view, $state]")
 
         this.displaySave(this.listener.getOEvent().event)
+        this.initialSendButton()
         super.onViewCreated(view, state)
+    }
+
+    private fun initialSendButton() {
+        fun callback(event: Event, callback: () -> Unit = {}): DatabaseReference.CompletionListener {
+            return DatabaseReference.CompletionListener { error, _ ->
+                if (error == null) {
+                    Toast.makeText(this.context!!, "Pengiriman Berhasil", Toast.LENGTH_LONG).show()
+                    Dashboard.DoAsync({
+                        callback()
+                    }, {
+                        this.displaySave(event)
+                    }).execute()
+                } else {
+                    Toast.makeText(this.context!!, "Error Pengiriman, Silahkan Ulangi Kembali", Toast.LENGTH_LONG).show()
+                }
+                this.dialog.get()?.dismiss()
+            }
+        }
+
+        this.illinois_send.setOnClickListener {
+            this.listener.getOEvent().event?.let {
+                val event = it
+                val data = this.race["illinois"] as MutableList<PIllinois>?
+                data?.let {
+                    this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
+                    PresetHelper.Bulk.saveIllinois(event.presetActive!!, data.map { illinois -> Triple(illinois.queue, illinois.stamp!!, illinois.morphToFirebaseData()) }, callback(event, {
+                        this.listener.getDb().illinois().delete(*data.toTypedArray())
+                    }))
+                }
+            }
+        }
+        this.medical_send.setOnClickListener {
+            this.listener.getOEvent().event?.let {
+                val event = it
+                val data = this.race["medical"] as MutableList<PMedicalCheckup>?
+                data?.let {
+                    this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
+                    PresetHelper.Bulk.saveMedicalCheckUp(event.presetActive!!, data.map { medical -> Triple(medical.queue, medical.stamp!!, medical.morphToFirebaseData()) }, callback(event, {
+                        this.listener.getDb().medical().delete(*data.toTypedArray())
+                    }))
+                }
+            }
+        }
+        this.push_send.setOnClickListener {
+            this.listener.getOEvent().event?.let {
+                val event = it
+                val data = this.race["push"] as MutableList<PPushUp>?
+                data?.let {
+                    this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
+                    PresetHelper.Bulk.savePushUp(event.presetActive!!, data.map { push -> Triple(push.queue, push.stamp!!, push.morphToFirebaseData()) }, callback(event, {
+                        this.listener.getDb().push().delete(*data.toTypedArray())
+                    }))
+                }
+            }
+        }
+        this.run_send.setOnClickListener {
+            this.listener.getOEvent().event?.let {
+                val event = it
+                val data = this.race["run"] as MutableList<PRun1600m>?
+                data?.let {
+                    this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
+                    PresetHelper.Bulk.saveRun1600m(event.presetActive!!, data.map { run -> Triple(run.queue, run.stamp!!, run.morphToFirebaseData()) }, callback(event, {
+                        this.listener.getDb().run().delete(*data.toTypedArray())
+                    }))
+                }
+            }
+        }
+        this.sit_send.setOnClickListener {
+            this.listener.getOEvent().event?.let {
+                val event = it
+                val data = this.race["sit"] as MutableList<PSitUp>?
+                data?.let {
+                    this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
+                    PresetHelper.Bulk.saveSitUp(event.presetActive!!, data.map { sit -> Triple(sit.queue, sit.stamp!!, sit.morphToFirebaseData()) }, callback(event, {
+                        this.listener.getDb().sit().delete(*data.toTypedArray())
+                    }))
+                }
+            }
+        }
+        this.throwing_send.setOnClickListener {
+            this.listener.getOEvent().event?.let {
+                val event = it
+                val data = this.race["throwing"] as MutableList<PThrowingBall>?
+                data?.let {
+                    this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
+                    PresetHelper.Bulk.saveThrowingBall(event.presetActive!!, data.map { throwing -> Triple(throwing.queue, throwing.stamp!!, throwing.morphToFirebaseData()) }, callback(event, {
+                        this.listener.getDb().throwing().delete(*data.toTypedArray())
+                    }))
+                }
+            }
+        }
+        this.vertical_send.setOnClickListener {
+            this.listener.getOEvent().event?.let {
+                val event = it
+                val data = (this.race["vertical"] as MutableList<PVerticalJump>?)
+                data?.let {
+                    this.dialog.changeAndShow(this.dialogs["please-wait"]!!)
+                    PresetHelper.Bulk.saveVerticalJump(event.presetActive!!, data.map { vertical -> Triple(vertical.queue, vertical.stamp!!, vertical.morphToFirebaseData()) }, callback(event, {
+                        this.listener.getDb().vertical().delete(*data.toTypedArray())
+                    }))
+                }
+            }
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -165,4 +280,32 @@ class Home : IdentifiableFragment() {
         const val IDENTIFIER = "Home"
     }
 
+}
+
+private fun PIllinois.morphToFirebaseData(): MIllinois {
+    return MIllinois(this.start, this.end, this.elapsed)
+}
+
+private fun PMedicalCheckup.morphToFirebaseData(): MMedicalCheckup {
+    return MMedicalCheckup(this.tbb, this.tbd, this.ratio, this.weight, this.bmi, this.posture, this.gait, this.pulse, this.pressure, this.ictus, this.heart, this.frequency, this.retraction, this.rLocation, this.breath, this.bPipeline, this.vision, this.hearing, this.verbal, this.conclusion)
+}
+
+private fun PPushUp.morphToFirebaseData(): MPushUp {
+    return MPushUp(this.start, this.counter)
+}
+
+private fun PRun1600m.morphToFirebaseData(): MRun1600m {
+    return MRun1600m(this.start, this.lap1, this.lap2, this.lap3, this.end, this.elapsed)
+}
+
+private fun PSitUp.morphToFirebaseData(): MSitUp {
+    return MSitUp(this.start, this.counter)
+}
+
+private fun PThrowingBall.morphToFirebaseData(): MThrowingBall {
+    return MThrowingBall(this.start, this.counter)
+}
+
+private fun PVerticalJump.morphToFirebaseData(): MVerticalJump {
+    return MVerticalJump(this.initial, this.try1, this.try2, this.try3, this.deviation)
 }
