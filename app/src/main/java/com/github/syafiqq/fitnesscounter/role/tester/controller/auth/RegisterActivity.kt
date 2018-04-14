@@ -45,11 +45,6 @@ class RegisterActivity: AppCompatActivity()
         this.edittext_password_conf.setOnEditorActionListener(this::onEditorActionClicked)
         this.button_submit.setOnClickListener(this::onSubmitButtonClicked)
         this.button_login.setOnClickListener(this::onLoginButtonClicked)
-
-        this.edittext_email.setText("syafiq.rezpector@gmail.cok")
-        this.edittext_password.setText("password")
-        this.edittext_password_conf.setText("password")
-        this.edittext_name.setText("Syafuq")
     }
 
     override fun onDestroy()

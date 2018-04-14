@@ -57,8 +57,6 @@ class LoginActivity: AppCompatActivity()
     override fun onStart()
     {
         Timber.d("onStart")
-
-        this.populateField("syafiq.rezpector@gmail.com", "password")
         super.onStart()
     }
 
