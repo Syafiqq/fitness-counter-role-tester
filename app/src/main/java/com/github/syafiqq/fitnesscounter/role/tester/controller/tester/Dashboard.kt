@@ -39,13 +39,13 @@ import kotlin.properties.Delegates
 
 class Dashboard: AppCompatActivity(),
         Home.OnInteractionListener,
-                 MedicalCheckUp.OnInteractionListener,
-                 Illinois.OnInteractionListener,
-                 VerticalJump.OnInteractionListener,
-                 ThrowingBall.OnInteractionListener,
-                 PushUp.OnInteractionListener,
-                 SitUp.OnInteractionListener,
-                 Run1600m.OnInteractionListener
+        MedicalCheckUp.OnInteractionListener,
+        Illinois.OnInteractionListener,
+        VerticalJump.OnInteractionListener,
+        ThrowingBall.OnInteractionListener,
+        PushUp.OnInteractionListener,
+        SitUp.OnInteractionListener,
+        Run1600m.OnInteractionListener
 {
     private lateinit var drawer: Drawer
     private lateinit var drawerHeader: AccountHeader
