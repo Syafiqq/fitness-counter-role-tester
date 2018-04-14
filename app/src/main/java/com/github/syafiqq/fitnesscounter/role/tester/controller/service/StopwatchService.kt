@@ -110,7 +110,7 @@ class StopwatchService: Service()
         val pendingIntent = PendingIntent.getActivity(applicationContext, System.currentTimeMillis().toInt(), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         return NotificationCompat.Builder(this, "stopwatch")
-                .setSmallIcon(R.drawable.notification_icon_background)
+                .setSmallIcon(R.mipmap.ic_launcher_r_round)
                 .setContentTitle("Stopwatch")
                 .setContentText("Aplikasi Sedang Berjalan")
                 .setPriority(NotificationCompat.PRIORITY_MAX)
