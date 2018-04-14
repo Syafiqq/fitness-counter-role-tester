@@ -1,9 +1,6 @@
 package com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.dao.tester
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import com.github.syafiqq.fitnesscounter.role.tester.model.db.eksternal.poko.tester.Illinois as PIllinois
 
 /**
@@ -20,6 +17,9 @@ interface Illinois {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg illinois: PIllinois)
+
+    @Delete()
+    fun delete(vararg illinois: PIllinois)
 
     @Query("DELETE FROM `illinois` WHERE `queue` = :queue AND `preset` = :preset")
     fun delete(preset: String, queue: Int)
