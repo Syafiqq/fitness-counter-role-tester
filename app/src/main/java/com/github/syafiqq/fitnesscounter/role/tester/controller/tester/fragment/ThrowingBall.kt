@@ -432,7 +432,7 @@ class ThrowingBall: IdentifiableFragment()
             return ThrowingBall()
         }
 
-        const val IDENTIFIER = "Throwing Ball"
+        const val IDENTIFIER = "Wall Pass"
         const val M_RESULT = "m_result"
         const val M_PARTICIPANT = "m_participant"
         const val M_STOPWATCH_STATE = "m_stopwatch_state"

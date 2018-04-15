@@ -46,7 +46,7 @@ class Run1600m: IdentifiableFragment()
                 3 -> this.edittext_participant_5.setText("")
             }
         }
-        this@Run1600m.button_start?.isEnabled = new > 0
+        this@Run1600m.button_start?.isEnabled = new > -1
     }
 
     private var updateText = createTimerTask()
@@ -233,11 +233,9 @@ class Run1600m: IdentifiableFragment()
         if (stopwatchState == StopwatchStatus.STOPPED) {
             Dashboard.DoAsync({
                 val dRun1600m = PRun1600m()
-                this.runs.take(this.participant + 1).associate { idRun -> idRun.id!! to idRun.run }.forEach { queue, run ->
-                    run {
-                        dRun1600m.set(this.listener.getEvent().presetActive!!, this.listener.getStamp(), queue, run)
-                        this.listener.getDb().run().insert(dRun1600m)
-                    }
+                this.runs.take(this.participant + 1).forEach { run ->
+                    dRun1600m.set(this.listener.getEvent().presetActive!!, this.listener.getStamp(), run.id!!, run.run)
+                    this.listener.getDb().run().insert(dRun1600m)
                 }
             }, {
                 Toast.makeText(this.context, "Data Berhasil Disimpan", Toast.LENGTH_SHORT).show()
@@ -597,7 +595,7 @@ class Run1600m: IdentifiableFragment()
             return Run1600m()
         }
 
-        const val IDENTIFIER = "Run1600m"
+        const val IDENTIFIER = "Run 1600m"
         const val M_RESULT = "m_result"
         const val M_PARTICIPANT = "m_participant"
         const val M_STOPWATCH_STATE = "m_stopwatch_state"

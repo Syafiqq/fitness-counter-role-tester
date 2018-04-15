@@ -276,7 +276,7 @@ class VerticalJump: IdentifiableFragment()
             return VerticalJump()
         }
 
-        const val IDENTIFIER = "VerticalJump"
+        const val IDENTIFIER = "Vertical Jump"
         const val M_RESULT = "m_result"
         const val M_PARTICIPANT = "m_participant"
     }
