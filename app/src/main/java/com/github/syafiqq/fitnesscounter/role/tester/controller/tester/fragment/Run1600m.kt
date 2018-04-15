@@ -597,7 +597,7 @@ class Run1600m: IdentifiableFragment()
             return Run1600m()
         }
 
-        const val IDENTIFIER = "Run1600m"
+        const val IDENTIFIER = "Run 1600m"
         const val M_RESULT = "m_result"
         const val M_PARTICIPANT = "m_participant"
         const val M_STOPWATCH_STATE = "m_stopwatch_state"
