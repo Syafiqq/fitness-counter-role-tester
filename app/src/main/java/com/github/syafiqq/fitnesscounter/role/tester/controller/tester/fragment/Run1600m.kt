@@ -233,11 +233,9 @@ class Run1600m: IdentifiableFragment()
         if (stopwatchState == StopwatchStatus.STOPPED) {
             Dashboard.DoAsync({
                 val dRun1600m = PRun1600m()
-                this.runs.take(this.participant + 1).associate { idRun -> idRun.id!! to idRun.run }.forEach { queue, run ->
-                    run {
-                        dRun1600m.set(this.listener.getEvent().presetActive!!, this.listener.getStamp(), queue, run)
-                        this.listener.getDb().run().insert(dRun1600m)
-                    }
+                this.runs.take(this.participant + 1).forEach { run ->
+                    dRun1600m.set(this.listener.getEvent().presetActive!!, this.listener.getStamp(), run.id!!, run.run)
+                    this.listener.getDb().run().insert(dRun1600m)
                 }
             }, {
                 Toast.makeText(this.context, "Data Berhasil Disimpan", Toast.LENGTH_SHORT).show()
