@@ -46,7 +46,7 @@ class Run1600m: IdentifiableFragment()
                 3 -> this.edittext_participant_5.setText("")
             }
         }
-        this@Run1600m.button_start?.isEnabled = new > 0
+        this@Run1600m.button_start?.isEnabled = new > -1
     }
 
     private var updateText = createTimerTask()
