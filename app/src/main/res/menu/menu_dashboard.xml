@@ -3,8 +3,9 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.github.syafiqq.fitnesscounter.role.tester.controller.tester.Dashboard">
     <item
-            android:id="@+id/action_settings"
-            android:title="@string/action_settings"
-            android:orderInCategory="100"
-            app:showAsAction="never"/>
+        android:id="@+id/action_logout"
+        android:icon="@drawable/logout"
+        android:orderInCategory="1"
+        android:title="@string/action_logout"
+        app:showAsAction="ifRoom" />
 </menu>

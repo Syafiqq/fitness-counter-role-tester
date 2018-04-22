@@ -129,4 +129,5 @@
     <string name="command_add">Add</string>
     <string name="command_minus">Remove</string>
     <string name="command_clear">Kosongkan</string>
+    <string name="action_logout">Logout</string>
 </resources>
