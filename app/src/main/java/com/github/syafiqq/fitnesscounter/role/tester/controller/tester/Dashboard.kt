@@ -1,11 +1,14 @@
 package com.github.syafiqq.fitnesscounter.role.tester.controller.tester
 
 import android.arch.persistence.room.Room
+import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import com.github.syafiqq.fitnesscounter.core.custom.com.google.firebase.database.CChildEventListener
 import com.github.syafiqq.fitnesscounter.core.custom.com.google.firebase.database.CValueEventListener
@@ -14,6 +17,7 @@ import com.github.syafiqq.fitnesscounter.core.db.external.poko.Event
 import com.github.syafiqq.fitnesscounter.core.db.external.poko.EventCategory
 import com.github.syafiqq.fitnesscounter.role.tester.App
 import com.github.syafiqq.fitnesscounter.role.tester.R
+import com.github.syafiqq.fitnesscounter.role.tester.controller.SplashScreen
 import com.github.syafiqq.fitnesscounter.role.tester.controller.service.StopwatchService
 import com.github.syafiqq.fitnesscounter.role.tester.controller.tester.fragment.*
 import com.github.syafiqq.fitnesscounter.role.tester.model.Settings
@@ -80,6 +84,8 @@ class Dashboard: AppCompatActivity(),
         }
     }
 
+    private lateinit var authListener: FirebaseAuth.AuthStateListener
+
     override fun onCreate(state: Bundle?)
     {
         Timber.d("onCreate [$state]")
@@ -121,6 +127,15 @@ class Dashboard: AppCompatActivity(),
             stopwatchService = this.service
         }
 
+        this.authListener = FirebaseAuth.AuthStateListener { auth ->
+            val user = auth.currentUser
+            if (user == null) {
+                startActivity(Intent(this, SplashScreen::class.java))
+                finish()
+            }
+        }
+        FirebaseAuth.getInstance().addAuthStateListener(authListener)
+
         this.user = FirebaseAuth.getInstance().currentUser
         this.listRegisteredEvent()
 
@@ -133,6 +148,7 @@ class Dashboard: AppCompatActivity(),
     {
         Timber.d("onDestroy")
 
+        FirebaseAuth.getInstance().removeAuthStateListener(authListener)
         App.instance.stopwatchService.deleteObserver(stopwatchO)
         super.onDestroy()
     }
@@ -188,6 +204,31 @@ class Dashboard: AppCompatActivity(),
                 Handler().postDelayed({ isPressedTwice = false }, 2000)
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        Timber.d("onCreateOptionsMenu [$menu]")
+        val inflater = menuInflater
+        inflater?.inflate(R.menu.menu_dashboard, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        Timber.d("onOptionsItemSelected [$item]")
+
+        return when (item?.itemId) {
+            R.id.action_logout -> {
+                this.logout()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun logout() {
+        Timber.d("logout")
+
+        FirebaseAuth.getInstance().signOut()
     }
 
     private fun listRegisteredEvent()
