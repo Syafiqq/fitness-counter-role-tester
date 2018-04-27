@@ -109,7 +109,7 @@ class App: Application()
             }
 
             if (t != null) {
-                return log(priority, tag, message, t)
+                return super.log(priority, tag, message, t)
             }
         }
     }
