@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import com.github.syafiqq.fitnesscounter.role.tester.controller.service.StopwatchService
 import com.google.firebase.database.FirebaseDatabase
 import net.danlew.android.joda.JodaTimeAndroid
@@ -71,7 +72,7 @@ class App: Application()
                 if (BuildConfig.DEBUG)
                     Timber.DebugTree()
                 else
-                    Timber.DebugTree()
+                    ReleaseTree()
         )
 
         Timber.d("Timber initialized")
@@ -98,6 +99,18 @@ class App: Application()
             Timber.d("onServiceConnected [$name]")
 
             stopwatchService.service = null
+        }
+    }
+
+    private class ReleaseTree : Timber.Tree() {
+        override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+            if (priority == Log.VERBOSE || priority == Log.DEBUG || priority == Log.INFO || priority == Log.WARN) {
+                return
+            }
+
+            if (t != null) {
+                return log(priority, tag, message, t)
+            }
         }
     }
 
