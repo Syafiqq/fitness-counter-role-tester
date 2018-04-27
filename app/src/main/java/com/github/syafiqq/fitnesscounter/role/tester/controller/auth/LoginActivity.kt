@@ -58,7 +58,7 @@ class LoginActivity: AppCompatActivity()
     {
         Timber.d("onStart")
 
-        this.populateField("syafiq.rezpector@gmail.com", "password")
+        this.populateField("mohammadsyahronimeizu@gmail.com", "3514140405940002")
         super.onStart()
     }
 

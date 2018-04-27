@@ -46,9 +46,9 @@ class RegisterActivity: AppCompatActivity()
         this.button_submit.setOnClickListener(this::onSubmitButtonClicked)
         this.button_login.setOnClickListener(this::onLoginButtonClicked)
 
-        this.edittext_email.setText("syafiq.rezpector@gmail.cok")
-        this.edittext_password.setText("password")
-        this.edittext_password_conf.setText("password")
+        this.edittext_email.setText("mohammadsyahronimeizu@gmail.com")
+        this.edittext_password.setText("3514140405940002")
+        this.edittext_password_conf.setText("3514140405940002")
         this.edittext_name.setText("Syafuq")
     }
 
@@ -195,6 +195,6 @@ class RegisterActivity: AppCompatActivity()
     companion object
     {
         const val EMAIL = "email"
-        const val PASSWORD = "password"
+        const val PASSWORD = "3514140405940002"
     }
 }
