@@ -149,7 +149,7 @@ class Illinois: IdentifiableFragment()
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         Timber.d("onCreateOptionsMenu [$menu, $inflater]")
-
+        menu?.clear()
         inflater?.inflate(R.menu.menu_fragment_illinois, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
