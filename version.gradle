@@ -1,6 +1,6 @@
 ext {
     configuration = [
-            android_build_tools: '3.1.1',
+            android_build_tools: '3.1.2',
             compiled_sdk       : 27,
             min_sdk            : 16,
             package            : 'com.github.syafiqq.fitnesscounter.role.tester',
