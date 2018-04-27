@@ -195,6 +195,6 @@ class RegisterActivity: AppCompatActivity()
     companion object
     {
         const val EMAIL = "email"
-        const val PASSWORD = "3514140405940002"
+        const val PASSWORD = "password"
     }
 }
